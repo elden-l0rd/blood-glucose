@@ -299,6 +299,19 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () => {
+                  // Call method to export as .csv or .xls
+                  // dataStorageExport(rowData);
+                },
+                child: Text('Export data'),
+              ),
+            ],
+          ),
         ],
       );
     } else {
