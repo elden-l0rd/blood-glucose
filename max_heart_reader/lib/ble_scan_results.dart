@@ -65,76 +65,46 @@ class _ScanResultTileState extends State<ScanResultTile> {
   return formattedDateTime;
   }
 
-    // Get path of folder
-  // Future<String> get _localPath async {
-  //   try {
-  //     final directory = await getApplicationDocumentsDirectory();
-  //     return directory.path;
-  //   } catch(e) {
-  //     if (e is MissingPlatformDirectoryException) {
-  //       debugPrint("Documents directory error...");
-  //       return 'NULL';
-  //     }
-  //   }
-  //   return "null";
-  // }
-  //
-  // // Retrieve the file from path found
-  // Future<File> get _localFile async {
-  //   final path = await _localPath;
-  //   final file = File('$path/data.csv');
-  //   if (!await file.exists()) {
-  //     file.create();
-  //   }
-  //   return file;
-  // }
-  //
-  // // Database manipulation: add, append
-  // Future<void> dataStorage(String rowData) async {
-  //   final file = await _localFile;
-  //
-  //   if (!await file.exists()) {  // File DNE, initialise with headers
-  //     await file.create();
-  //     await file.writeAsString('Timestamp, Battery, Heart Rate, Spo2, Glucose, Cholesterol, UA Men, UA Women\n');
-  //     debugPrint("File DNE before. Now created at ${file.path}");
-  //   }
-  //
-  //   // Append new rows of data
-  //   await file.writeAsString(rowData + "\n", mode: FileMode.append);
-  //   String time = rowData.substring(0, 18);
-  //   debugPrint("Data added -- $time");
-  //
-  // }
-  //
-  //
-  //
-  // Future<Widget> graphPlotter() async {
-  //
-    // Retrieve data
-    // File csvData = await _localFile;
-    // final List<graphData> glucoseDataList = [];
-    // final List<String> lines = csvData.readAsLinesSync();
-    // final List<String> headers = lines.first.split(',');
-    // final int timestampIndex = headers.indexOf('Timestamp');
-    // final int glucoseIndex = headers.indexOf('Glucose');
-    //
-    // for (int i=1; i<lines.length; i++) {
-    //   final List<String> values = lines[i].split(',');
-    //   final String timestampStr = values[timestampIndex];
-    //   final DateTime timestamp = DateFormat('dd/MM/yyyy HH:mm:ss').parse(timestampStr);
-    //   final double glucoseLevel = double.parse(values[glucoseIndex]);
-    //
-    //   glucoseDataList.add(graphData(timestamp, glucoseLevel));
-    // }
-    //
-    // return Container(
-    //   height: 300,
-    //   child: charts.TimeSeriesChart(
-    //     _createSeries(glucoseDataList),
-    //     animate: true,
-    //   ),
-    // );
-  // }
+  // Get path of folder
+  Future<String> get _localPath async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      return directory.path;
+    } catch(e) {
+      if (e is MissingPlatformDirectoryException) {
+        debugPrint("Documents directory error...");
+        return 'NULL';
+      }
+    }
+    return "null";
+  }
+
+  // Retrieve the file from path found
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    final file = File('$path/data.csv');
+    if (!await file.exists()) {
+      file.create();
+    }
+    return file;
+  }
+
+  // Database manipulation: add, append
+  Future<void> dataStorageExport(String rowData) async {
+    final file = await _localFile;
+  
+    if (!await file.exists()) {  // File DNE, initialise with headers
+      await file.create();
+      await file.writeAsString('Timestamp, Battery, Heart Rate, Spo2, Glucose, Cholesterol, UA Men, UA Women\n');
+      debugPrint("File DNE before. Now created at ${file.path}");
+    }
+  
+    // Append new rows of data
+    await file.writeAsString(rowData + "\n", mode: FileMode.append);
+    String time = rowData.substring(0, 18);
+    debugPrint("Data added -- $time");
+  
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -192,37 +162,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String cholesterolText = cholesterol.toString();
       String UA_menText = UA_men.toString();
       String UA_womenText = UA_women.toString();
-      graphData rowData = graphData(
-        timestamp: timestamp,
-        batteryText: batteryText,
-        heartRateText: heartRateText,
-        spo2Text: spo2Text,
-        glucose: glucose,
-        cholesterolText: cholesterolText,
-        UA_menText: UA_menText,
-        UA_womenText: UA_womenText,
-      );
-      // Insert data
-      DatabaseHelper.instance.insertGraphData(rowData);
-
-      // Retrieve data
-      List<graphData> dataList = DatabaseHelper.instance.getGraphDataList() as List<graphData>;
-
-      dataList.forEach((data) {
-        print('Timestamp: ${data.timestamp}, Glucose Level: ${data.glucose}');
-      });
-      
-      // graphData(
-      //   {required this.timestamp, 
-      //     required this.batteryText,
-      //     required this.heartRateText,
-      //     required this.spo2Text,
-      //     required this.glucose,
-      //     required this.cholesterolText,
-      //     required this.UA_menText,
-      //     required this.UA_womenText,
-      //   });
-
 
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -234,11 +173,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
-
-          // Text(
-          //   widget.result.device.id.toString(),
-          //   style: const TextStyle(color: Colors.white, fontSize: 12),
-          // ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.start, // horizontally
@@ -365,23 +299,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
             ],
           ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const GraphPage()),
-                  );
-                },
-                child: Text('View graphical data'),
-              ),
-            ),
-          ],
-        ),
         ],
       );
     } else {
@@ -467,83 +384,3 @@ class _ScanResultTileState extends State<ScanResultTile> {
   }
 
 }
-
-
-class GraphPage extends StatelessWidget {
-  const GraphPage({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Graph page'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate back to first route when tapped.
-          },
-          child: const Text('Go back'),
-        ),
-      ),
-    );
-  }
-}
-
-
-// void graphPlotter() {
-//   // Retrieve data
-//   List<graphData> dataList = DatabaseHelper.instance.getGraphDataList() as List<graphData>;
-
-//   // Extract glucose data points
-//   List<double> glucoseData = dataList.map((data) => data.glucose).toList();
-
-//   // Extract timestamps and format them as strings
-//   List<String> timestamps = dataList.map((data) {
-//     DateTime dateTime = DateFormat('dd/MM/yyyy HH:mm:ss').parse(data.timestamp);
-//     return DateFormat('dd/MM').format(dateTime);
-//   }).toList();
-
-//   // Create a data series for the graph
-//   var series = [
-//     new charts.Series<double, String>(
-//       id: 'Glucose',
-//       domainFn: (String timestamp, _) => timestamp,
-//       measureFn: (double glucose, _) => glucose,
-//       data: glucoseData,
-//     ),
-//   ];
-
-//   // Create the chart widget
-//   var chart = new charts.LineChart(
-//     series,
-//     animate: true,
-//     behaviors: [new charts.PanAndZoomBehavior()],
-//   );
-
-//   // Create the chart widget wrapped in a container
-//   var chartContainer = new Container(
-//     height: 200,
-//     padding: EdgeInsets.all(16),
-//     child: chart,
-//   );
-
-//   // Show the graph in a dialog
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: Text('Glucose Graph'),
-//         content: chartContainer,
-//         actions: [
-//           TextButton(
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//             child: Text('Close'),
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }

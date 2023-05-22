@@ -4,7 +4,7 @@
             "outputFile": "com.boskokg.flutter_blue_plus_example.app-mergeDebugResources-17:/values-v31/values-v31.xml",
             "map": [
                 {
-                    "source": "/Users/chufeng/Documents/2023-summer/3logy/12.11 R&D_MAX health reader/v3_max_heart_reader (automated bluetooth scan)/max_heart_reader/android/app/src/main/res/values-v31/styles.xml",
+                    "source": "/Users/chufeng/Documents/blood-glucose/max_heart_reader/android/app/src/main/res/values-v31/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

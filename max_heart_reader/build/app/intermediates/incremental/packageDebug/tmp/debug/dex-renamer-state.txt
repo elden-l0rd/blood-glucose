@@ -1,9 +1,9 @@
-#Fri May 19 15:07:57 SGT 2023
-base.0=/Users/chufeng/Documents/2023-summer/3logy/12.11 R&D_MAX health reader/v3_max_heart_reader (automated bluetooth scan)/max_heart_reader/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/Users/chufeng/Documents/2023-summer/3logy/12.11 R&D_MAX health reader/v3_max_heart_reader (automated bluetooth scan)/max_heart_reader/build/app/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
-base.2=/Users/chufeng/Documents/2023-summer/3logy/12.11 R&D_MAX health reader/v3_max_heart_reader (automated bluetooth scan)/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.3=/Users/chufeng/Documents/2023-summer/3logy/12.11 R&D_MAX health reader/v3_max_heart_reader (automated bluetooth scan)/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/1/classes.dex
-base.4=/Users/chufeng/Documents/2023-summer/3logy/12.11 R&D_MAX health reader/v3_max_heart_reader (automated bluetooth scan)/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/9/classes.dex
+#Mon May 22 12:02:09 SGT 2023
+base.0=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
+base.2=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.3=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/1/classes.dex
+base.4=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/9/classes.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=0/classes.dex

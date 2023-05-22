@@ -95,98 +95,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
               height: MediaQuery.of(context).size.height * 0.05,
             ),
 
-
-
-
-
-
-            //Manually send an email for testing purposes
-            // ElevatedButton.icon(
-            //   icon: const Icon(Icons.email_rounded),
-            //   label: const Text('Email Test', textAlign: TextAlign.center),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     fixedSize: const Size(180, 40),
-            //   ),
-            //   onPressed: () => {
-            //     globals.toastMessage = 'Emergency Detected! \nNotification Email Sent.',
-            //     showToast(),
-            //     sendEmail("3LOGY-HEART001", '1', '0', "SOS WARNING"), // (deviceName, sos, fall, warning message)
-            //   }
-            // ),
-
-            // Manually send a telegram message for testing purposes
-            // ElevatedButton.icon(
-            //   icon: const Icon(Icons.telegram_outlined),
-            //   label: const Text('Telegram Test', textAlign: TextAlign.center),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     fixedSize: const Size(180, 40),
-            //   ),
-            //   onPressed: () => sendTelegram("3LOGY-HEART001", '0', '1', "FALL WARNING"), // (deviceName, sos, fall, warning message)
-            // ),
-
-            // ElevatedButton.icon(
-            //   icon: const Icon(Icons.notification_add_outlined),
-            //   label: const Text("Flutter Toast Context"),
-            //   onPressed: () => {
-            //     globals.toastMessage = 'HELLO WORLD!',
-            //     showToast(),
-            //   },
-            // ),
-
-
-
-
-
-
-            //
-            // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            //
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     const Text('Background Service: ', style: TextStyle(color: Colors.white, fontSize: 16)),
-            //     Text(serviceStatusText, style: TextStyle(color: serviceStatusColor, fontSize: 16),),
-            //   ],
-            // ),
-            
-            // SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-
-            // ElevatedButton.icon(
-            //   icon: Icon(serviceButtonIcon),
-            //   label: Text(serviceButtonText, maxLines: 2, textAlign: TextAlign.center),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: serviceButtonColor,
-            //     fixedSize: const Size(120, 40),
-            //   ),
-            //   onPressed: () async {
-            //     //final service = FlutterBackgroundService();
-            //     final service = FlutterBackgroundService();
-            //     var isRunning = await service.isRunning();
-            //     if (isRunning) {
-            //       service.invoke("stopService");
-            //     } else {
-            //       service.startService();
-            //     }
-
-            //     if (!isRunning) {
-            //       serviceStatusText = 'ACTIVE';
-            //       serviceStatusColor = Colors.green;
-            //       serviceButtonText = 'STOP \nSERVICE';
-            //       serviceButtonColor = Colors.orange[200]!;
-            //       serviceButtonIcon = Icons.stop_circle;
-            //     } else {
-            //       serviceStatusText = 'INACTIVE';
-            //       serviceStatusColor = Colors.red;
-            //       serviceButtonText = 'START \nSERVICE';
-            //       serviceButtonColor = Colors.orange;
-            //       serviceButtonIcon = Icons.not_started;
-            //     }
-            //     setState(() {});
-            //   },
-            // ),
-            
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
             Container(
@@ -219,44 +127,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
             // ),
             
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-
-
-            // ElevatedButton.icon(
-            //   icon: Icon(serviceButtonIcon),
-            //   label: Text(serviceButtonText, maxLines: 2, textAlign: TextAlign.center),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: serviceButtonColor,
-            //     fixedSize: const Size(120, 40),
-            //   ),
-            //   onPressed: () async {
-            //     //final service = FlutterBackgroundService();
-            //     final service = FlutterBackgroundService();
-            //     var isRunning = await service.isRunning();
-            //     if (isRunning) {
-            //       service.invoke("stopService");
-            //     } else {
-            //       service.startService();
-            //     }
-
-            //     if (!isRunning) {
-            //       serviceStatusText = 'ACTIVE';
-            //       serviceStatusColor = Colors.green;
-            //       serviceButtonText = 'STOP \nSERVICE';
-            //       serviceButtonColor = Colors.orange[200]!;
-            //       serviceButtonIcon = Icons.stop_circle;
-            //     } else {
-            //       serviceStatusText = 'INACTIVE';
-            //       serviceStatusColor = Colors.red;
-            //       serviceButtonText = 'START \nSERVICE';
-            //       serviceButtonColor = Colors.orange;
-            //       serviceButtonIcon = Icons.not_started;
-            //     }
-            //     setState(() {});
-            //   },
-            // ),
-            
-            // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-
             Container(
               //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
               child: const Text('List of Devices', style: TextStyle(fontSize: 16)),
@@ -323,3 +193,23 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 }
 
 
+// class EditProfile extends StatelessWidget {
+//   const EditProfile({Key? key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Edit profile'),
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () {
+//             // Navigate back to first route when tapped.
+//           },
+//           child: const Text('Go back'),
+//         ),
+//       ),
+//     );
+//   }
+// }
