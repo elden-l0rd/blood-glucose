@@ -4,14 +4,14 @@
             "outputFile": "com.boskokg.flutter_blue_plus_example.app-mergeDebugResources-17:/values-v31/values-v31.xml",
             "map": [
                 {
-                    "source": "/Users/chufeng/Documents/blood-glucose/max_heart_reader/android/app/src/main/res/values-v31/styles.xml",
+                    "source": "C:\\Users\\ryanl\\Desktop\\Summer 2023 Intern Stuff\\Glucose\\blood-glucose\\max_heart_reader\\android\\app\\src\\main\\res\\values-v31\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
-                        "startOffsets": "173,807",
+                        "startOffsets": "176,821",
                         "endLines": "7,16",
                         "endColumns": "12,12",
-                        "endOffsets": "456,971"
+                        "endOffsets": "463,987"
                     },
                     "to": {
                         "startLines": "2,7",

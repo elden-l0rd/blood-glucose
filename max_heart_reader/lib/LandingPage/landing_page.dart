@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/find_devices.dart';
+import 'package:max_heart_reader/LandingPage/home.dart';
+import 'package:max_heart_reader/LandingPage/profile.dart';
 
 class LandingPage extends StatefulWidget {
   @override
