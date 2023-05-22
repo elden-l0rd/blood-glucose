@@ -1,18 +1,26 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-//
+/*
+*  Stores personal information which includes user's
+*  name, age, gender, height and weight using shared_preferences package.
+*/
 
 class UserPreferences {
   static late SharedPreferences _preferences;
 
   static const _keyName = '';
-  static const _keyAge = 'age';
+  static const _keyAge = '';
   static const _keyGender = '';
   static const _keyHeight = '';
   static const _keyWeight = '';
 
-  static Future init() async =>
+  static Future init() async {
+      // pesonalInfo exists
+      if (await checkIfDataExists()) return;
+
+      // personalInfo dont exist
       _preferences = await SharedPreferences.getInstance();
+  }
 
 
   static Future setName(String name) async {
@@ -36,5 +44,12 @@ class UserPreferences {
       await _preferences.setString(_keyWeight, weight);
   static String? getWeight() => _preferences.getString(_keyWeight);
 
+
+  static Future<bool> checkIfDataExists() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool dataExists = prefs.containsKey('key');
+
+    return dataExists;
+  }
 
 }
