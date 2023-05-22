@@ -250,6 +250,7 @@ Future<void> main() async {
   // Required for background service
   WidgetsFlutterBinding.ensureInitialized();
   // await initializeService(); // Do this later when all permissions are initialized
+  await UserPreferences.init();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 
