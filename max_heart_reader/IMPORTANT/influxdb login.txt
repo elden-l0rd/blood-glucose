@@ -1,5 +1,0 @@
-InfluxDB:
-https://ap-southeast-2-1.aws.cloud2.influxdata.com/
-
-email: matas@3logytech.com
-psw: ...
