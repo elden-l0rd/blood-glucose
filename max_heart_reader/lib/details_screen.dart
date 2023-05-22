@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/user_preferences.dart';
 import 'package:max_heart_reader/button_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -19,41 +20,74 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String height = '';
   String weight = '';
 
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    loadDataFromPreferences();
+  }
 
+  Future<void> loadDataFromPreferences() async {
     name = UserPreferences.getName() ?? '';
     age = UserPreferences.getAge() ?? '';
     gender = UserPreferences.getGender() ?? '';
     height = UserPreferences.getHeight() ?? '';
     weight = UserPreferences.getWeight() ?? '';
 
+    nameController.text = name;
+    ageController.text = age;
+    heightController.text = height;
+    weightController.text = weight;
+
+    setState(() {});
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text("Personal Information")),
-        body: SafeArea(
-          child: ListView(
-            padding: EdgeInsets.all(16),
-            children: [
-              const SizedBox(height: 32),
-              buildName(),
-              const SizedBox(height: 12),
-              buildAge(),
-              const SizedBox(height: 12),
-              buildGender(),
-              const SizedBox(height: 32),
-              buildHeight(),
-              const SizedBox(height: 32),
-              buildWeight(),
-              const SizedBox(height: 32),
-              buildButton(),
-            ],
-          ),
+  void dispose() {
+    nameController.dispose();
+    ageController.dispose();
+    heightController.dispose();
+    weightController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Personal Information")),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: <Widget>[
+            const SizedBox(height: 32),
+            buildName(),
+            const SizedBox(height: 16),
+            Row(
+              children: <Widget>[
+                Expanded(child: buildAge()),
+                const SizedBox(width: 16),
+                Expanded(child: buildGender()),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: <Widget>[
+                Expanded(child: buildHeight()),
+                const SizedBox(width: 16),
+                Expanded(child: buildWeight()),
+              ],
+            ),
+            const SizedBox(height: 32),
+            buildButton(),
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget buildName() => buildTitle(
         title: 'Name',
@@ -71,6 +105,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         title: 'Age',
         child: TextFormField(
           initialValue: age,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Age',
@@ -82,23 +117,41 @@ class _DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildGender() => buildTitle(
-        title: 'Contact Number',
-        child: TextFormField(
-          initialValue: gender,
+        title: 'Gender',
+        child: DropdownButtonFormField<String>(
+          value: gender.isEmpty ? null : gender,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: 'Gender: Male/Female',
+            hintText: gender.isEmpty ? 'Select Gender' : '',
           ),
-          onChanged: (gender) => setState(
-            () => this.gender = gender,
-          ),
+          items: <DropdownMenuItem<String>>[
+            if (gender.isEmpty)
+              const DropdownMenuItem<String>(
+                value: '',
+                child: Text('Select Gender'),
+              ),
+            DropdownMenuItem<String>(
+              value: 'Male',
+              child: const Text('Male'),
+            ),
+            DropdownMenuItem<String>(
+              value: 'Female',
+              child: const Text('Female'),
+            ),
+          ],
+          onChanged: (String? newValue) {
+            setState(() {
+              gender = newValue ?? '';
+            });
+          },
         ),
       );
 
   Widget buildHeight() => buildTitle(
-        title: 'Height',
+        title: 'Height (cm)',
         child: TextFormField(
           initialValue: height,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Height in cm',
@@ -110,9 +163,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildWeight() => buildTitle(
-        title: 'Weight',
+        title: 'Weight (kg)',
         child: TextFormField(
           initialValue: weight,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Weight in kg',
@@ -124,14 +178,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildButton() => ButtonWidget(
-      text: 'Save',
-      onClicked: () async {
-        await UserPreferences.setName(name);
-        await UserPreferences.setAge(age);
-        await UserPreferences.setGender(gender);
-        await UserPreferences.setHeight(height);
-        await UserPreferences.setWeight(weight);
-      });
+        text: 'Save',
+        onClicked: () async {
+          name = nameController.text;
+          age = ageController.text;
+          height = heightController.text;
+          weight = weightController.text;
+
+          await UserPreferences.setName(name);
+          await UserPreferences.setAge(age);
+          await UserPreferences.setGender(gender);
+          await UserPreferences.setHeight(height);
+          await UserPreferences.setWeight(weight);
+          loadDataFromPreferences(); // Reload the stored values after saving
+
+          Fluttertoast.showToast(
+            msg: "Data saved successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        },
+      );
 
   Widget buildTitle({
     required String title,

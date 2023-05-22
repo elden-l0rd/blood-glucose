@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/find_devices.dart';
+import 'package:max_heart_reader/LandingPage/home.dart';
+import 'package:max_heart_reader/LandingPage/profile.dart';
+
+import 'package:max_heart_reader/details_screen.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -15,10 +19,7 @@ class _LandingPageState extends State<LandingPage> {
       'Home',
       style: optionStyle,
     ),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
+    DetailsScreen(),
     FindDevicesScreen(),
   ];
 
@@ -31,9 +32,6 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Glucose Monitor'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
