@@ -159,8 +159,8 @@ class DatabaseHelper {
   // Get path of folder
   Future<String> get _localPath async {
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      return directory.path;
+      final directory = await getExternalStorageDirectory();
+      return directory!.path;
     } catch (e) {
       debugPrint("Documents directory error...");
       return 'NULL';

@@ -285,9 +285,9 @@ Future<void> main() async {
   SystemChannels.lifecycle.setMessageHandler((msg) async {
     if (msg == AppLifecycleState.paused.toString()) {
       // Copy the database file to a desired location
-      final documentsDirectory = await getApplicationDocumentsDirectory();
+      final documentsDirectory = await getExternalStorageDirectory();
       final sourcePath = await getDatabasesPath() + '/data.db';
-      final destinationPath = '${documentsDirectory.path}/data.db';
+      final destinationPath = '${documentsDirectory!.path}/data.db';
       await File(sourcePath).copy(destinationPath);
     }
     return null;
