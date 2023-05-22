@@ -64,47 +64,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
   String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm:ss').format(now);
   return formattedDateTime;
   }
-
-  // Get path of folder
-  Future<String> get _localPath async {
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      return directory.path;
-    } catch(e) {
-      if (e is MissingPlatformDirectoryException) {
-        debugPrint("Documents directory error...");
-        return 'NULL';
-      }
-    }
-    return "null";
-  }
-
-  // Retrieve the file from path found
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    final file = File('$path/data.csv');
-    if (!await file.exists()) {
-      file.create();
-    }
-    return file;
-  }
-
-  // Database manipulation: add, append
-  Future<void> dataStorageExport(String rowData) async {
-    final file = await _localFile;
-  
-    if (!await file.exists()) {  // File DNE, initialise with headers
-      await file.create();
-      await file.writeAsString('Timestamp, Battery, Heart Rate, Spo2, Glucose, Cholesterol, UA Men, UA Women\n');
-      debugPrint("File DNE before. Now created at ${file.path}");
-    }
-  
-    // Append new rows of data
-    await file.writeAsString(rowData + "\n", mode: FileMode.append);
-    String time = rowData.substring(0, 18);
-    debugPrint("Data added -- $time");
-  
-  }
   
   @override
   Widget build(BuildContext context) {
@@ -162,6 +121,36 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String cholesterolText = cholesterol.toString();
       String UA_menText = UA_men.toString();
       String UA_womenText = UA_women.toString();
+
+      List<graphData> rowData = [
+        graphData(
+          timestamp: DateTime.now().toString(),
+          batteryText: '90%',
+          heartRateText: '80 bpm',
+          spo2Text: '98%',
+          glucose: 120.5,
+          cholesterolText: '150 mg/dL',
+          UA_menText: 'Normal',
+          UA_womenText: 'Normal',
+        ),
+        graphData(
+          timestamp: DateTime.now().toString(),
+          batteryText: '85%',
+          heartRateText: '75 bpm',
+          spo2Text: '97%',
+          glucose: 115.2,
+          cholesterolText: '145 mg/dL',
+          UA_menText: 'Normal',
+          UA_womenText: 'Normal',
+        ),
+        // Add more instances of graphData as needed
+      ];
+
+      for (graphData rowData in rowData) {
+        DatabaseHelper.instance.insertGraphData(rowData).then((insertedId) {
+          debugPrint('Data inserted with ID: $insertedId');
+        });
+      }
 
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -304,9 +293,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () => {
+                onPressed: () {
                   // Call method to export as .csv or .xls
-                  // dataStorageExport(rowData);
+                  // temporarily hard coded data into database, just query for now
+                  showOptionDialog(context);
                 },
                 child: Text('Export data'),
               ),
@@ -319,6 +309,68 @@ class _ScanResultTileState extends State<ScanResultTile> {
       return Column();
     }
   }
+  
+  void showOptionDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Export Format'),
+        content: Text('Choose the export format.'),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              // Handle the first option - Export as CSV
+              Navigator.of(context).pop('csv');
+            },
+            child: Text('Export as CSV'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Handle the second option - Export as XLS
+              Navigator.of(context).pop('xls');
+            },
+            child: Text('Export as XLS'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Handle the second option - Export as XLS
+              Navigator.of(context).pop('email_csv');
+            },
+            child: Text('Export to email as CSV'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Handle the second option - Export as XLS
+              Navigator.of(context).pop('email_xls');
+            },
+            child: Text('Export as XLS'),
+          ),
+        ],
+      );
+    },
+  ).then((selectedOption) {
+    if (selectedOption != null) {
+      // Handle the selected option here
+      if (selectedOption == 'csv') {
+        // Export as CSV
+        DatabaseHelper.instance.exportDataAsCSV(false);
+      } 
+      else if (selectedOption == 'xls') {
+        // Export as XLS
+        DatabaseHelper.instance.exportDataAsXLS(false);
+      }
+      else if (selectedOption == 'email_csv') {
+        // Email as CSV
+        DatabaseHelper.instance.exportDataAsCSV(true);
+      }
+      else if (selectedOption == "email_xls") {
+        // Email as XLS
+        DatabaseHelper.instance.exportDataAsXLS(true);
+      }
+    }
+  });
+}
 
   String getNiceHexArray(List<int> bytes) {
     return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join('')}]'.toUpperCase();

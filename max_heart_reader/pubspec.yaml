@@ -52,6 +52,9 @@ dependencies:
   flutter_local_notifications: ^14.0.0
   android_alarm_manager_plus: ^2.0.6
   sqflite: ^2.2.8+4
+  excel: ^2.1.0
+  flutter_email_sender: ^5.2.0
+  mailer: ^6.0.1
 
 
 # Run commands to generate splash screen
