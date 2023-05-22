@@ -75,7 +75,8 @@ import 'bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
 import 'find_devices.dart'; // 2nd screen of the app (find devices)
 import 'background_service.dart'; // Background Service
 import 'globals.dart' as globals; // Global variables
-import 'find_devices.dart' as findDevicesWidget; // to display Toast notification
+import 'find_devices.dart'
+    as findDevicesWidget; // to display Toast notification
 import 'background_ble_upload.dart' as background1;
 
 // BLE
@@ -90,26 +91,31 @@ import 'package:permission_handler/permission_handler.dart';
 // Wakelock
 // import 'package:wakelock/wakelock.dart';
 
-Timer mytimer = Timer.periodic(Duration(seconds:5),(timer){
+//New imports
+import 'LandingPage/landing_page.dart';
+
+Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
   background1.runBackgroundDeviceScan();
 });
 
 Future<void> getPermissions(context) async {
-
-  if(await getLocationWhenInUsePermission() != 1){
-   debugPrint('main.dart: getLocationWhenInUsePermission waiting for permission!');
+  if (await getLocationWhenInUsePermission() != 1) {
+    debugPrint(
+        'main.dart: getLocationWhenInUsePermission waiting for permission!');
   } else {
     debugPrint('main.dart: getLocationWhenInUsePermission SUCCESS!');
   }
 
-  if(await getLocationAlwaysPermission() != 1){
-    debugPrint('main.dart: getLocationAlwaysPermission waiting for permission!');
+  if (await getLocationAlwaysPermission() != 1) {
+    debugPrint(
+        'main.dart: getLocationAlwaysPermission waiting for permission!');
   } else {
     debugPrint('main.dart: getLocationAlwaysPermission SUCCESS!');
   }
 
-  if(await getIgnoreBatteryOptimizationPermission() != 1){
-    debugPrint('main.dart: getIgnoreBatteryOptimizationPermission waiting for permission!');
+  if (await getIgnoreBatteryOptimizationPermission() != 1) {
+    debugPrint(
+        'main.dart: getIgnoreBatteryOptimizationPermission waiting for permission!');
   } else {
     debugPrint('main.dart: getIgnoreBatteryOptimizationPermission SUCCESS!');
   }
@@ -119,102 +125,119 @@ Future<void> getPermissions(context) async {
   // } else {
   //   debugPrint('main.dart: getStoreInExtStoragePermission SUCCESS!');
   // }
-// 
-  if(await getPushNotificationsPermission() != 1){
-    debugPrint('main.dart: getPushNotificationsPermission waiting for permission!');
+//
+  if (await getPushNotificationsPermission() != 1) {
+    debugPrint(
+        'main.dart: getPushNotificationsPermission waiting for permission!');
   } else {
     debugPrint('main.dart: getPushNotificationsPermission SUCCESS!');
   }
 
   checkPermissions(context);
-
 }
 
 Future<int> getLocationWhenInUsePermission() async {
-  
-  await Permission.locationWhenInUse.request();                         // [WHILE USING THE APP / ONLY THIS TIME / DENY]
+  await Permission.locationWhenInUse
+      .request(); // [WHILE USING THE APP / ONLY THIS TIME / DENY]
 
-  if (await Permission.locationWhenInUse.request().isGranted){          // GRANTED
+  if (await Permission.locationWhenInUse.request().isGranted) {
+    // GRANTED
     return 1;
-  } else {                                                              // RESTRICTED OR DENIED
-  return 0;
+  } else {
+    // RESTRICTED OR DENIED
+    return 0;
   }
 }
 
 Future<int> getLocationAlwaysPermission() async {
-  
-  await Permission.locationAlways.request();                            // [ALLOW ALL THE TIME / ALLOW ONLY WHILE USING THE APP / ASK EVERY TIME / DENY]
+  await Permission.locationAlways
+      .request(); // [ALLOW ALL THE TIME / ALLOW ONLY WHILE USING THE APP / ASK EVERY TIME / DENY]
 
-  if (await Permission.locationAlways.request().isGranted){             // GRANTED
+  if (await Permission.locationAlways.request().isGranted) {
+    // GRANTED
     return 1;
-  } else {                                                              // RESTRICTED OR DENIED
+  } else {
+    // RESTRICTED OR DENIED
     return 0;
   }
 }
 
 Future<int> getIgnoreBatteryOptimizationPermission() async {
-  
-  await Permission.ignoreBatteryOptimizations.request();                // [ALLOW / DENY]
+  await Permission.ignoreBatteryOptimizations.request(); // [ALLOW / DENY]
 
-  if (await Permission.ignoreBatteryOptimizations.request().isGranted){ // GRANTED
+  if (await Permission.ignoreBatteryOptimizations.request().isGranted) {
+    // GRANTED
     return 1;
-  } else {                                                              // RESTRICTED OR DENIED
+  } else {
+    // RESTRICTED OR DENIED
     return 0;
   }
 }
 
 Future<int> getStoreInExtStoragePermission() async {
-  
-  await Permission.storage.request();                // [ALLOW / DENY]
+  await Permission.storage.request(); // [ALLOW / DENY]
 
-  if (await Permission.storage.request().isGranted){ // GRANTED
+  if (await Permission.storage.request().isGranted) {
+    // GRANTED
     return 1;
-  } else {                                           // RESTRICTED OR DENIED
+  } else {
+    // RESTRICTED OR DENIED
     return 0;
   }
 }
 
 Future<int> getPushNotificationsPermission() async {
-  
-  await Permission.notification.request();                // [ALLOW / DENY]
+  await Permission.notification.request(); // [ALLOW / DENY]
 
-  if (await Permission.notification.request().isGranted){ // GRANTED
+  if (await Permission.notification.request().isGranted) {
+    // GRANTED
     return 1;
-  } else {                                                // RESTRICTED OR DENIED
+  } else {
+    // RESTRICTED OR DENIED
     return 0;
   }
 }
 
-Future<void> checkPermissions(context) async{
-
-  var locationWhenInUseStatus = await Permission.locationWhenInUse.status.isGranted; // null when it was not initialized, false if not granted, true if granted access 
+Future<void> checkPermissions(context) async {
+  var locationWhenInUseStatus = await Permission.locationWhenInUse.status
+      .isGranted; // null when it was not initialized, false if not granted, true if granted access
   var locationAlwaysStatus = await Permission.locationAlways.status.isGranted;
   var bluetoothStatus = await Permission.bluetooth.status.isGranted;
   var bluetoothScanStatus = await Permission.bluetoothScan.status.isGranted;
-  var bluetoothAdvertiseStatus = await Permission.bluetoothAdvertise.status.isGranted;
-  var bluetoothConnectStatus = await Permission.bluetoothConnect.status.isGranted;
-  var batteryOptimizationsStatus = await Permission.ignoreBatteryOptimizations.status.isGranted;
+  var bluetoothAdvertiseStatus =
+      await Permission.bluetoothAdvertise.status.isGranted;
+  var bluetoothConnectStatus =
+      await Permission.bluetoothConnect.status.isGranted;
+  var batteryOptimizationsStatus =
+      await Permission.ignoreBatteryOptimizations.status.isGranted;
   // var storeInExtStorageStatus = await Permission.storage.isGranted;
   var pushNotificationsPermission = await Permission.notification.isGranted;
 
-  debugPrint('main.dart: checkPermissions [locationWhenInUseStatus = $locationWhenInUseStatus]');
-  debugPrint('main.dart: checkPermissions [locationAlwaysStatus = $locationAlwaysStatus]');
-  debugPrint('main.dart: checkPermissions [bluetoothStatus = $bluetoothStatus]');
-  debugPrint('main.dart: checkPermissions [bluetoothScanStatus = $bluetoothScanStatus]');
-  debugPrint('main.dart: checkPermissions [bluetoothAdvertiseStatus = $bluetoothAdvertiseStatus]');
-  debugPrint('main.dart: checkPermissions [bluetoothConnectStatus = $bluetoothConnectStatus]');
-  debugPrint('main.dart: checkPermissions [batteryOptimizationsStatus = $batteryOptimizationsStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [locationWhenInUseStatus = $locationWhenInUseStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [locationAlwaysStatus = $locationAlwaysStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [bluetoothStatus = $bluetoothStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [bluetoothScanStatus = $bluetoothScanStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [bluetoothAdvertiseStatus = $bluetoothAdvertiseStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [bluetoothConnectStatus = $bluetoothConnectStatus]');
+  debugPrint(
+      'main.dart: checkPermissions [batteryOptimizationsStatus = $batteryOptimizationsStatus]');
   // debugPrint('main.dart: checkPermissions [storeInExtStorageStatus = $storeInExtStorageStatus]');
-  debugPrint('main.dart: checkPermissions [pushNotificationsPermission = $pushNotificationsPermission]');
+  debugPrint(
+      'main.dart: checkPermissions [pushNotificationsPermission = $pushNotificationsPermission]');
 
   // if the user enables permissions successfully
-  if(locationWhenInUseStatus && locationAlwaysStatus){
-
+  if (locationWhenInUseStatus && locationAlwaysStatus) {
     // start Background Service
     debugPrint('main.dart: checkPermissions initializing background service');
     await initializeService();
 
-    // enable WakeLock 
+    // enable WakeLock
     // Does not work as expected so not required...
     //debugPrint('main.dart: checkPermissions enabling WakeLock!');
     //Wakelock.toggle(enable: true);
@@ -225,25 +248,28 @@ Future<void> checkPermissions(context) async{
     // go to the next widget: HomeScreen -> bluetooth_off_screen.dart OR find_devices.dart
     debugPrint('main.dart: checkPermissions opening HomeScreen in 2 seconds');
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => const HomeScreen()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     });
 
-  // if the user denies permissions
+    // if the user denies permissions
   } else {
-    debugPrint('main.dart: checkPermissions Error! Some permissions were denied!');
-    globals.toastMessage = 'Permissions Were Not Enabled!\nPlease Enable in Settings';
+    debugPrint(
+        'main.dart: checkPermissions Error! Some permissions were denied!');
+    globals.toastMessage =
+        'Permissions Were Not Enabled!\nPlease Enable in Settings';
     findDevicesWidget.showToast();
 
     openAppSettings();
   }
-
 }
 
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -260,7 +286,7 @@ Future<void> main() async {
     if (msg == AppLifecycleState.paused.toString()) {
       // Copy the database file to a desired location
       final documentsDirectory = await getApplicationDocumentsDirectory();
-      final sourcePath = await getDatabasesPath()+'/data.db';
+      final sourcePath = await getDatabasesPath() + '/data.db';
       final destinationPath = '${documentsDirectory.path}/data.db';
       await File(sourcePath).copy(destinationPath);
     }
@@ -271,7 +297,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -281,7 +306,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SplashScreen extends StatefulWidget{
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
@@ -289,12 +314,11 @@ class SplashScreen extends StatefulWidget{
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
     getPermissions(context);
-    
+
     // Timer(const Duration(seconds: 5), ()=> {
     //     ()=>Navigator.pushReplacement(context,
     //     MaterialPageRoute(builder:
@@ -306,44 +330,41 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.black,Colors.orange,]
-          ),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.orange,
+              ]),
         ),
         child: Column(
-
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Image.asset(
               "assets/images/trilogy_logo.png",
               fit: BoxFit.fitHeight,
               height: 80,
             ),
-
             SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-
-            const Text("Heart Reader",textAlign:TextAlign.center,
+            const Text(
+              "Heart Reader",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
               ),
             ),
-
             SizedBox(height: MediaQuery.of(context).size.height * 0.35),
-
-            const CircularProgressIndicator( 
-              valueColor:  AlwaysStoppedAnimation<Color>(Colors.orange),
+            const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
             ),
           ],
         ),
@@ -364,8 +385,8 @@ class HomeScreen extends StatelessWidget {
         initialData: BluetoothState.unknown,
         builder: (c, snapshot) {
           final state = snapshot.data;
-          if (state == BluetoothState.on) {            
-            return FindDevicesScreen();
+          if (state == BluetoothState.on) {
+            return LandingPage();
           }
           return BluetoothOffScreen(state: state);
         },

@@ -103,6 +103,41 @@ coverage/
 # Symbols
 app.*.symbols
 # Exceptions to above rules.
+!default.mode1v3
+!default.mode2v3
+!default.pbxuser
+!default.perspectivev3
+
+# IntelliJ IDEA
+.idea/
+
+# Android
+**/build/
+**/*.iml
+**/.gradle/
+**/local.properties
+
+# Dart
+.dart_tool/
+.packages
+
+# Flutter
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.flutter-plugins-version
+**/.packages
+**/flutter/.pub-cache/
+**/flutter/bin/cache/
+**/flutter/bin/flutter_tools.stamp
+**/flutter/packages/
+**/flutter/test/
+**/flutter/.dart_tool/
+**/flutter/generated/
+
+# Miscellaneous
+*.iml
+*.log
+.DS_Store
 !**/ios/**/default.mode1v3
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
