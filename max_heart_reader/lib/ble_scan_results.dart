@@ -491,59 +491,59 @@ class GraphPage extends StatelessWidget {
 }
 
 
-void graphPlotter() {
-  // Retrieve data
-  List<graphData> dataList = DatabaseHelper.instance.getGraphDataList() as List<graphData>;
+// void graphPlotter() {
+//   // Retrieve data
+//   List<graphData> dataList = DatabaseHelper.instance.getGraphDataList() as List<graphData>;
 
-  // Extract glucose data points
-  List<double> glucoseData = dataList.map((data) => data.glucose).toList();
+//   // Extract glucose data points
+//   List<double> glucoseData = dataList.map((data) => data.glucose).toList();
 
-  // Extract timestamps and format them as strings
-  List<String> timestamps = dataList.map((data) {
-    DateTime dateTime = DateFormat('dd/MM/yyyy HH:mm:ss').parse(data.timestamp);
-    return DateFormat('dd/MM').format(dateTime);
-  }).toList();
+//   // Extract timestamps and format them as strings
+//   List<String> timestamps = dataList.map((data) {
+//     DateTime dateTime = DateFormat('dd/MM/yyyy HH:mm:ss').parse(data.timestamp);
+//     return DateFormat('dd/MM').format(dateTime);
+//   }).toList();
 
-  // Create a data series for the graph
-  var series = [
-    new charts.Series<double, String>(
-      id: 'Glucose',
-      domainFn: (String timestamp, _) => timestamp,
-      measureFn: (double glucose, _) => glucose,
-      data: glucoseData,
-    ),
-  ];
+//   // Create a data series for the graph
+//   var series = [
+//     new charts.Series<double, String>(
+//       id: 'Glucose',
+//       domainFn: (String timestamp, _) => timestamp,
+//       measureFn: (double glucose, _) => glucose,
+//       data: glucoseData,
+//     ),
+//   ];
 
-  // Create the chart widget
-  var chart = new charts.LineChart(
-    series,
-    animate: true,
-    behaviors: [new charts.PanAndZoomBehavior()],
-  );
+//   // Create the chart widget
+//   var chart = new charts.LineChart(
+//     series,
+//     animate: true,
+//     behaviors: [new charts.PanAndZoomBehavior()],
+//   );
 
-  // Create the chart widget wrapped in a container
-  var chartContainer = new Container(
-    height: 200,
-    padding: EdgeInsets.all(16),
-    child: chart,
-  );
+//   // Create the chart widget wrapped in a container
+//   var chartContainer = new Container(
+//     height: 200,
+//     padding: EdgeInsets.all(16),
+//     child: chart,
+//   );
 
-  // Show the graph in a dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Glucose Graph'),
-        content: chartContainer,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Close'),
-          ),
-        ],
-      );
-    },
-  );
-}
+//   // Show the graph in a dialog
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text('Glucose Graph'),
+//         content: chartContainer,
+//         actions: [
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('Close'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
