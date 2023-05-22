@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/user_preferences.dart';
 import 'package:max_heart_reader/button_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -15,19 +16,43 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final formKey = GlobalKey<FormState>();
   String name = '';
   String age = '';
-  String gender = 'Select Gender';
+  String gender = '';
   String height = '';
   String weight = '';
+
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    loadDataFromPreferences();
+  }
 
+  Future<void> loadDataFromPreferences() async {
     name = UserPreferences.getName() ?? '';
     age = UserPreferences.getAge() ?? '';
     gender = UserPreferences.getGender() ?? '';
     height = UserPreferences.getHeight() ?? '';
     weight = UserPreferences.getWeight() ?? '';
+
+    nameController.text = name;
+    ageController.text = age;
+    heightController.text = height;
+    weightController.text = weight;
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    ageController.dispose();
+    heightController.dispose();
+    weightController.dispose();
+    super.dispose();
   }
 
   @override
@@ -90,19 +115,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ),
       );
+
   Widget buildGender() => buildTitle(
         title: 'Gender',
         child: DropdownButtonFormField<String>(
-          value: gender,
+          value: gender.isEmpty ? null : gender,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: 'Select Gender',
+            hintText: gender.isEmpty ? 'Select Gender' : '',
           ),
           items: <DropdownMenuItem<String>>[
-            const DropdownMenuItem<String>(
-              value: '',
-              child: Text('Select Gender'),
-            ),
+            if (gender.isEmpty)
+              const DropdownMenuItem<String>(
+                value: '',
+                child: Text('Select Gender'),
+              ),
             DropdownMenuItem<String>(
               value: 'Male',
               child: const Text('Male'),
@@ -114,7 +141,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ],
           onChanged: (String? newValue) {
             setState(() {
-              gender = newValue!;
+              gender = newValue ?? '';
             });
           },
         ),
@@ -151,14 +178,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildButton() => ButtonWidget(
-      text: 'Save',
-      onClicked: () async {
-        await UserPreferences.setName(name);
-        await UserPreferences.setAge(age);
-        await UserPreferences.setGender(gender);
-        await UserPreferences.setHeight(height);
-        await UserPreferences.setWeight(weight);
-      });
+        text: 'Save',
+        onClicked: () async {
+          name = nameController.text;
+          age = ageController.text;
+          height = heightController.text;
+          weight = weightController.text;
+
+          await UserPreferences.setName(name);
+          await UserPreferences.setAge(age);
+          await UserPreferences.setGender(gender);
+          await UserPreferences.setHeight(height);
+          await UserPreferences.setWeight(weight);
+          loadDataFromPreferences(); // Reload the stored values after saving
+
+          Fluttertoast.showToast(
+            msg: "Data saved successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        },
+      );
 
   Widget buildTitle({
     required String title,
