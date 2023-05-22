@@ -92,7 +92,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget buildName() => buildTitle(
         title: 'Name',
         child: TextFormField(
-          initialValue: name,
+          controller: nameController,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Your Name',
@@ -104,7 +104,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget buildAge() => buildTitle(
         title: 'Age',
         child: TextFormField(
-          initialValue: age,
+          controller: ageController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -150,7 +150,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget buildHeight() => buildTitle(
         title: 'Height (cm)',
         child: TextFormField(
-          initialValue: height,
+          controller: heightController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -165,7 +165,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget buildWeight() => buildTitle(
         title: 'Weight (kg)',
         child: TextFormField(
-          initialValue: weight,
+          controller: weightController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -190,7 +190,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
           await UserPreferences.setGender(gender);
           await UserPreferences.setHeight(height);
           await UserPreferences.setWeight(weight);
-          loadDataFromPreferences(); // Reload the stored values after saving
+
+          // Update TextEditingControllers after saving the data
+          nameController.text = name;
+          ageController.text = age;
+          heightController.text = height;
+          weightController.text = weight;
+
+          // Call this after we're sure all data is saved.
+          await loadDataFromPreferences();
 
           Fluttertoast.showToast(
             msg: "Data saved successfully!",
