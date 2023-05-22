@@ -31,22 +31,22 @@ The app may provide insights or generate reports based on the collected data, he
 - [ ] Compatibility:
 The app is compatible with both iOS and Android smartphones, catering to a wide range of users.
 
-name
-age
-gender
-height
-weight
+[x]name
+[x]age
+[x]gender
+[x]height
+[x]weight
 
-heart rate 
-spo2
-bloodglouse mmol/L mg/DL
-(indicate normal abnormal range)
-bmi(opt)
+[x]heart rate 
+[x]spo2
+[x]bloodglouse mmol/L mg/DL
+[ ](indicate normal abnormal range)
+[ ]bmi(opt)
 
-poll every 30sec
-export csv xls
+[ ]poll every 30sec
+[x]export csv xls
 
-settings to edit profile
-PDPC PDPA
+[x]settings to edit profile
+[ ]PDPC PDPA
 
-file export send to email
+[ ]file export send to email
