@@ -44,7 +44,6 @@ class DatabaseHelper {
         cholesterol TEXT,
         uaMen TEXT,
         uaWomen TEXT
-
       )
     ''');
   }

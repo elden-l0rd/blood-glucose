@@ -146,8 +146,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
         // Add more instances of graphData as needed
       ];
 
-      for (graphData rowData in rowData) {
-        DatabaseHelper.instance.insertGraphData(rowData).then((insertedId) {
+      for (graphData rows in rowData) {
+        DatabaseHelper.instance.insertGraphData(rows).then((insertedId) {
           debugPrint('Data inserted with ID: $insertedId');
         });
       }
@@ -344,7 +344,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
               // Handle the second option - Export as XLS
               Navigator.of(context).pop('email_xls');
             },
-            child: Text('Export as XLS'),
+            child: Text('Export to email as XLS'),
           ),
         ],
       );
