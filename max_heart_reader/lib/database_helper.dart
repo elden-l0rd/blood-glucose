@@ -134,7 +134,11 @@ class DatabaseHelper {
       }
     }
 
-    final file = await _localFile;
+    final path = await _localPath;
+    final file = File('$path/data.xls');
+    if (!await file.exists()) {
+      file.create();
+    }
     final excelBytes = excel.save()!; // Add null check here
     await file.writeAsBytes(List.from(excelBytes)); // Convert to non-nullable list
 
