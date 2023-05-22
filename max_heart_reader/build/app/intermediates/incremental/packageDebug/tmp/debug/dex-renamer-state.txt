@@ -1,4 +1,4 @@
-#Mon May 22 15:41:18 SGT 2023
+#Mon May 22 16:16:06 SGT 2023
 base.0=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
 base.2=/Users/chufeng/Documents/blood-glucose/max_heart_reader/build/app/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
