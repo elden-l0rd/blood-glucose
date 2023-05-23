@@ -143,7 +143,7 @@ class DatabaseHelper {
     String minute = formattedDateTime.substring(14,16);
     String second = formattedDateTime.substring(17,19);
 
-    DetailsScreen? detailsScreen = DetailsScreen();
+   DetailsScreenState detailsScreen = DetailsScreenState();
     // Accessing the name attribute using the getName() method
     String name = detailsScreen.getName();
 
@@ -166,7 +166,7 @@ class DatabaseHelper {
     await FlutterEmailSender.send(emailer);
     }
     globals.toastMessage = 'XLS file saved successfully';
-    detailsScreen=null;
+    // detailsScreen=null;
     findDevicesWidget.showToast();
   }
 
@@ -191,7 +191,7 @@ class DatabaseHelper {
     String minute = formattedDateTime.substring(14,16);
     String second = formattedDateTime.substring(17,19);
 
-    DetailsScreen? detailsScreen = DetailsScreen();
+    DetailsScreenState detailsScreen = DetailsScreenState();
     // Accessing the name attribute using the getName() method
     String name = detailsScreen.getName();
 
@@ -200,7 +200,7 @@ class DatabaseHelper {
     if (!await file.exists()) {
       file.create();
     }
-    detailsScreen=null;
+    // detailsScreen=null;
     return file;
   }
 
