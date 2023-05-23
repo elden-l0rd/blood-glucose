@@ -4,12 +4,17 @@ import 'package:max_heart_reader/button_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailsScreen extends StatefulWidget {
+  final String name = '';
   const DetailsScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
+
+  String getName() {
+    return this.name;
+  }
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {

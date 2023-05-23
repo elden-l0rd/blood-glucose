@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/find_devices.dart';
-import 'package:max_heart_reader/LandingPage/home.dart';
-import 'package:max_heart_reader/LandingPage/profile.dart';
 
 import 'package:max_heart_reader/details_screen.dart';
 

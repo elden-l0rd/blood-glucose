@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:intl/intl.dart';
+import 'package:max_heart_reader/details_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -40,7 +42,8 @@ class DatabaseHelper {
         battery TEXT,
         heart_rate TEXT,
         spo2 TEXT,
-        glucose FLOAT,
+        glucose_mmolL FLOAT,
+        glucose_mgDL FLOAT,
         cholesterol TEXT,
         uaMen TEXT,
         uaWomen TEXT
@@ -80,7 +83,7 @@ class DatabaseHelper {
     return result;
   }
 
-  void exportDataAsCSV(bool email) async {
+  void exportDataAsCSV(bool send_email, String email_add) async {
     final data = await getAllData();
 
     List<List<dynamic>> csvData = [];
@@ -100,23 +103,22 @@ class DatabaseHelper {
       final file = await _localFile;
       await file.writeAsString(csvContent);
       
-      if (email) {
+      if (send_email) {
         // Send email with attachment
-        final Email email = Email(
+        final Email emailer = Email(
           subject: 'CSV Data Export',
-          recipients: ['cfhuangx9@gmail.com'],
+          recipients: [email_add],
           body: 'Please find attached the CSV data file.',
           attachmentPaths: [file.path], // Attach the XLS file
         );
-        await FlutterEmailSender.send(email);
+        await FlutterEmailSender.send(emailer);
       }
-
 
       globals.toastMessage = 'CSV file saved successfully';
       findDevicesWidget.showToast();
   }
 
-  void exportDataAsXLS(bool email) async {
+  void exportDataAsXLS(bool send_email, String email_add) async {
     final data = await getAllData();
 
     final excel = Excel.createExcel();
@@ -133,26 +135,38 @@ class DatabaseHelper {
         sheet.appendRow(rowData);
       }
     }
+    String formattedDateTime = DateFormat(globals.timeFormat).format(DateTime.now());
+    String day = formattedDateTime.substring(0,2);
+    String month = formattedDateTime.substring(3,5);
+    String year = formattedDateTime.substring(6,10);
+    String hour = formattedDateTime.substring(11,13);
+    String minute = formattedDateTime.substring(14,16);
+    String second = formattedDateTime.substring(17,19);
+
+    DetailsScreen? detailsScreen = DetailsScreen();
+    // Accessing the name attribute using the getName() method
+    String name = detailsScreen.getName();
 
     final path = await _localPath;
-    final file = File('$path/data.xls');
+    final file = File('$path/${name}_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
     if (!await file.exists()) {
       file.create();
     }
     final excelBytes = excel.save()!; // Add null check here
     await file.writeAsBytes(List.from(excelBytes)); // Convert to non-nullable list
 
-    if (email) {
+    if (send_email) {
     // Send email with attachment
-    final Email email = Email(
+    final Email emailer = Email(
       subject: 'XLS Data Export',
-      recipients: ['cfhuangx9@gmail.com'],
+      recipients: [email_add],
       body: 'Please find attached the XLS data file.',
       attachmentPaths: [file.path], // Attach the XLS file
     );
-    await FlutterEmailSender.send(email);
+    await FlutterEmailSender.send(emailer);
     }
     globals.toastMessage = 'XLS file saved successfully';
+    detailsScreen=null;
     findDevicesWidget.showToast();
   }
 
@@ -169,11 +183,24 @@ class DatabaseHelper {
 
   // Retrieve the file from path found
   Future<File> get _localFile async {
+    String formattedDateTime = DateFormat(globals.timeFormat).format(DateTime.now());
+    String day = formattedDateTime.substring(0,2);
+    String month = formattedDateTime.substring(3,5);
+    String year = formattedDateTime.substring(6,10);
+    String hour = formattedDateTime.substring(11,13);
+    String minute = formattedDateTime.substring(14,16);
+    String second = formattedDateTime.substring(17,19);
+
+    DetailsScreen? detailsScreen = DetailsScreen();
+    // Accessing the name attribute using the getName() method
+    String name = detailsScreen.getName();
+
     final path = await _localPath;
-    final file = File('$path/data.csv');
+    final file = File('$path/${name}_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
     if (!await file.exists()) {
       file.create();
     }
+    detailsScreen=null;
     return file;
   }
 
@@ -184,7 +211,8 @@ class graphData {
   final String batteryText;
   final String heartRateText;
   final String spo2Text;
-  final double glucose;
+  final double glucose_mmolL;
+  final double glucose_mgDL;
   final String cholesterolText;
   final String UA_menText;
   final String UA_womenText;
@@ -194,7 +222,8 @@ class graphData {
       required this.batteryText,
       required this.heartRateText,
       required this.spo2Text,
-      required this.glucose,
+      required this.glucose_mmolL,
+      required this.glucose_mgDL,
       required this.cholesterolText,
       required this.UA_menText,
       required this.UA_womenText,
@@ -206,7 +235,8 @@ class graphData {
       'battery': batteryText,
       'heart_rate': heartRateText,
       'spo2': spo2Text,
-      'glucose': glucose,
+      'glucose_mmolL': glucose_mmolL,
+      'glucose_mgDL': glucose_mgDL,
       'cholesterol': cholesterolText,
       'uaMen':  UA_menText,
       'uaWomen': UA_womenText,

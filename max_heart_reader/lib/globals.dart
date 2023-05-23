@@ -18,3 +18,6 @@ String toastMessage = "";
 
 // Every _ interval, remind the patient to take a reading using the oximeter.
 const int REMINDER_MINUTES = 480; // thrice daily
+
+// timestamp format
+String timeFormat = 'dd/MM/yyyy HH:mm:ss';
