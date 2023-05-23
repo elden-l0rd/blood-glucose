@@ -32,6 +32,20 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: _selectedIndex == 0 || _selectedIndex == 1
+        ? AppBar(
+          backgroundColor: Colors.black,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/trilogy_logo.png',
+                fit: BoxFit.fitHeight,
+                height: MediaQuery.of(context).size.height * 0.05,
+              )
+            ],)
+          )
+          : null,
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
