@@ -37,12 +37,41 @@ import 'package:charts_flutter/flutter.dart' as charts;
 //   ];
 // }
 
-class GlucoseDataPoint {
-  final String timestamp;
-  final double glucoseLevel;
+class GlucoseMeasurement {
+  final DateTime time;
+  final double glucoseMgDL;
 
-  GlucoseDataPoint({required this.timestamp, required this.glucoseLevel});
+  GlucoseMeasurement(this.time, this.glucoseMgDL);
 }
+
+List<GlucoseMeasurement> filterMeasurementsByMonth(List<GlucoseMeasurement> measurements, int month) {
+  return measurements.where((measurement) => measurement.time.month == month).toList();
+} /* Retrieve your data for the desired range of the month. Assuming you have a list of GlucoseMeasurement
+   * objects, you can filter it based on the selected month
+   */
+
+// Create a chart series from the filtered data
+charts.Series<GlucoseMeasurement, DateTime> createChartSeries(List<GlucoseMeasurement> measurements) {
+  return charts.Series<GlucoseMeasurement, DateTime>(
+    id: 'Glucose',
+    colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+    domainFn: (GlucoseMeasurement measurement, _) => measurement.time,
+    measureFn: (GlucoseMeasurement measurement, _) => measurement.glucoseMgDL,
+    data: measurements,
+  );
+}
+
+// Build chart widget
+charts.TimeSeriesChart buildChart(List<GlucoseMeasurement> measurements) {
+  return charts.TimeSeriesChart(
+    [createChartSeries(measurements)],
+    animate: true,
+    dateTimeFactory: const charts.LocalDateTimeFactory(),
+    primaryMeasureAxis: const charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+  );
+}
+
+int selectedMonth = 5; // Assuming May is the default selected month
 
 class ScanResultTile extends StatefulWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})

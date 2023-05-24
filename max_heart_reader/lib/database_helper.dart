@@ -146,7 +146,7 @@ class DatabaseHelper {
 
     Future<String> getName() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String name = await prefs.getString('name') ?? '';
+      String name = await prefs.getString('name') ?? '';  //  Problem.. 'Instance of 'FutureString'
       return name;
     }
 
