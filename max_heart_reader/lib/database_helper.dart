@@ -5,6 +5,7 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:intl/intl.dart';
 import 'package:max_heart_reader/details_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'globals.dart' as globals;
@@ -143,12 +144,14 @@ class DatabaseHelper {
     String minute = formattedDateTime.substring(14,16);
     String second = formattedDateTime.substring(17,19);
 
-   DetailsScreenState detailsScreen = DetailsScreenState();
-    // Accessing the name attribute using the getName() method
-    String name = detailsScreen.getName();
+    Future<String> getName() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String name = await prefs.getString('name') ?? '';
+      return name;
+    }
 
     final path = await _localPath;
-    final file = File('$path/${name}_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
+    final file = File('$path/${getName()}_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
     if (!await file.exists()) {
       file.create();
     }
@@ -191,12 +194,14 @@ class DatabaseHelper {
     String minute = formattedDateTime.substring(14,16);
     String second = formattedDateTime.substring(17,19);
 
-    DetailsScreenState detailsScreen = DetailsScreenState();
-    // Accessing the name attribute using the getName() method
-    String name = detailsScreen.getName();
+    Future<String> getName() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String name = await prefs.getString('name') ?? '';
+      return name;
+    }
 
     final path = await _localPath;
-    final file = File('$path/${name}_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
+    final file = File('$path/${getName()}_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
     if (!await file.exists()) {
       file.create();
     }

@@ -25,8 +25,8 @@ class DetailsScreenState extends State<DetailsScreen> {
   final heightController = TextEditingController();
   final weightController = TextEditingController();
 
-  String getName() {
-    return this.name;
+  Future<String> getName() async {
+    return nameController.text;
   }
 
   @override
@@ -36,11 +36,11 @@ class DetailsScreenState extends State<DetailsScreen> {
   }
 
   Future<void> loadDataFromPreferences() async {
-    name = UserPreferences.getName() ?? '';
-    age = UserPreferences.getAge() ?? '';
-    gender = UserPreferences.getGender() ?? '';
-    height = UserPreferences.getHeight() ?? '';
-    weight = UserPreferences.getWeight() ?? '';
+    name = await UserPreferences.getName() ?? '';
+    age = await UserPreferences.getAge() ?? '';
+    gender = await UserPreferences.getGender() ?? '';
+    height = await UserPreferences.getHeight() ?? '';
+    weight = await UserPreferences.getWeight() ?? '';
 
     nameController.text = name;
     ageController.text = age;
