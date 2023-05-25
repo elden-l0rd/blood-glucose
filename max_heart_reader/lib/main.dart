@@ -72,7 +72,7 @@ import 'dart:async';
 
 // Project files
 import 'bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
-import 'find_devices.dart'; // 2nd screen of the app (find devices)
+// 2nd screen of the app (find devices)
 import 'background_service.dart'; // Background Service
 import 'globals.dart' as globals; // Global variables
 import 'find_devices.dart'

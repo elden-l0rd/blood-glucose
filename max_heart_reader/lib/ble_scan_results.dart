@@ -7,7 +7,7 @@
 // Flutter/Dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 
 // Other project files
@@ -18,12 +18,8 @@ import 'find_devices.dart' as findDevicesWidget;
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-// import 'package:csv/csv.dart'; // for .csv files
-import 'package:path_provider/path_provider.dart'; //for .txt files and dir
-import 'dart:io';
-import 'package:intl/intl.dart';
 // Graphing tools
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 
 // List<charts.Series<graphData, DateTime>> _createSeries(List<graphData> glucoseDataList) {
@@ -37,41 +33,6 @@ import 'package:charts_flutter/flutter.dart' as charts;
 //   ];
 // }
 
-class GlucoseMeasurement {
-  final DateTime time;
-  final double glucoseMgDL;
-
-  GlucoseMeasurement(this.time, this.glucoseMgDL);
-}
-
-List<GlucoseMeasurement> filterMeasurementsByMonth(List<GlucoseMeasurement> measurements, int month) {
-  return measurements.where((measurement) => measurement.time.month == month).toList();
-} /* Retrieve your data for the desired range of the month. Assuming you have a list of GlucoseMeasurement
-   * objects, you can filter it based on the selected month
-   */
-
-// Create a chart series from the filtered data
-charts.Series<GlucoseMeasurement, DateTime> createChartSeries(List<GlucoseMeasurement> measurements) {
-  return charts.Series<GlucoseMeasurement, DateTime>(
-    id: 'Glucose',
-    colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-    domainFn: (GlucoseMeasurement measurement, _) => measurement.time,
-    measureFn: (GlucoseMeasurement measurement, _) => measurement.glucoseMgDL,
-    data: measurements,
-  );
-}
-
-// Build chart widget
-charts.TimeSeriesChart buildChart(List<GlucoseMeasurement> measurements) {
-  return charts.TimeSeriesChart(
-    [createChartSeries(measurements)],
-    animate: true,
-    dateTimeFactory: const charts.LocalDateTimeFactory(),
-    primaryMeasureAxis: const charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
-  );
-}
-
-int selectedMonth = 5; // Assuming May is the default selected month
 
 class ScanResultTile extends StatefulWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})
@@ -92,7 +53,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
   String formattedDateTime = DateFormat(globals.timeFormat).format(now);
   return formattedDateTime;
   }
-  
+
   @override
   Widget build(BuildContext context) {
 
@@ -104,6 +65,42 @@ class _ScanResultTileState extends State<ScanResultTile> {
     else {
       return Column();
     }
+  }
+
+  Widget buildChart(List<graphData> data) {
+      return Container(
+        height: 500, 
+        child: SfCartesianChart(
+          plotAreaBackgroundColor: Colors.black,
+          primaryXAxis: DateTimeAxis(
+            name: "Glucose levels",
+            dateFormat: DateFormat('dd/MM'),
+          ),
+          primaryYAxis: NumericAxis(
+            minimum: 0,
+            maximum: 12,
+            plotBands: <PlotBand>[
+                PlotBand(
+                  isVisible: true,
+                  start: 5.5,
+                  end: 11.1,
+                  color: Color.fromARGB(255, 39, 124, 36).withOpacity(0.05),
+                ),
+              ],
+          ),
+          series: <ChartSeries>[
+            ColumnSeries<graphData, DateTime>(
+              color: Colors.orange,
+              dataSource: data,
+              xAxisName: 'Time',
+              yAxisName: 'Glucose Level',
+              xValueMapper: (graphData point, _) => DateFormat('dd/MM/yyyy HH:mm:ss').parse(point.timestamp),
+              yValueMapper: (graphData point, _) => point.glucose_mmolL!=0 ? point.glucose_mmolL : null,
+              width: 0.8
+            ),
+          ],
+      ),
+    );
   }
 
   //Widget _buildTitle(BuildContext context, influxDBClient) {
@@ -159,20 +156,20 @@ class _ScanResultTileState extends State<ScanResultTile> {
       // Store data into local directory
       String timestamp = getCurrentDateTime();
         // Convert all to Strings
-      String batteryText = battery.toString();
+      // String batteryText = battery.toString();
       // String glucoseText = glucose.toString();
       String cholesterolText = cholesterol.toString();
-      String UA_menText = UA_men.toString();
-      String UA_womenText = UA_women.toString();
+      // String UA_menText = UA_men.toString();
+      // String UA_womenText = UA_women.toString();
 
       List<graphData> rowData = [
         graphData(
           timestamp: getCurrentDateTime(),
-          batteryText: "${battery.toStringAsFixed(0)} %",
+          batteryText: "${battery.toStringAsFixed(0)}%",
           heartRateText: '${heartRateText} bpm',
           spo2Text: spo2Text,
           glucose_mmolL: glucose,
-          glucose_mgDL: glucose_mgDL,
+          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
           cholesterolText: '${cholesterolText} mg/dL',
           UA_menText: UA_result_M,
           UA_womenText: UA_result_W,
@@ -333,7 +330,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
               ],
             ),
           ),
-          Row(
+          Row( // Export data
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -344,6 +341,36 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   showOptionDialog(context);
                 },
                 child: Text('Export data'),
+              ),
+            ],
+          ),
+          Row( // View graph
+            children: [
+              Expanded(
+                child: Container(
+                  height: 500,
+                  padding: EdgeInsets.all(8.0),
+                  child: FutureBuilder<List<graphData>> (
+                    future: DatabaseHelper.instance.getGraphDataList(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return buildChart(snapshot.data!);
+                      }
+                      else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+                      else {
+                        return Center(
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(color: Colors.orange),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
             ],
           ),
@@ -545,5 +572,4 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
     return returnData;
   }
-
 }

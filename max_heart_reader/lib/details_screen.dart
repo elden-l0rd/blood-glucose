@@ -25,10 +25,6 @@ class DetailsScreenState extends State<DetailsScreen> {
   final heightController = TextEditingController();
   final weightController = TextEditingController();
 
-  Future<String> getName() async {
-    return nameController.text;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -48,6 +44,12 @@ class DetailsScreenState extends State<DetailsScreen> {
     weightController.text = weight;
 
     setState(() {});
+    debugPrint(nameController.text);
+    debugPrint(name);
+  }
+
+  String get nameControllerText {
+    return nameController.text;
   }
 
   @override

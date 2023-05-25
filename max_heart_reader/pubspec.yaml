@@ -55,6 +55,7 @@ dependencies:
   excel: ^2.1.0
   flutter_email_sender: ^5.2.0
   mailer: ^6.0.1
+  syncfusion_flutter_charts: ^21.2.4
 
 
 # Run commands to generate splash screen

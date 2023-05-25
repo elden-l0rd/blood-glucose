@@ -12,8 +12,7 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: Size.fromHeight(52),
-        primary: const Color.fromARGB(255, 243, 142, 33),
+        minimumSize: Size.fromHeight(52), backgroundColor: const Color.fromARGB(255, 243, 142, 33),
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),

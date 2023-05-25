@@ -3,16 +3,13 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:intl/intl.dart';
-import 'package:max_heart_reader/details_screen.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:max_heart_reader/user_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'globals.dart' as globals;
 import 'find_devices.dart' as findDevicesWidget;
 import 'package:excel/excel.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._();
@@ -58,22 +55,23 @@ class DatabaseHelper {
   }
 
   // for graph plotting
-  // Future<List<graphData>> getGraphDataList() async {
-  //   final db = await instance.database;
-  //   final List<Map<String, dynamic>> maps = await db.query('graphData');
-  //   return List.generate(maps.length, (i) {
-  //     return graphData(
-  //       timestamp: maps[i]['timestamp'],
-  //       batteryText: maps[i]['battery'],
-  //       heartRateText: maps[i]['heart_rate'],
-  //       spo2Text: maps[i]['spo2'],
-  //       glucose: maps[i]['glucose'],
-  //       cholesterolText: maps[i]['cholesterol'],
-  //       UA_menText: maps[i]['uaMen'],
-  //       UA_womenText: maps[i]['uaWomen'],
-  //     );
-  //   });
-  // }
+  Future<List<graphData>> getGraphDataList() async {
+    final db = await instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('graphData');
+    return List.generate(maps.length, (i) {
+      return graphData(
+        timestamp: maps[i]['timestamp'],  // 'dd/MM/yyyy HH:mm:ss'
+        batteryText: maps[i]['battery'],
+        heartRateText: maps[i]['heart_rate'],
+        spo2Text: maps[i]['spo2'],
+        glucose_mmolL: maps[i]['glucose_mmolL'],
+        glucose_mgDL: maps[i]['glucose_mgDL'],
+        cholesterolText: maps[i]['cholesterol'],
+        UA_menText: maps[i]['uaMen'],
+        UA_womenText: maps[i]['uaWomen'],
+      );
+    });
+  }
 
 
   Future<List<Map<String, dynamic>>> getAllData() async {
@@ -144,14 +142,8 @@ class DatabaseHelper {
     String minute = formattedDateTime.substring(14,16);
     String second = formattedDateTime.substring(17,19);
 
-    Future<String> getName() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String name = await prefs.getString('name') ?? '';  //  Problem.. 'Instance of 'FutureString'
-      return name;
-    }
-
     final path = await _localPath;
-    final file = File('$path/${getName()}_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
+    final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
     if (!await file.exists()) {
       file.create();
     }
@@ -194,19 +186,18 @@ class DatabaseHelper {
     String minute = formattedDateTime.substring(14,16);
     String second = formattedDateTime.substring(17,19);
 
-    Future<String> getName() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String name = await prefs.getString('name') ?? '';
-      return name;
-    }
-
     final path = await _localPath;
-    final file = File('$path/${getName()}_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
+    final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
     if (!await file.exists()) {
       file.create();
     }
     // detailsScreen=null;
     return file;
+  }
+
+  Future<String?> getuserName() async {
+    String? input_name = UserPreferences.getName();
+    return input_name;
   }
 
 }
@@ -250,3 +241,38 @@ class graphData {
 }
 
 
+// Hard coded data sets for testing!
+// final List<graphData> data = [
+//   graphData(
+//     timestamp: DateTime.parse('2023-05-25 14:30:00'),
+//     glucose_mmolL: 10,
+//   ),
+//   graphData(
+//     timestamp: DateTime.parse('2023-05-26 15:45:00'),
+//     glucose_mmolL: 20,
+//   ),
+//   graphData(
+//     timestamp: DateTime.parse('2023-05-27 16:30:00'),
+//     glucose_mmolL: 15,
+//   ),
+// ];
+
+// DateTime currentDate = DateTime(2023, 5, 28); // Start date for generating additional data
+// final random = Random();
+
+// for (int i = 0; i < 20; i++) {
+//   // Generate a random value for glucose_mmolL between 1 and 30
+//   double glucoseValue = random.nextInt(30) + 1;
+
+//   // Generate a random time within the current day
+//   int randomHour = random.nextInt(24);
+//   int randomMinute = random.nextInt(60);
+//   int randomSecond = random.nextInt(60);
+//   DateTime timestamp = DateTime(currentDate.year, currentDate.month, currentDate.day, randomHour, randomMinute, randomSecond);
+
+//   // Create a new graphData object and add it to the data list
+//   data.add(graphData(timestamp: timestamp, glucose_mmolL: glucoseValue));
+
+//   // Increment the currentDate to the next day
+//   currentDate = currentDate.add(Duration(days: 1));
+// }
