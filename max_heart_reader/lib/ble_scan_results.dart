@@ -105,92 +105,99 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
   //Widget _buildTitle(BuildContext context, influxDBClient) {
   Widget _buildTitle(BuildContext context) {
-    // if(widget.result.device.name.contains("3LOGY-Heart")){ // can be changed to e.g. "3LOGY-Watch"
-    if(widget.result.device.name.contains("BGL")){ // can be changed to e.g. "3LOGY-Watch"
+    // if(widget.result.device.name.contains("BGL")){ // can be changed to e.g. "3LOGY-Watch"
+    if(true){ // can be changed to e.g. "3LOGY-Watch"
 
-      // [FFFE69905F20134041]
-      //    0x    FFFE      69        90              5F          20        13            40              41
-      //          1         99.06 %   144 BPM         95 %        
-      //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
+      // // [FFFE69905F20134041]
+      // //    0x    FFFE      69        90              5F          20        13            40              41
+      // //          1         99.06 %   144 BPM         95 %        
+      // //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
+      // List processedData = processData(widget.result.device.name, getNiceServiceData(widget.result.advertisementData.serviceData));
 
-      List processedData = processData(widget.result.device.name, getNiceServiceData(widget.result.advertisementData.serviceData));
+      // // int ID = processedData[0];
+      // double battery = processedData[1];
+      // int heartRate = processedData[2];
+      // int spo2 = processedData[3];
 
-      // int ID = processedData[0];
-      double battery = processedData[1];
-      int heartRate = processedData[2];
-      int spo2 = processedData[3];
+      // // 1.0 mmol/L = 18.02 mg/dL
+      // double glucose = processedData[4];
+      // double glucose_mgDL = glucose*18.02;
 
-      // 1.0 mmol/L = 18.02 mg/dL
-      double glucose = processedData[4];
-      double glucose_mgDL = glucose*18.02;
+      // double cholesterol = processedData[5];
+      // double UA_men = processedData[6]; //in mmol/L
+      // double UA_women = processedData[7];
 
-      double cholesterol = processedData[5];
-      double UA_men = processedData[6]; //in mmol/L
-      double UA_women = processedData[7];
+      // String heartRateText = "";
+      // String spo2Text = "";
+      // heartRateText = heartRate.toString();
+      // spo2Text = spo2.toStringAsFixed(0) + " %";
 
-      String heartRateText = "";
-      String spo2Text = "";
-      heartRateText = heartRate.toString();
-      spo2Text = spo2.toStringAsFixed(0) + " %";
+      // String UA_result_M = 'Normal';
+      // String UA_result_W = 'Normal';
 
-      String UA_result_M = 'Normal';
-      String UA_result_W = 'Normal';
+      // if (UA_men>=0.24 && UA_men<=0.51) {
+      //   UA_result_M = 'Normal: ${UA_men} mmol/L';
+      // }
+      // else UA_result_M = 'Abnormal: ${UA_men} mmol/L';
+      // if (UA_women>=0.16 && UA_women<=0.43) {
+      //   UA_result_W = 'Normal: ${UA_women} mmol/L';
+      // }
+      // else UA_result_W = 'Abnormal: ${UA_women} mmol/L';
 
-      if (UA_men>=0.24 && UA_men<=0.51) {
-        UA_result_M = 'Normal: ${UA_men} mmol/L';
-      }
-      else UA_result_M = 'Abnormal: ${UA_men} mmol/L';
-      if (UA_women>=0.16 && UA_women<=0.43) {
-        UA_result_W = 'Normal: ${UA_women} mmol/L';
-      }
-      else UA_result_W = 'Abnormal: ${UA_women} mmol/L';
-
-      double tileHeight = 50;
-      Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
-
-      Color batteryTileColor = Colors.black;
-      if(battery > 50.0){batteryTileColor = Colors.green;}
-      else if(battery > 25.0){batteryTileColor = Colors.orange;}
-      else if(battery >= 0.0){batteryTileColor = Colors.red;}
       
-      // Store data into local directory
-      String timestamp = getCurrentDateTime();
-        // Convert all to Strings
-      // String batteryText = battery.toString();
-      // String glucoseText = glucose.toString();
-      String cholesterolText = cholesterol.toString();
-      // String UA_menText = UA_men.toString();
-      // String UA_womenText = UA_women.toString();
+      // // Store data into local directory
+      // String timestamp = getCurrentDateTime();
+      //   // Convert all to Strings
+      // // String batteryText = battery.toString();
+      // // String glucoseText = glucose.toString();
+      // String cholesterolText = cholesterol.toString();
+      // // String UA_menText = UA_men.toString();
+      // // String UA_womenText = UA_women.toString();
 
-      List<graphData> rowData = [
-        graphData(
-          timestamp: getCurrentDateTime(),
-          batteryText: "${battery.toStringAsFixed(0)}%",
-          heartRateText: '${heartRateText} bpm',
-          spo2Text: spo2Text,
-          glucose_mmolL: glucose,
-          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-          cholesterolText: '${cholesterolText} mg/dL',
-          UA_menText: UA_result_M,
-          UA_womenText: UA_result_W,
-        ),
-      ];
+      // List<graphData> rowData = [
+      //   graphData(
+      //     timestamp: getCurrentDateTime(),
+      //     batteryText: "${battery.toStringAsFixed(0)}%",
+      //     heartRateText: '${heartRateText} bpm',
+      //     spo2Text: spo2Text,
+      //     glucose_mmolL: glucose,
+      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+      //     cholesterolText: '${cholesterolText} mg/dL',
+      //     UA_menText: UA_result_M,
+      //     UA_womenText: UA_result_W,
+      //   ),
+      // ];
 
-      debugPrint("battery: $battery");
-      debugPrint("heartRate: $heartRate");
-      debugPrint("spo2: $spo2");
-      debugPrint("glucose: $glucose");
-      debugPrint("glucose: $glucose_mgDL");
-      debugPrint("cholesterol: $cholesterol");
-      debugPrint("UA_men: $UA_result_M");
-      debugPrint("UA_women: $UA_result_W");
+      // debugPrint("battery: $battery");
+      // debugPrint("heartRate: $heartRate");
+      // debugPrint("spo2: $spo2");
+      // debugPrint("glucose: $glucose");
+      // debugPrint("glucose: $glucose_mgDL");
+      // debugPrint("cholesterol: $cholesterol");
+      // debugPrint("UA_men: $UA_result_M");
+      // debugPrint("UA_women: $UA_result_W");
 
-      for (graphData rows in rowData) {
-        DatabaseHelper.instance.insertGraphData(rows).then((insertedId) {
-          debugPrint('Data inserted with ID: $timestamp');
-        });
-      }
+      // for (graphData rows in rowData) {
+      //   DatabaseHelper.instance.insertGraphData(rows).then((insertedId) {
+      //     debugPrint('Data inserted with ID: $timestamp');
+      //   });
+      // }
 
+      // double tileHeight = 50;
+      // Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
+
+      // List<Color> _getGradientColors(double battery) {
+      //   if (battery > 50.0) {
+      //     return [Colors.green, Colors.lightGreen];
+      //   } else if (battery > 25.0) {
+      //     return [Colors.orange, Colors.deepOrange];
+      //   } else if (battery >= 0.0) {
+      //     return [Colors.red, Colors.redAccent];
+      //   } else {
+      //     return [Colors.grey, Colors.grey]; // Default colors for negative battery level
+      //   }
+      // }
+      
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,41 +208,40 @@ class _ScanResultTileState extends State<ScanResultTile> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
-
+/*
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
               mainAxisAlignment: MainAxisAlignment.start, // horizontally
               crossAxisAlignment: CrossAxisAlignment.start, // vertically
               children: [
-                // Column(children: [
-                //   SizedBox(
-                //     width: 30,
-                //     height: tileHeight,
-                //     child: Card(
-                //       color: darkTileColor,
-                //       child: Center(child: Text(
-                //           ID.toString(),
-                //           style: const TextStyle(color: Colors.white, fontSize: 12),
-                //       ),),
-                //     ),
-                //   ),
-                //   const Text("ID", style: TextStyle(color: Colors.white, fontSize: 12,), textAlign: TextAlign.center,),
-                // ]),
                 Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: tileHeight,
                     child: Card(
-                      color: batteryTileColor,
-                        child: Center(child: Text(
-                          battery.toStringAsFixed(0) + " %",
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
+                      color: Colors.transparent, // Set the Card color to transparent
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: _getGradientColors(battery), // Function to determine gradient colors
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            battery.toStringAsFixed(0) + " %",
+                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  const Text("Battery", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
-                ]),
+                  const Text(
+                    "Battery",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ],),
 
                 Column(children: [
                   SizedBox(
@@ -330,6 +336,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
               ],
             ),
           ),
+*/
           Row( // Export data
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -338,40 +345,52 @@ class _ScanResultTileState extends State<ScanResultTile> {
                 onPressed: () {
                   // Call method to export as .csv or .xls
                   // temporarily hard coded data into database, just query for now
-                  showOptionDialog(context);
+                  showExportDialog(context);
                 },
                 child: Text('Export data'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                ),
               ),
             ],
           ),
+
           Row( // View graph
             children: [
-              Expanded(
-                child: Container(
-                  height: 500,
-                  padding: EdgeInsets.all(8.0),
-                  child: FutureBuilder<List<graphData>> (
-                    future: DatabaseHelper.instance.getGraphDataList(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return buildChart(snapshot.data!);
-                      }
-                      else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      else {
-                        return Center(
-                          child: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: CircularProgressIndicator(color: Colors.orange),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
+              ElevatedButton(
+                onPressed: () {
+                  Expanded(
+                    child: Container(
+                      height: 500,
+                      padding: EdgeInsets.all(8.0),
+                      child: FutureBuilder<List<graphData>> (
+                        future: DatabaseHelper.instance.getGraphDataList(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return buildChart(snapshot.data!);
+                          }
+                          else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          else {
+                            return Center(
+                              child: SizedBox(
+                                height: 40,
+                                width: 40,
+                                child: CircularProgressIndicator(color: Colors.orange),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  );
+                },
+                child: Text('View data on graph'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                )
+              )
             ],
           ),
         ],
@@ -382,44 +401,67 @@ class _ScanResultTileState extends State<ScanResultTile> {
     }
   }
   
-  void showOptionDialog(BuildContext context) {
+  void showExportDialog(BuildContext context) {
     String email_add = '';
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Export Format'),
-          content: Text('Choose the export format.'),
-          actions: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                // Handle the first option - Export as CSV
-                Navigator.of(context).pop('csv');
-              },
-              child: Text('Export as CSV'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Handle the second option - Export as XLS
-                Navigator.of(context).pop('xls');
-              },
-              child: Text('Export as XLS'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Handle the second option - Export as XLS
-                Navigator.of(context).pop('email_csv');
-              },
-              child: Text('Export to email as CSV'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Handle the second option - Export as XLS
-                Navigator.of(context).pop('email_xls');
-              },
-              child: Text('Export to email as XLS'),
-            ),
-          ],
+        return Center(
+          child: AlertDialog(
+            title: Text('Export Format',
+                        style: TextStyle(color: Colors.white)
+                      ),
+            content: Text('Choose the export format.',
+                          style: TextStyle(color: Colors.white),
+                        ),
+            backgroundColor: const Color.fromARGB(255, 39, 39, 39),
+            actions: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  // Handle the first option - Export as CSV
+                  Navigator.of(context).pop('csv');
+                },
+                child: Text('Export as CSV',
+                            style: TextStyle(color: Colors.white,),),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle the second option - Export as XLS
+                  Navigator.of(context).pop('xls');
+                },
+                child: Text('Export as XLS',
+                            style: TextStyle(color: Colors.white,),),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle the second option - Export as XLS
+                  Navigator.of(context).pop('email_csv');
+                },
+                child: Text('Export to email as CSV',
+                            style: TextStyle(color: Colors.white,),),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle the second option - Export as XLS
+                  Navigator.of(context).pop('email_xls');
+                },
+                child: Text('Export to email as XLS',
+                            style: TextStyle(color: Colors.white,),),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                ),
+              ),
+            ],
+          ),
         );
       },
     ).then((selectedOption) {
@@ -438,27 +480,38 @@ class _ScanResultTileState extends State<ScanResultTile> {
           showDialog(context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Enter your email'),
+                title: Text('Enter your email',
+                            style: TextStyle(color: Colors.white),),
                 content: TextField(
+                  style: TextStyle(color: Colors.white,),
                   onChanged: (value) {
                     email_add = value;
                   },
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Cancel'),
+                    child: Text('Cancel',
+                                style: TextStyle(color: Colors.white),),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
+                    style: TextButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
                   ),
                   TextButton(
-                    child: Text('Export'),
+                    child: Text('Export',
+                                style: TextStyle(color: Colors.white),),
                     onPressed: () {
                       Navigator.of(context).pop();
                       DatabaseHelper.instance.exportDataAsCSV(true, email_add);
                     },
+                    style: TextButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
                   ),
                 ],
+                backgroundColor: const Color.fromARGB(255, 39, 39, 39),
               );
             },
           );
@@ -468,25 +521,35 @@ class _ScanResultTileState extends State<ScanResultTile> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Enter your email'),
+                title: Text('Enter your email',
+                            style: TextStyle(color: Colors.white),),
                 content: TextField(
+                  style: TextStyle(color: Colors.white,),
                   onChanged: (value) {
                     email_add = value;
                   },
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Cancel'),
+                    child: Text('Cancel',
+                                style: TextStyle(color: Colors.white),),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
+                    style: TextButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
                   ),
                   TextButton(
-                    child: Text('Export'),
+                    child: Text('Export',
+                                style: TextStyle(color: Colors.white),),
                     onPressed: () {
                       Navigator.of(context).pop();
                       DatabaseHelper.instance.exportDataAsXLS(true, email_add);
                     },
+                    style: TextButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
                   ),
                 ],
               );
