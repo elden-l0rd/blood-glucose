@@ -113,8 +113,8 @@ Widget buildName() => buildTitle(
     controller: nameController,
     decoration: InputDecoration(
       border: OutlineInputBorder(),
-      hintText: 'Your Name',
-      hintStyle: TextStyle(color: Colors.black), // Set hint text color to white
+      hintText: '   Your name',
+      hintStyle: TextStyle(color: const Color.fromARGB(255, 88, 86, 86), fontSize: 13), // Set hint text color to white
       filled: true,
       fillColor: Colors.white,
       contentPadding: EdgeInsets.symmetric(vertical:10),
@@ -134,8 +134,8 @@ Widget buildAge() {
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
-        hintText: 'Age',
-        hintStyle: TextStyle(color: Colors.black), // Set hint text color to white
+        hintText: '   Age',
+        hintStyle: TextStyle(color: const Color.fromARGB(255, 88, 86, 86), fontSize: 13), // Set hint text color to white
         filled: true,
         fillColor: Colors.white,
         contentPadding: EdgeInsets.symmetric(vertical:10),
@@ -164,8 +164,8 @@ Widget buildGender() => buildTitle(
     value: gender.isEmpty ? null : gender,
     decoration: InputDecoration(
       border: OutlineInputBorder(),
-      hintText: gender.isEmpty ? 'Select Gender' : '',
-      hintStyle: TextStyle(color: Colors.black), // Set hint text color to white
+      hintText: gender.isEmpty ? '   Select Gender' : '',
+      hintStyle: TextStyle(color: const Color.fromARGB(255, 88, 86, 86), fontSize: 13), // Set hint text color to white
       filled: true,
       fillColor: Colors.white,
       contentPadding: EdgeInsets.symmetric(vertical:10),
@@ -200,8 +200,8 @@ Widget buildHeight() => buildTitle(
     keyboardType: TextInputType.number,
     decoration: InputDecoration(
       border: OutlineInputBorder(),
-      hintText: 'Height in cm',
-      hintStyle: TextStyle(color: Colors.black), // Set hint text color to white
+      hintText: '   Height in cm',
+      hintStyle: TextStyle(color: const Color.fromARGB(255, 88, 86, 86), fontSize: 13), // Set hint text color to white
       filled: true,
       fillColor: Colors.white,
       contentPadding: EdgeInsets.symmetric(vertical:10),
@@ -218,8 +218,8 @@ Widget buildWeight() => buildTitle(
     keyboardType: TextInputType.number,
     decoration: InputDecoration(
       border: OutlineInputBorder(),
-      hintText: 'Weight in kg',
-      hintStyle: TextStyle(color: Colors.black), // Set hint text color to white
+      hintText: '   Weight in kg',
+      hintStyle: TextStyle(color: const Color.fromARGB(255, 88, 86, 86), fontSize: 13), // Set hint text color to white
       filled: true,
       fillColor: Colors.white,
       contentPadding: EdgeInsets.symmetric(vertical:7),

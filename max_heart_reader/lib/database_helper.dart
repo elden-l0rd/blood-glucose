@@ -54,27 +54,6 @@ class DatabaseHelper {
     return await db.insert('graphData', data.toMap());
   }
 
-  // for graph plotting
-  // Future<List<graphData>> getGraphDataList() async {
-  //   await Future.delayed(Duration(milliseconds: 1));
-  //   final db = await instance.database;
-  //   final List<Map<String, dynamic>> maps = await db.query('graphData');
-  //   return List.generate(maps.length, (i) {
-  //     return graphData(
-  //       timestamp: maps[i]['timestamp'],  // 'dd/MM/yyyy HH:mm:ss'
-  //       batteryText: maps[i]['battery'],
-  //       heartRateText: maps[i]['heart_rate'],
-  //       spo2Text: maps[i]['spo2'],
-  //       glucose_mmolL: maps[i]['glucose_mmolL'],
-  //       glucose_mgDL: maps[i]['glucose_mgDL'],
-  //       cholesterolText: maps[i]['cholesterol'],
-  //       UA_menText: maps[i]['uaMen'],
-  //       UA_womenText: maps[i]['uaWomen'],
-  //     );
-  //   });
-  // }
-
-
   Future<List<graphData>> getGraphDataList() async {
     final db = await instance.database;
     final List<Map<String, dynamic>> maps = await db.query('graphData');

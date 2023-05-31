@@ -5,12 +5,9 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
 
 // Flutter/Dart
-
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
-import 'dart:async';
 
 // Other project files
 import 'database_helper.dart';
@@ -104,7 +101,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
   // }
 
   Widget buildChart(List<graphData> data) {
-    // Commented out function to find MAX and MIN for a RangeSeries graph!
+    // Commented out function to find MAX and MIN for a RangeSeries
     // Group data by date
     // final Map<String, List<graphData>> dataByDate = {};
     // for (final dataPoint in data) {
@@ -166,7 +163,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
           highValueMapper: (graphData point, _) => point.glucose_mmolL,
           dataLabelSettings: DataLabelSettings(
             isVisible: true,
-            showZeroValue: false,
             labelAlignment: ChartDataLabelAlignment.auto,
             labelPosition: ChartDataLabelPosition.inside,
             textStyle: TextStyle(
@@ -183,8 +179,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
   //Widget _buildTitle(BuildContext context, influxDBClient) {
   Widget _buildTitle(BuildContext context) {
-    // bool isDeviceDetected = false;
-
+    // bool isExpanded = false;
     if(widget.result.device.name.contains("BGL")){ // can be changed to e.g. "3LOGY-Watch"
 
       // // [FFFE69905F20134041]
@@ -581,12 +576,196 @@ class _ScanResultTileState extends State<ScanResultTile> {
         ],
       );
     } else {
-      // The BLE device is valid but does not belong to 3logytech organization
-      return Column();
+
+      double tileHeight = 50;
+      Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          
+          Text(
+            widget.result.device.name,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.start, // horizontally
+              crossAxisAlignment: CrossAxisAlignment.start, // vertically
+              children: [
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    height: tileHeight,
+                    child: Card(
+                      color: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.0), // Apply border radius to the Card
+                      ),
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            " - %",
+                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    "Battery",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ],),
+
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                        child: Center(child: Text(
+                          " - ",
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),),
+                    ),
+                  ),
+                  const Text("Heart \nRate", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                ]),
+
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                        child: Center(child: Text(
+                          ' - ',
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),),
+                    ),
+                  ),
+                  const Text("Blood \nOxygen", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                ]),
+
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                        child: Center(child: Text(
+                          ' - ',
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),),
+                    ),
+                  ),
+                  const Text("Glucose", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                ]),
+
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                        child: Center(child: Text(
+                          ' - ',
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),),
+                    ),
+                  ),
+                  const Text("Cholesterol", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                ]),
+
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                        child: Center(child: Text(
+                          ' - ',
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),),
+                    ),
+                  ),
+                  const Text("Men\nUric Acid", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                ]),
+
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                        child: Center(child: Text(
+                          ' - ',
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),),
+                    ),
+                  ),
+                  const Text("Women\nUric Acid", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                ]),
+
+              ],
+            ),
+          ),
+          Row( // Export data
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Call method to export as .csv or .xls
+                  // temporarily hard coded data into database, just query for now
+                  showExportDialog(context);
+                },
+                child: Text('Export data'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                ),
+              ),
+            ],
+          ),
+          Row( // View graph
+            children: [
+              Expanded(
+                child: Container(
+                  height: 500,
+                  padding: EdgeInsets.all(8.0),
+                  child: FutureBuilder<List<graphData>> (
+                    future: DatabaseHelper.instance.getGraphDataList(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return buildChart(snapshot.data!);
+                      }
+                      else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+                      else {
+                        return Center(
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(color: Colors.orange),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
     }
   }
-
-
+  
   void showExportDialog(BuildContext context) {
     String email_add = '';
     showDialog(
