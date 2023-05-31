@@ -54,14 +54,16 @@ class DatabaseHelper {
     return await db.insert('graphData', data.toMap());
   }
 
+<<<<<<< HEAD
+=======
+  // for graph plotting
+>>>>>>> parent of cb4a4c9 (fixed graphing)
   Future<List<graphData>> getGraphDataList() async {
     final db = await instance.database;
     final List<Map<String, dynamic>> maps = await db.query('graphData');
-
-    // Convert the timestamp to DateTime objects for easier comparison
-    List<graphData> dataList = List.generate(maps.length, (i) {
+    return List.generate(maps.length, (i) {
       return graphData(
-        timestamp: maps[i]['timestamp'], // Convert timestamp to DateTime
+        timestamp: maps[i]['timestamp'],  // 'dd/MM/yyyy HH:mm:ss'
         batteryText: maps[i]['battery'],
         heartRateText: maps[i]['heart_rate'],
         spo2Text: maps[i]['spo2'],
@@ -72,44 +74,7 @@ class DatabaseHelper {
         UA_womenText: maps[i]['uaWomen'],
       );
     });
-
-    // Sort the data by timestamp in ascending order
-    dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-
-    List<graphData> readingsWithin2Minutes = [];
-    DateTime startTime = DateTime.parse(dataList.first.timestamp);
-
-    // Iterate over the data and filter readings within 2 minutes of the start time
-    for (var data in dataList) {
-      if (DateTime.parse(data.timestamp).difference(startTime).inMinutes <= 2) {
-        readingsWithin2Minutes.add(data);
-      } else {
-        break; // Stop iteration if the time difference exceeds 2 minutes
-      }
-    }
-
-    // Find the maximum glucose value within the selected readings
-    double maxGlucoseValue = readingsWithin2Minutes
-        .map((data) => data.glucose_mmolL)
-        .reduce((a, b) => a > b ? a : b);
-
-    // Plot the maximum value against the last reading used when calculating
-    List<graphData> chartData = [
-      graphData(
-        timestamp: startTime.toString(), // Convert DateTime to String if needed
-        glucose_mmolL: maxGlucoseValue,
-        batteryText: '',
-        heartRateText: '',
-        spo2Text: '',
-        glucose_mgDL: .0,
-        cholesterolText: '',
-        UA_menText: '',
-        UA_womenText: '',
-      )
-    ];
-    return chartData;
   }
-
 
 
   Future<List<Map<String, dynamic>>> getAllData() async {
@@ -277,3 +242,40 @@ class graphData {
     };
   }
 }
+
+
+// Hard coded data sets for testing!
+// final List<graphData> data = [
+//   graphData(
+//     timestamp: DateTime.parse('2023-05-25 14:30:00'),
+//     glucose_mmolL: 10,
+//   ),
+//   graphData(
+//     timestamp: DateTime.parse('2023-05-26 15:45:00'),
+//     glucose_mmolL: 20,
+//   ),
+//   graphData(
+//     timestamp: DateTime.parse('2023-05-27 16:30:00'),
+//     glucose_mmolL: 15,
+//   ),
+// ];
+
+// DateTime currentDate = DateTime(2023, 5, 28); // Start date for generating additional data
+// final random = Random();
+
+// for (int i = 0; i < 20; i++) {
+//   // Generate a random value for glucose_mmolL between 1 and 30
+//   double glucoseValue = random.nextInt(30) + 1;
+
+//   // Generate a random time within the current day
+//   int randomHour = random.nextInt(24);
+//   int randomMinute = random.nextInt(60);
+//   int randomSecond = random.nextInt(60);
+//   DateTime timestamp = DateTime(currentDate.year, currentDate.month, currentDate.day, randomHour, randomMinute, randomSecond);
+
+//   // Create a new graphData object and add it to the data list
+//   data.add(graphData(timestamp: timestamp, glucose_mmolL: glucoseValue));
+
+//   // Increment the currentDate to the next day
+//   currentDate = currentDate.add(Duration(days: 1));
+// }
