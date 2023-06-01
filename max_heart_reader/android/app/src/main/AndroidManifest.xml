@@ -39,7 +39,8 @@
         android:icon="@mipmap/ic_launcher">
 
         <!-- Foreground Service Permissions -->
-        <service android:name="com.pravera.flutter_foreground_task.service.ForegroundService" />
+        <service android:name="com.pravera.flutter_foreground_task.service.ForegroundService" 
+        android:stopWithTask="true" />
 
         <activity
             android:name=".MainActivity"

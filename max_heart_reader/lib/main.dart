@@ -87,6 +87,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Check location permissions
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
 // Wakelock
 // import 'package:wakelock/wakelock.dart';
@@ -120,12 +121,6 @@ Future<void> getPermissions(context) async {
     debugPrint('main.dart: getIgnoreBatteryOptimizationPermission SUCCESS!');
   }
 
-  // if(await getStoreInExtStoragePermission() != 1){
-  //   debugPrint('main.dart: getStoreInExtStoragePermission waiting for permission!');
-  // } else {
-  //   debugPrint('main.dart: getStoreInExtStoragePermission SUCCESS!');
-  // }
-//
   if (await getPushNotificationsPermission() != 1) {
     debugPrint(
         'main.dart: getPushNotificationsPermission waiting for permission!');
@@ -166,18 +161,6 @@ Future<int> getIgnoreBatteryOptimizationPermission() async {
   await Permission.ignoreBatteryOptimizations.request(); // [ALLOW / DENY]
 
   if (await Permission.ignoreBatteryOptimizations.request().isGranted) {
-    // GRANTED
-    return 1;
-  } else {
-    // RESTRICTED OR DENIED
-    return 0;
-  }
-}
-
-Future<int> getStoreInExtStoragePermission() async {
-  await Permission.storage.request(); // [ALLOW / DENY]
-
-  if (await Permission.storage.request().isGranted) {
     // GRANTED
     return 1;
   } else {
@@ -227,7 +210,6 @@ Future<void> checkPermissions(context) async {
       'main.dart: checkPermissions [bluetoothConnectStatus = $bluetoothConnectStatus]');
   debugPrint(
       'main.dart: checkPermissions [batteryOptimizationsStatus = $batteryOptimizationsStatus]');
-  // debugPrint('main.dart: checkPermissions [storeInExtStorageStatus = $storeInExtStorageStatus]');
   debugPrint(
       'main.dart: checkPermissions [pushNotificationsPermission = $pushNotificationsPermission]');
 
@@ -276,7 +258,7 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   // Required for background service
   WidgetsFlutterBinding.ensureInitialized();
-  // await initializeService(); // Do this later when all permissions are initialized
+  // await initializeService(); // Do thxis later when all permissions are initialized
   await UserPreferences.init();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
