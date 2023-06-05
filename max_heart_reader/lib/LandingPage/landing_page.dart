@@ -30,7 +30,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _selectedIndex == 0 || _selectedIndex == 1
+      appBar: _selectedIndex == 0
         ? AppBar(
           backgroundColor: Colors.black,
           title: Column(

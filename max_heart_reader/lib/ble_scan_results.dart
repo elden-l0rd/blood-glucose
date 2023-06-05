@@ -244,125 +244,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
       debugPrint("cholesterol: $cholesterol");
       debugPrint("UA_men: $UA_result_M");
       debugPrint("UA_women: $UA_result_W");
-
-
-      // // Define the start date and time
-      // final startDate = DateTime.now();
-      // final dateFormat = DateFormat('dd/MM/yyyy HH:mm:ss');
-      // // Generate 20 sets of data spanning 4 months
-      // List<graphData> rowData = [
-      //   graphData(
-      //     timestamp: dateFormat.format(startDate),
-      //     batteryText: "90%",
-      //     heartRateText: '80 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 5.0,
-      //     glucose_mgDL: 100.8,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: 'Normal',
-      //     UA_womenText: 'Normal',
-      //   ),
-      //   graphData(
-      //     timestamp: dateFormat.format(startDate),
-      //     batteryText: "85%",
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '97%',
-      //     glucose_mmolL: 6.0,
-      //     glucose_mgDL: 104.4,
-      //     cholesterolText: '175 mg/dL',
-      //     UA_menText: 'Normal',
-      //     UA_womenText: 'Normal',
-      //   ),
-      //   graphData(
-      //     timestamp: dateFormat.format(startDate.add(Duration(days: 3))),
-      //     batteryText: "92%",
-      //     heartRateText: '77 bpm',
-      //     spo2Text: '99%',
-      //     glucose_mmolL: 2.4,
-      //     glucose_mgDL: 97.2,
-      //     cholesterolText: '185 mg/dL',
-      //     UA_menText: 'Normal',
-      //     UA_womenText: 'Normal',
-      //   ),
-      //   graphData(
-      //     timestamp: dateFormat.format(startDate.add(Duration(days: 3))),
-      //     batteryText: "92%",
-      //     heartRateText: '77 bpm',
-      //     spo2Text: '99%',
-      //     glucose_mmolL: 5.4,
-      //     glucose_mgDL: 97.2,
-      //     cholesterolText: '185 mg/dL',
-      //     UA_menText: 'Normal',
-      //     UA_womenText: 'Normal',
-      //   ),
-      //   graphData(
-      //     timestamp: dateFormat.format(startDate.add(Duration(days: 5))),
-      //     batteryText: "72%",
-      //     heartRateText: '77 bpm',
-      //     spo2Text: '99%',
-      //     glucose_mmolL: 10.4,
-      //     glucose_mgDL: 97.2,
-      //     cholesterolText: '185 mg/dL',
-      //     UA_menText: 'Normal',
-      //     UA_womenText: 'Normal',
-      //   ),
-      //   // graphData(
-      //   //   timestamp: dateFormat.format(startDate.add(Duration(days: Random().nextInt(15)))),
-      //   //   batteryText: "52%",
-      //   //   heartRateText: '77 bpm',
-      //   //   spo2Text: '99%',
-      //   //   glucose_mmolL: 11.4,
-      //   //   glucose_mgDL: 97.2,
-      //   //   cholesterolText: '185 mg/dL',
-      //   //   UA_menText: 'Normal',
-      //   //   UA_womenText: 'Normal',
-      //   // ),
-      //   // graphData(
-      //   //   timestamp: dateFormat.format(startDate.add(Duration(days: Random().nextInt(15)))),
-      //   //   batteryText: "42%",
-      //   //   heartRateText: '77 bpm',
-      //   //   spo2Text: '99%',
-      //   //   glucose_mmolL: 6.6,
-      //   //   glucose_mgDL: 97.2,
-      //   //   cholesterolText: '185 mg/dL',
-      //   //   UA_menText: 'Normal',
-      //   //   UA_womenText: 'Normal',
-      //   // ),
-      //   // graphData(
-      //   //   timestamp: dateFormat.format(startDate.add(Duration(days: Random().nextInt(15)))),
-      //   //   batteryText: "32%",
-      //   //   heartRateText: '77 bpm',
-      //   //   spo2Text: '99%',
-      //   //   glucose_mmolL: 4.6,
-      //   //   glucose_mgDL: 97.2,
-      //   //   cholesterolText: '185 mg/dL',
-      //   //   UA_menText: 'Normal',
-      //   //   UA_womenText: 'Normal',
-      //   // ),
-      //   // graphData(
-      //   //   timestamp: dateFormat.format(startDate.add(Duration(days: Random().nextInt(15)))),
-      //   //   batteryText: "22%",
-      //   //   heartRateText: '77 bpm',
-      //   //   spo2Text: '99%',
-      //   //   glucose_mmolL: 9.5,
-      //   //   glucose_mgDL: 97.2,
-      //   //   cholesterolText: '185 mg/dL',
-      //   //   UA_menText: 'Normal',
-      //   //   UA_womenText: 'Normal',
-      //   // ),
-      //   // graphData(
-      //   //   timestamp: dateFormat.format(startDate.add(Duration(days: Random().nextInt(15)))),
-      //   //   batteryText: "92%",
-      //   //   heartRateText: '77 bpm',
-      //   //   spo2Text: '99%',
-      //   //   glucose_mmolL: 5.0,
-      //   //   glucose_mgDL: 97.2,
-      //   //   cholesterolText: '185 mg/dL',
-      //   //   UA_menText: 'Normal',
-      //   //   UA_womenText: 'Normal',
-      //   // ),
-
-      // ];
       
       for (graphData rows in rowData) {
         if (rows.glucose_mgDL==0.0) continue;
@@ -543,9 +424,9 @@ class _ScanResultTileState extends State<ScanResultTile> {
               ),
             ],
           ),
-          Row( // View graph
+          Column( // View graph
             children: [
-              Expanded(
+              SingleChildScrollView(
                 child: Container(
                   height: 500,
                   padding: EdgeInsets.all(8.0),
