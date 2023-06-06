@@ -103,29 +103,119 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
       List<graphData> rowData = [
         graphData(
-          timestamp: DateTime.parse(getCurrentDateTime()),
-          batteryText: "${battery.toStringAsFixed(0)}%",
-          heartRateText: '${heartRateText} bpm',
-          spo2Text: spo2Text,
-          glucose_mmolL: glucose,
-          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-          cholesterolText: '${cholesterolText} mg/dL',
-          UA_menText: UA_result_M,
-          UA_womenText: UA_result_W,
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '90%',
+          heartRateText: '75 bpm',
+          spo2Text: '98%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '180 mg/dL',
+          UA_menText: '4',
+          UA_womenText: '2',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
+        ),
+        graphData(
+          timestamp: DateTime.now().add(Duration(days: Random().nextInt(20))),
+          batteryText: '85%',
+          heartRateText: '80 bpm',
+          spo2Text: '97%',
+          glucose_mmolL: Random().nextDouble() * 10,
+          glucose_mgDL: Random().nextDouble() * 180,
+          cholesterolText: '185 mg/dL',
+          UA_menText: '5',
+          UA_womenText: '3',
         ),
       ];
+      // List<graphData> rowData = [
+      //   graphData(
+      //     timestamp: DateTime.parse(getCurrentDateTime()),
+      //     batteryText: "${battery.toStringAsFixed(0)}%",
+      //     heartRateText: '${heartRateText} bpm',
+      //     spo2Text: spo2Text,
+      //     glucose_mmolL: glucose,
+      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+      //     cholesterolText: '${cholesterolText} mg/dL',
+      //     UA_menText: UA_result_M,
+      //     UA_womenText: UA_result_W,
+      //   ),
+      // ];
 
-      print("**********");
-      debugPrint("timestamp: $timestamp");
-      print("**********");
-      // debugPrint("battery: $battery");
-      // debugPrint("heartRate: $heartRate");
-      // debugPrint("spo2: $spo2");
-      // debugPrint("glucose: $glucose");
-      // debugPrint("glucose: $glucose_mgDL");
-      // debugPrint("cholesterol: $cholesterol");
-      // debugPrint("UA_men: $UA_result_M");
-      // debugPrint("UA_women: $UA_result_W");
+      // print("**********");
+      // debugPrint("timestamp: $timestamp");
+      // print("**********");
+      // // debugPrint("battery: $battery");
+      // // debugPrint("heartRate: $heartRate");
+      // // debugPrint("spo2: $spo2");
+      // // debugPrint("glucose: $glucose");
+      // // debugPrint("glucose: $glucose_mgDL");
+      // // debugPrint("cholesterol: $cholesterol");
+      // // debugPrint("UA_men: $UA_result_M");
+      // // debugPrint("UA_women: $UA_result_W");
 
       for (graphData rows in rowData) {
         if (rows.glucose_mgDL == 0.0) continue;

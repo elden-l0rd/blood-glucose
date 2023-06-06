@@ -36,7 +36,7 @@ class DatabaseHelper {
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE graphData(
-        timestamp TEXT PRIMARY KEY,
+        timestamp DATETIME PRIMARY KEY,
         battery TEXT,
         heart_rate TEXT,
         spo2 TEXT,
@@ -67,7 +67,8 @@ class DatabaseHelper {
     // Convert the timestamp to DateTime objects for easier comparison
     List<graphData> dataList = List.generate(maps.length, (i) {
       return graphData(
-        timestamp:maps[i]['timestamp'], // convert String to DateTime
+        timestamp:
+            DateTime.parse(maps[i]['timestamp']), // convert String to DateTime
         batteryText: maps[i]['battery'],
         heartRateText: maps[i]['heart_rate'],
         spo2Text: maps[i]['spo2'],
@@ -86,11 +87,11 @@ class DatabaseHelper {
     dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
     List<graphData> readingsWithin2Minutes = [];
-    DateTime startTime = DateTime.parse(dataList.first.timestamp);
+    DateTime startTime = dataList.first.timestamp;
 
     // Iterate over the data and filter readings within 2 minutes of the start time
     for (var data in dataList) {
-      if (DateTime.parse(data.timestamp).difference(startTime).inMinutes <= 2) {
+      if (data.timestamp.difference(startTime).inMinutes <= 2) {
         readingsWithin2Minutes.add(data);
       } else {
         break; // Stop iteration if the time difference exceeds 2 minutes
@@ -108,7 +109,7 @@ class DatabaseHelper {
     // Plot the maximum value against the last reading used when calculating
     List<graphData> chartData = [
       graphData(
-        timestamp: startTime.toIso8601String(), // Convert DateTime to String if needed
+        timestamp: startTime, // Convert DateTime to String if needed
         glucose_mmolL: maxGlucoseValue,
         batteryText: '',
         heartRateText: '',
@@ -257,7 +258,7 @@ class DatabaseHelper {
 }
 
 class graphData {
-  final String timestamp;
+  final DateTime timestamp;
   final String batteryText;
   final String heartRateText;
   final String spo2Text;
