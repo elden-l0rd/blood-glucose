@@ -20,4 +20,4 @@ String toastMessage = "";
 const int REMINDER_MINUTES = 480; // thrice daily
 
 // timestamp format
-String timeFormat = 'dd/MM/yyyy HH:mm:ss';
+String timeFormat = 'MM/dd/yyyy HH:mm:ss';

@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
+import 'dart:async';
 
 // Other project files
 import 'database_helper.dart';
@@ -19,7 +20,6 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Graphing tools
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 
 class ScanResultTile extends StatefulWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})
@@ -33,160 +33,39 @@ class ScanResultTile extends StatefulWidget {
 }
 
 class _ScanResultTileState extends State<ScanResultTile> {
-
   // Get timestamp function
   String getCurrentDateTime() {
-  DateTime now = DateTime.now();
-  String formattedDateTime = DateFormat(globals.timeFormat).format(now);
-  return formattedDateTime;
+    String now = DateTime.now().toString();
+    String date = now.substring(0, now.indexOf('.'));
+    return date;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    if (widget.result.device.name.isNotEmpty && widget.result.advertisementData.connectable && widget.result.advertisementData.serviceData.isNotEmpty) {
+    if (widget.result.device.name.isNotEmpty &&
+        widget.result.advertisementData.connectable &&
+        widget.result.advertisementData.serviceData.isNotEmpty) {
       return ListTile(
         title: _buildTitle(context),
       );
-    }
-    else {
+    } else {
       return Column();
     }
   }
 
-  // Widget buildChart(List<graphData> data) {
-  //     return Container(
-  //       height: 420, 
-  //       child: SfCartesianChart(
-  //         plotAreaBackgroundColor: Colors.black,
-  //         // primaryXAxis: DateTimeAxis(
-  //         //   name: "Glucose levels",
-  //         //   dateFormat: DateFormat('dd/MM'),
-  //         // ),
-  //         // primaryYAxis: NumericAxis(
-  //         //   minimum: 0,
-  //         //   maximum: 12,
-  //         //   plotBands: <PlotBand>[
-  //         //       PlotBand(
-  //         //         isVisible: true,
-  //         //         start: 5.5,
-  //         //         end: 11.1,
-  //         //         color: Color.fromARGB(255, 39, 124, 36).withOpacity(0.05),
-  //         //       ),
-  //         //     ],
-  //         // ),
-  //         // series: <ChartSeries>[
-  //         //   ColumnSeries<graphData, DateTime>(
-  //         //     color: Colors.orange,
-  //         //     dataSource: data,
-  //         //     xAxisName: 'Time',
-  //         //     yAxisName: 'Glucose Level',
-  //         //     xValueMapper: (graphData point, _) => DateFormat('dd/MM/yyyy HH:mm:ss').parse(point.timestamp),
-  //         //     yValueMapper: (graphData point, _) => point.glucose_mmolL,
-  //         //     width: 0.8,
-  //         //   ),
-  //         // ],
-  //         primaryXAxis: CategoryAxis(),
-  //         series: <ChartSeries>[
-  //           RangeColumnSeries<graphData, DateTime>(
-  //             dataSource: data,
-  //             color: Colors.orange,
-  //             xValueMapper: (graphData point, _) => DateFormat('dd/MM/yyyy HH:mm:ss').parse(point.timestamp),
-  //             lowValueMapper: (graphData point, _) => point.glucose_mmolL,
-  //             highValueMapper: (graphData point, _) => point.glucose_mmolL+1.0,
-  //           )
-  //         ],
-  //     ),
-  //   );
-  // }
-
-  Widget buildChart(List<graphData> data) {
-    // Commented out function to find MAX and MIN for a RangeSeries
-    // Group data by date
-    // final Map<String, List<graphData>> dataByDate = {};
-    // for (final dataPoint in data) {
-    //   // final date = dataPoint.timestamp.split(' ')[0];
-    //   final date = dataPoint.timestamp.split(' ')[0].split('/')[0] + '/' + dataPoint.timestamp.split(' ')[0].split('/')[1] + '/' + dataPoint.timestamp.split(' ')[0].split('/')[2];
-    //
-    //   if (dataByDate.containsKey(date)) {
-    //     dataByDate[date]!.add(dataPoint);
-    //   }
-    //   else {
-    //     dataByDate[date] = [dataPoint];
-    //   }
-    // }
-    // // Find lowest and highest values for each day
-    // final List<graphData> dailyData = [];
-    // for (final entry in dataByDate.entries) {
-    //   final date = entry.key;
-    //   final dataPoints = entry.value;
-    //   double lowestValue = double.infinity;
-    //   double highestValue = double.negativeInfinity;
-    //
-    //   // Find lowest and highest values for the day
-    //   for (final dataPoint in dataPoints) {
-    //     final glucoseValue = dataPoint.glucose_mmolL;
-    //     if (glucoseValue < lowestValue) {
-    //       lowestValue = glucoseValue;
-    //     }
-    //     if (glucoseValue > highestValue) {
-    //       highestValue = glucoseValue;
-    //     }
-    //   }
-    //
-    //   // Create a graphData object with the lowest and highest values for the day
-    //   final dayData = graphData(
-    //     timestamp: date, // Use the date as the timestamp
-    //     batteryText: 'NIL',
-    //     heartRateText: 'NIL',
-    //     spo2Text: 'NIL',
-    //     glucose_mmolL: double.parse(lowestValue.toStringAsFixed(1)), // TO CHANGE!!! Create a new data struct !!
-    //     glucose_mgDL: double.parse(highestValue.toStringAsFixed(1)), // TO CHANGE!!!
-    //     cholesterolText: 'NIL',
-    //     UA_menText: 'NIL',
-    //     UA_womenText: 'NIL',
-    //   );
-    //   dailyData.add(dayData);
-    // }
-
-  return Container(
-    height: 420,
-    child: SfCartesianChart(
-      plotAreaBackgroundColor: Colors.black,
-      primaryXAxis: CategoryAxis(),
-      series: <ChartSeries>[
-        RangeColumnSeries<graphData, String>(
-          dataSource: data,
-          color: Colors.orange,
-          xValueMapper: (graphData point, _) => point.timestamp,
-          lowValueMapper: (graphData point, _) => 0,
-          highValueMapper: (graphData point, _) => point.glucose_mmolL,
-          dataLabelSettings: DataLabelSettings(
-            isVisible: true,
-            labelAlignment: ChartDataLabelAlignment.auto,
-            labelPosition: ChartDataLabelPosition.inside,
-            textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-
   //Widget _buildTitle(BuildContext context, influxDBClient) {
   Widget _buildTitle(BuildContext context) {
-    // bool isExpanded = false;
-    if(widget.result.device.name.contains("BGL")){ // can be changed to e.g. "3LOGY-Watch"
+    // bool isDeviceDetected = false;
+
+    if (widget.result.device.name.contains("BGL")) {
+      // can be changed to e.g. "3LOGY-Watch"
 
       // // [FFFE69905F20134041]
       // //    0x    FFFE      69        90              5F          20        13            40              41
-      // //          1         99.06 %   144 BPM         95 %        
+      // //          1         99.06 %   144 BPM         95 %
       // //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
-      List processedData = processData(widget.result.device.name, getNiceServiceData(widget.result.advertisementData.serviceData));
+      List processedData = processData(widget.result.device.name,
+          getNiceServiceData(widget.result.advertisementData.serviceData));
 
       // int ID = processedData[0];
       double battery = processedData[1];
@@ -195,7 +74,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
       // 1.0 mmol/L = 18.02 mg/dL
       double glucose = processedData[4];
-      double glucose_mgDL = glucose*18.02;
+      double glucose_mgDL = glucose * 18.02;
 
       double cholesterol = processedData[5];
       double UA_men = processedData[6]; //in mmol/L
@@ -209,22 +88,22 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String UA_result_M = 'Normal';
       String UA_result_W = 'Normal';
 
-      if (UA_men>=0.24 && UA_men<=0.51) {
+      if (UA_men >= 0.24 && UA_men <= 0.51) {
         UA_result_M = 'Normal: ${UA_men} mmol/L';
-      }
-      else UA_result_M = 'Abnormal: ${UA_men} mmol/L';
-      if (UA_women>=0.16 && UA_women<=0.43) {
+      } else
+        UA_result_M = 'Abnormal: ${UA_men} mmol/L';
+      if (UA_women >= 0.16 && UA_women <= 0.43) {
         UA_result_W = 'Normal: ${UA_women} mmol/L';
-      }
-      else UA_result_W = 'Abnormal: ${UA_women} mmol/L';
-      
+      } else
+        UA_result_W = 'Abnormal: ${UA_women} mmol/L';
+
       // Store data into local directory
       String timestamp = getCurrentDateTime();
       String cholesterolText = cholesterol.toString();
 
       List<graphData> rowData = [
         graphData(
-          timestamp: getCurrentDateTime(),
+          timestamp: DateTime.parse(getCurrentDateTime()),
           batteryText: "${battery.toStringAsFixed(0)}%",
           heartRateText: '${heartRateText} bpm',
           spo2Text: spo2Text,
@@ -236,17 +115,20 @@ class _ScanResultTileState extends State<ScanResultTile> {
         ),
       ];
 
-      debugPrint("battery: $battery");
-      debugPrint("heartRate: $heartRate");
-      debugPrint("spo2: $spo2");
-      debugPrint("glucose: $glucose");
-      debugPrint("glucose: $glucose_mgDL");
-      debugPrint("cholesterol: $cholesterol");
-      debugPrint("UA_men: $UA_result_M");
-      debugPrint("UA_women: $UA_result_W");
-      
+      print("**********");
+      debugPrint("timestamp: $timestamp");
+      print("**********");
+      // debugPrint("battery: $battery");
+      // debugPrint("heartRate: $heartRate");
+      // debugPrint("spo2: $spo2");
+      // debugPrint("glucose: $glucose");
+      // debugPrint("glucose: $glucose_mgDL");
+      // debugPrint("cholesterol: $cholesterol");
+      // debugPrint("UA_men: $UA_result_M");
+      // debugPrint("UA_women: $UA_result_W");
+
       for (graphData rows in rowData) {
-        if (rows.glucose_mgDL==0.0) continue;
+        if (rows.glucose_mgDL == 0.0) continue;
         DatabaseHelper.instance.insertGraphData(rows).then((insertedId) {
           debugPrint('Data inserted with ID: $timestamp');
         });
@@ -263,151 +145,194 @@ class _ScanResultTileState extends State<ScanResultTile> {
         } else if (battery >= 0.0) {
           return [Colors.red, Colors.redAccent];
         } else {
-          return [Colors.grey, Colors.grey]; // Default colors for negative battery level
+          return [
+            Colors.grey,
+            Colors.grey
+          ]; // Default colors for negative battery level
         }
       }
-      
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          
           Text(
             widget.result.device.name,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.start, // horizontally
               crossAxisAlignment: CrossAxisAlignment.start, // vertically
               children: [
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: tileHeight,
-                    child: Card(
-                      color: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.0), // Apply border radius to the Card
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: _getGradientColors(battery), // Function to determine gradient colors
+                Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      height: tileHeight,
+                      child: Card(
+                        color: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              14.0), // Apply border radius to the Card
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: _getGradientColors(
+                                  battery), // Function to determine gradient colors
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              battery.toStringAsFixed(0) + " %",
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 12),
+                            ),
                           ),
                         ),
-                        child: Center(
-                          child: Text(
-                            battery.toStringAsFixed(0) + " %",
-                            style: const TextStyle(color: Colors.white, fontSize: 12),
-                          ),
+                      ),
+                    ),
+                    const Text(
+                      "Battery",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                Column(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: tileHeight,
+                    child: Card(
+                      color: darkTileColor,
+                      child: Center(
+                        child: Text(
+                          heartRateText,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
                         ),
                       ),
                     ),
                   ),
                   const Text(
-                    "Battery",
+                    "Heart \nRate",
                     style: TextStyle(color: Colors.white, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
-                ],),
-
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                        child: Center(child: Text(
-                          heartRateText,
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
-                    ),
-                  ),
-                  const Text("Heart \nRate", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
                 ]),
-
                 Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.1,
                     height: tileHeight,
                     child: Card(
                       color: darkTileColor,
-                        child: Center(child: Text(
+                      child: Center(
+                        child: Text(
                           spo2Text,
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
                     ),
                   ),
-                  const Text("Blood \nOxygen", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                  const Text(
+                    "Blood \nOxygen",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 ]),
-
                 Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: tileHeight,
                     child: Card(
                       color: darkTileColor,
-                        child: Center(child: Text(
+                      child: Center(
+                        child: Text(
                           glucose.toStringAsFixed(2),
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
                     ),
                   ),
-                  const Text("Glucose", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                  const Text(
+                    "Glucose",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 ]),
-
                 Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: tileHeight,
                     child: Card(
                       color: darkTileColor,
-                        child: Center(child: Text(
+                      child: Center(
+                        child: Text(
                           cholesterol.toStringAsFixed(2),
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
                     ),
                   ),
-                  const Text("Cholesterol", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                  const Text(
+                    "Cholesterol",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 ]),
-
                 Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: tileHeight,
                     child: Card(
                       color: darkTileColor,
-                        child: Center(child: Text(
+                      child: Center(
+                        child: Text(
                           UA_men.toStringAsFixed(2),
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
                     ),
                   ),
-                  const Text("Men\nUric Acid", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                  const Text(
+                    "Men\nUric Acid",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 ]),
-
                 Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: tileHeight,
                     child: Card(
                       color: darkTileColor,
-                        child: Center(child: Text(
+                      child: Center(
+                        child: Text(
                           UA_women.toStringAsFixed(2),
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
-                        ),),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
                     ),
                   ),
-                  const Text("Women\nUric Acid", style: TextStyle(color: Colors.white, fontSize: 12), textAlign: TextAlign.center,),
+                  const Text(
+                    "Women\nUric Acid",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 ]),
-
               ],
             ),
           ),
-          Row( // Export data
+          Row(
+            // Export data
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -424,43 +349,14 @@ class _ScanResultTileState extends State<ScanResultTile> {
               ),
             ],
           ),
-          Column( // View graph
-            children: [
-              SingleChildScrollView(
-                child: Container(
-                  height: 500,
-                  padding: EdgeInsets.all(8.0),
-                  child: FutureBuilder<List<graphData>> (
-                    future: DatabaseHelper.instance.getGraphDataList(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return buildChart(snapshot.data!);
-                      }
-                      else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      else {
-                        return Center(
-                          child: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: CircularProgressIndicator(color: Colors.orange),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       );
     } else {
+      // The BLE device is valid but does not belong to 3logytech organization
       return Column();
     }
   }
-  
+
   void showExportDialog(BuildContext context) {
     String email_add = '';
     showDialog(
@@ -468,12 +364,11 @@ class _ScanResultTileState extends State<ScanResultTile> {
       builder: (BuildContext context) {
         return Center(
           child: AlertDialog(
-            title: Text('Export Format',
-                        style: TextStyle(color: Colors.white)
-                      ),
-            content: Text('Choose the export format.',
-                          style: TextStyle(color: Colors.white),
-                        ),
+            title: Text('Export Format', style: TextStyle(color: Colors.white)),
+            content: Text(
+              'Choose the export format.',
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: const Color.fromARGB(255, 39, 39, 39),
             actions: <Widget>[
               ElevatedButton(
@@ -481,8 +376,12 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   // Handle the first option - Export as CSV
                   Navigator.of(context).pop('csv');
                 },
-                child: Text('Export as CSV',
-                            style: TextStyle(color: Colors.white,),),
+                child: Text(
+                  'Export as CSV',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,
                 ),
@@ -492,8 +391,12 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   // Handle the second option - Export as XLS
                   Navigator.of(context).pop('xls');
                 },
-                child: Text('Export as XLS',
-                            style: TextStyle(color: Colors.white,),),
+                child: Text(
+                  'Export as XLS',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,
                 ),
@@ -503,8 +406,12 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   // Handle the second option - Export as XLS
                   Navigator.of(context).pop('email_csv');
                 },
-                child: Text('Export to email as CSV',
-                            style: TextStyle(color: Colors.white,),),
+                child: Text(
+                  'Export to email as CSV',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,
                 ),
@@ -514,8 +421,12 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   // Handle the second option - Export as XLS
                   Navigator.of(context).pop('email_xls');
                 },
-                child: Text('Export to email as XLS',
-                            style: TextStyle(color: Colors.white,),),
+                child: Text(
+                  'Export to email as XLS',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,
                 ),
@@ -530,28 +441,33 @@ class _ScanResultTileState extends State<ScanResultTile> {
         if (selectedOption == 'csv') {
           // Export as CSV
           DatabaseHelper.instance.exportDataAsCSV(false, email_add);
-        } 
-        else if (selectedOption == 'xls') {
+        } else if (selectedOption == 'xls') {
           // Export as XLS
           DatabaseHelper.instance.exportDataAsXLS(false, email_add);
-        }
-        else if (selectedOption == 'email_csv') {
+        } else if (selectedOption == 'email_csv') {
           // Email as CSV
-          showDialog(context: context,
+          showDialog(
+            context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Enter your email',
-                            style: TextStyle(color: Colors.white),),
+                title: Text(
+                  'Enter your email',
+                  style: TextStyle(color: Colors.white),
+                ),
                 content: TextField(
-                  style: TextStyle(color: Colors.white,),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                   onChanged: (value) {
                     email_add = value;
                   },
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Cancel',
-                                style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -560,8 +476,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
                     ),
                   ),
                   TextButton(
-                    child: Text('Export',
-                                style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Export',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       DatabaseHelper.instance.exportDataAsCSV(true, email_add);
@@ -575,24 +493,29 @@ class _ScanResultTileState extends State<ScanResultTile> {
               );
             },
           );
-        }
-        else if (selectedOption == "email_xls") {
+        } else if (selectedOption == "email_xls") {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Enter your email',
-                            style: TextStyle(color: Colors.white),),
+                title: Text(
+                  'Enter your email',
+                  style: TextStyle(color: Colors.white),
+                ),
                 content: TextField(
-                  style: TextStyle(color: Colors.white,),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                   onChanged: (value) {
                     email_add = value;
                   },
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Cancel',
-                                style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -601,8 +524,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
                     ),
                   ),
                   TextButton(
-                    child: Text('Export',
-                                style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Export',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       DatabaseHelper.instance.exportDataAsXLS(true, email_add);
@@ -619,16 +544,18 @@ class _ScanResultTileState extends State<ScanResultTile> {
         }
       }
     });
-}
-
-  String getNiceHexArray(List<int> bytes) {
-    return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join('')}]'.toUpperCase();
   }
 
+  String getNiceHexArray(List<int> bytes) {
+    return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join('')}]'
+        .toUpperCase();
+  }
 
   String getNiceServiceData(Map<String, List<int>> data) {
-    if (data.isEmpty) {return 'N/A';}
-    
+    if (data.isEmpty) {
+      return 'N/A';
+    }
+
     List<String> res = [];
     data.forEach((id, bytes) {
       res.add(getNiceHexArray(bytes));
@@ -636,23 +563,23 @@ class _ScanResultTileState extends State<ScanResultTile> {
     return res.join();
   }
 
-
-  List processData(deviceName, data){
+  List processData(deviceName, data) {
     // [FFFE69905F201213624041]
     //    0x    FFFE      69        90              5F          2012        1362            40              41
-    //          1         99.06 %   144 BPM         95 %        
+    //          1         99.06 %   144 BPM         95 %
     //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
-
 
     List returnData = [];
 
     String fullData = (data.toString()).replaceAll('[', '').replaceAll(']', '');
 
     debugPrint('fulldata = $fullData');
-    if (fullData.length != 22){
-      globals.toastMessage = '[$deviceName]: Data Error! \nIncorrect Data Format!';
+    if (fullData.length != 22) {
+      globals.toastMessage =
+          '[$deviceName]: Data Error! \nIncorrect Data Format!';
       findDevicesWidget.showToast();
-      debugPrint('ble_scan_results.dart: processData: NON STANDARD LENGTH ERROR! data = $fullData');
+      debugPrint(
+          'ble_scan_results.dart: processData: NON STANDARD LENGTH ERROR! data = $fullData');
       return returnData;
     }
 
@@ -660,20 +587,26 @@ class _ScanResultTileState extends State<ScanResultTile> {
     String batteryBytes = fullData.substring(4, 6);
     String heartrateBytes = fullData.substring(6, 8);
     String spo2Bytes = fullData.substring(8, 10);
-    String glucoseBytes = fullData.substring(12, 14) + fullData.substring(10, 12);
-    String cholesterolBytes = fullData.substring(16, 18) + fullData.substring(14, 16);
+    String glucoseBytes =
+        fullData.substring(12, 14) + fullData.substring(10, 12);
+    String cholesterolBytes =
+        fullData.substring(16, 18) + fullData.substring(14, 16);
     String UAmenBytes = fullData.substring(18, 20);
     String UAwomenBytes = fullData.substring(20, 22);
 
-
-    int ID = ((pow(2, 16)).toInt()) - (int.parse(IDBytes, radix: 16)) - 1;                                      // 0xFFFE => 0001 => ID=1
-    double battery = double.parse((((int.parse(batteryBytes, radix: 16)) / 106) * 100).toStringAsFixed(2));     // 0x69 => (105/106)*100 => 99.06 %
-    int heartRate = int.parse(heartrateBytes, radix: 16);                                                       // 0x90 => 144 BPM
-    int spo2 = int.parse(spo2Bytes, radix: 16);                                                                 // 0x5F => 95 %
-    double glucose = ((int.parse(glucoseBytes, radix: 16)).toDouble())/100;
-    double cholesterol = ((int.parse(cholesterolBytes, radix: 16)).toDouble())/100;
-    double UA_men = ((int.parse(UAmenBytes, radix: 16)).toDouble())/100;
-    double UA_women = ((int.parse(UAwomenBytes, radix: 16)).toDouble())/100;
+    int ID = ((pow(2, 16)).toInt()) -
+        (int.parse(IDBytes, radix: 16)) -
+        1; // 0xFFFE => 0001 => ID=1
+    double battery = double.parse(
+        (((int.parse(batteryBytes, radix: 16)) / 106) * 100)
+            .toStringAsFixed(2)); // 0x69 => (105/106)*100 => 99.06 %
+    int heartRate = int.parse(heartrateBytes, radix: 16); // 0x90 => 144 BPM
+    int spo2 = int.parse(spo2Bytes, radix: 16); // 0x5F => 95 %
+    double glucose = ((int.parse(glucoseBytes, radix: 16)).toDouble()) / 100;
+    double cholesterol =
+        ((int.parse(cholesterolBytes, radix: 16)).toDouble()) / 100;
+    double UA_men = ((int.parse(UAmenBytes, radix: 16)).toDouble()) / 100;
+    double UA_women = ((int.parse(UAwomenBytes, radix: 16)).toDouble()) / 100;
 
     debugPrint("ID: $ID");
     debugPrint("battery: $battery");
@@ -683,7 +616,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
     debugPrint("cholesterol: $cholesterol");
     debugPrint("UA_men: $UA_men");
     debugPrint("UA_women: $UA_women");
-
 
     returnData.add(ID);
     returnData.add(battery);
