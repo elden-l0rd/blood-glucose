@@ -110,108 +110,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String timestamp = getCurrentDateTime();
       String cholesterolText = cholesterol.toString();
 
-      // List<graphData> rowData = [
-      //   graphData(
-      //     timestamp: DateTime.parse('06-07-2023 12:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('06-07-2023 13:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('06-07-2023 14:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('10-07-2023 12:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('10-07-2023 14:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('10-07-2023 15:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('15-07-2023 12:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('15-07-2023 14:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      //   graphData(
-      //     timestamp: DateTime.parse('15-07-2023 17:00:00'),
-      //     batteryText: '90%',
-      //     heartRateText: '75 bpm',
-      //     spo2Text: '98%',
-      //     glucose_mmolL: 4.1,
-      //     glucose_mgDL: 5.5,
-      //     cholesterolText: '180 mg/dL',
-      //     UA_menText: '4',
-      //     UA_womenText: '2',
-      //   ),
-      // ];
-
       List<graphData> rowData = [
         graphData(
           timestamp: getCurrentDateTime(),
@@ -226,21 +124,14 @@ class _ScanResultTileState extends State<ScanResultTile> {
         ),
       ];
       
-      print("**********");
-      print("**********");
-      debugPrint("timestamp: $timestamp");
-      debugPrint("raw output: ${getCurrentDateTime()}");
-      debugPrint("after parsing it: ${rowData[0].timestamp}");
-      print("**********");
-      print("**********");
-      // // debugPrint("battery: $battery");
-      // // debugPrint("heartRate: $heartRate");
-      // // debugPrint("spo2: $spo2");
-      // // debugPrint("glucose: $glucose");
-      // // debugPrint("glucose: $glucose_mgDL");
-      // // debugPrint("cholesterol: $cholesterol");
-      // // debugPrint("UA_men: $UA_result_M");
-      // // debugPrint("UA_women: $UA_result_W");
+      debugPrint("battery: $battery");
+      debugPrint("heartRate: $heartRate");
+      debugPrint("spo2: $spo2");
+      debugPrint("glucose: $glucose");
+      debugPrint("glucose: $glucose_mgDL");
+      debugPrint("cholesterol: $cholesterol");
+      debugPrint("UA_men: $UA_result_M");
+      debugPrint("UA_women: $UA_result_W");
 
       for (graphData row in rowData) {
         if (row.glucose_mmolL == 0.0) continue;

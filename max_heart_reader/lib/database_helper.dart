@@ -88,45 +88,6 @@ class DatabaseHelper {
     print('Data List Length: ${dataList.length}'); // Check the length of dataList
 
     return dataList;
-
-    // Sort the data by timestamp in ascending order
-    // dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-    
-    // List<graphData> readingsWithin2Minutes = [];
-    // DateTime startTime = DateTime.parse(dataList.first.timestamp);
-    
-    // // Iterate over the data and filter readings within 2 minutes of the start time
-    // for (var data in dataList) {
-    //   if (DateTime.parse(data.timestamp).difference(startTime).inMinutes <= 1) {
-    //     readingsWithin2Minutes.add(data);
-    //   } else {
-    //     break; // Stop iteration if the time difference exceeds 2 minutes
-    //   }
-    // }
-    
-    // print(
-    //     'Readings Within 2 Minutes Length: ${readingsWithin2Minutes.length}'); // Check the length of readingsWithin2Minutes
-    
-    // // Find the maximum glucose value within the selected readings
-    // double maxGlucoseValue = readingsWithin2Minutes
-    //     .map((data) => data.glucose_mmolL)
-    //     .reduce((a, b) => a > b ? a : b);
-     
-    // // Plot the maximum value against the last reading used when calculating
-    // List<graphData> chartData = [
-    //   graphData(
-    //     timestamp: startTime.toIso8601String(),
-    //     batteryText: '',
-    //     heartRateText: '',
-    //     spo2Text: '',
-    //     glucose_mmolL: maxGlucoseValue,
-    //     glucose_mgDL: .0,
-    //     cholesterolText: '',
-    //     UA_menText: '',
-    //     UA_womenText: '',
-    //   )
-    // ];
-    // return chartData;
   }
 
   Future<List<Map<String, dynamic>>> getAllData() async {
