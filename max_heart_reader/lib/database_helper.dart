@@ -53,9 +53,15 @@ class DatabaseHelper {
     final db = await instance.database;
 
     if (db.isOpen) {
-      return await db.insert('graphData', data.toMap());
+      final insertedId = await db.insert('graphData', data.toMap());
+      if (insertedId != 0) {
+        debugPrint('Data inserted with ID: $insertedId');
+      } else {
+        debugPrint('Failed to insert data into the database.');
+      }
+      return insertedId;
     } else {
-      print("============!============!============");
+      debugPrint('Database is closed');
       throw Exception('Database is closed');
     }
   }
@@ -67,8 +73,7 @@ class DatabaseHelper {
     // Convert the timestamp to DateTime objects for easier comparison
     List<graphData> dataList = List.generate(maps.length, (i) {
       return graphData(
-        timestamp:
-            DateTime.parse(maps[i]['timestamp']), // convert String to DateTime
+        timestamp: maps[i]['timestamp'],
         batteryText: maps[i]['battery'],
         heartRateText: maps[i]['heart_rate'],
         spo2Text: maps[i]['spo2'],
@@ -80,47 +85,49 @@ class DatabaseHelper {
       );
     });
 
-    print(
-        'Data List Length: ${dataList.length}'); // Check the length of dataList
+    print('Data List Length: ${dataList.length}'); // Check the length of dataList
+    
+    return dataList;
+
 
     // Sort the data by timestamp in ascending order
-    dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+    // dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
-    List<graphData> readingsWithin2Minutes = [];
-    DateTime startTime = dataList.first.timestamp;
+    // List<graphData> readingsWithin2Minutes = [];
+    // DateTime startTime = dataList.first.timestamp;
 
-    // Iterate over the data and filter readings within 2 minutes of the start time
-    for (var data in dataList) {
-      if (data.timestamp.difference(startTime).inMinutes <= 2) {
-        readingsWithin2Minutes.add(data);
-      } else {
-        break; // Stop iteration if the time difference exceeds 2 minutes
-      }
-    }
+    // // Iterate over the data and filter readings within 2 minutes of the start time
+    // for (var data in dataList) {
+    //   if (data.timestamp.difference(startTime).inMinutes <= 2) {
+    //     readingsWithin2Minutes.add(data);
+    //   } else {
+    //     break; // Stop iteration if the time difference exceeds 2 minutes
+    //   }
+    // }
 
-    print(
-        'Readings Within 2 Minutes Length: ${readingsWithin2Minutes.length}'); // Check the length of readingsWithin2Minutes
+    // print(
+    //     'Readings Within 2 Minutes Length: ${readingsWithin2Minutes.length}'); // Check the length of readingsWithin2Minutes
 
-    // Find the maximum glucose value within the selected readings
-    double maxGlucoseValue = readingsWithin2Minutes
-        .map((data) => data.glucose_mmolL)
-        .reduce((a, b) => a > b ? a : b);
+    // // Find the maximum glucose value within the selected readings
+    // double maxGlucoseValue = readingsWithin2Minutes
+    //     .map((data) => data.glucose_mmolL)
+    //     .reduce((a, b) => a > b ? a : b);
 
-    // Plot the maximum value against the last reading used when calculating
-    List<graphData> chartData = [
-      graphData(
-        timestamp: startTime, // Convert DateTime to String if needed
-        glucose_mmolL: maxGlucoseValue,
-        batteryText: '',
-        heartRateText: '',
-        spo2Text: '',
-        glucose_mgDL: .0,
-        cholesterolText: '',
-        UA_menText: '',
-        UA_womenText: '',
-      )
-    ];
-    return chartData;
+    // // Plot the maximum value against the last reading used when calculating
+    // List<graphData> chartData = [
+    //   graphData(
+    //     timestamp: startTime, // Convert DateTime to String if needed
+    //     batteryText: '',
+    //     heartRateText: '',
+    //     spo2Text: '',
+    //     glucose_mmolL: maxGlucoseValue,
+    //     glucose_mgDL: .0,
+    //     cholesterolText: '',
+    //     UA_menText: '',
+    //     UA_womenText: '',
+    //   )
+    // ];
+    // return chartData;
   }
 
   Future<List<Map<String, dynamic>>> getAllData() async {

@@ -45,8 +45,17 @@ class _ScanResultTileState extends State<ScanResultTile> {
     if (widget.result.device.name.isNotEmpty &&
         widget.result.advertisementData.connectable &&
         widget.result.advertisementData.serviceData.isNotEmpty) {
-      return ListTile(
-        title: _buildTitle(context),
+      return FutureBuilder<Widget>(
+        future: _buildTitle(context),
+        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.hasData) {
+            return ListTile(
+              title: snapshot.data,
+            );
+          } else {
+            return CircularProgressIndicator(); // or any other loading indicator
+          }
+        },
       );
     } else {
       return Column();
@@ -54,7 +63,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
   }
 
   //Widget _buildTitle(BuildContext context, influxDBClient) {
-  Widget _buildTitle(BuildContext context) {
+  Future<Widget> _buildTitle(BuildContext context) async {
     // bool isDeviceDetected = false;
 
     if (widget.result.device.name.contains("BGL")) {
@@ -107,8 +116,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '90%',
           heartRateText: '75 bpm',
           spo2Text: '98%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 4.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '180 mg/dL',
           UA_menText: '4',
           UA_womenText: '2',
@@ -118,8 +127,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 5.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -129,8 +138,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 6.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -140,8 +149,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 7.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -151,8 +160,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 8.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -162,8 +171,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 9.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -173,8 +182,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 10.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -184,8 +193,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
           batteryText: '85%',
           heartRateText: '80 bpm',
           spo2Text: '97%',
-          glucose_mmolL: Random().nextDouble() * 10,
-          glucose_mgDL: Random().nextDouble() * 180,
+          glucose_mmolL: 11.1,
+          glucose_mgDL: 5.5,
           cholesterolText: '185 mg/dL',
           UA_menText: '5',
           UA_womenText: '3',
@@ -217,11 +226,15 @@ class _ScanResultTileState extends State<ScanResultTile> {
       // // debugPrint("UA_men: $UA_result_M");
       // // debugPrint("UA_women: $UA_result_W");
 
-      for (graphData rows in rowData) {
-        if (rows.glucose_mgDL == 0.0) continue;
-        DatabaseHelper.instance.insertGraphData(rows).then((insertedId) {
-          debugPrint('Data inserted with ID: $timestamp');
-        });
+      for (graphData row in rowData) {
+        if (row.glucose_mmolL == 0.0) continue;
+
+        try {
+          int insertedId = await DatabaseHelper.instance.insertGraphData(row);
+          debugPrint('Data inserted with ID: $insertedId');
+        } catch (e) {
+          debugPrint('Error inserting data: $e');
+        }
       }
 
       double tileHeight = 50;
