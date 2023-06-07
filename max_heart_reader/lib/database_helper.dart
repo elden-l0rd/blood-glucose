@@ -86,37 +86,36 @@ class DatabaseHelper {
     });
 
     print('Data List Length: ${dataList.length}'); // Check the length of dataList
-    
-    return dataList;
 
+    return dataList;
 
     // Sort the data by timestamp in ascending order
     // dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-    //
+    
     // List<graphData> readingsWithin2Minutes = [];
-    // DateTime startTime = dataList.first.timestamp;
-    //
+    // DateTime startTime = DateTime.parse(dataList.first.timestamp);
+    
     // // Iterate over the data and filter readings within 2 minutes of the start time
     // for (var data in dataList) {
-    //   if (data.timestamp.difference(startTime).inMinutes <= 2) {
+    //   if (DateTime.parse(data.timestamp).difference(startTime).inMinutes <= 1) {
     //     readingsWithin2Minutes.add(data);
     //   } else {
     //     break; // Stop iteration if the time difference exceeds 2 minutes
     //   }
     // }
-    //
+    
     // print(
     //     'Readings Within 2 Minutes Length: ${readingsWithin2Minutes.length}'); // Check the length of readingsWithin2Minutes
-    //
+    
     // // Find the maximum glucose value within the selected readings
     // double maxGlucoseValue = readingsWithin2Minutes
     //     .map((data) => data.glucose_mmolL)
     //     .reduce((a, b) => a > b ? a : b);
-    //  
+     
     // // Plot the maximum value against the last reading used when calculating
     // List<graphData> chartData = [
     //   graphData(
-    //     timestamp: startTime, // Convert DateTime to String if needed
+    //     timestamp: startTime.toIso8601String(),
     //     batteryText: '',
     //     heartRateText: '',
     //     spo2Text: '',
@@ -134,7 +133,7 @@ class DatabaseHelper {
     final databasePath = await getDatabasesPath();
     final database = await openDatabase(join(databasePath, 'data.db'));
     final result = await database.query('graphData');
-    await database.close();
+    // await database.close();
     return result;
   }
 
@@ -203,7 +202,7 @@ class DatabaseHelper {
 
     final path = await _localPath;
     final file = File(
-        '$path/data_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
+        '$path/data_${day}_${month}_${year}_${hour}_${minute}_${second}.xls');
     if (!await file.exists()) {
       file.create();
     }
@@ -265,7 +264,7 @@ class DatabaseHelper {
 }
 
 class graphData {
-  final DateTime timestamp;
+  final String timestamp;
   final String batteryText;
   final String heartRateText;
   final String spo2Text;
