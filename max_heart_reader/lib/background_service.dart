@@ -96,8 +96,8 @@ void onStart(ServiceInstance service) async {
 
     // App Service Notification in mobile notification area
     if (service is AndroidServiceInstance) {
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat("dd-MM-yyyy HH:mm:ss").format(now);
+      String now = DateTime.now().toString();
+      String formattedDate = now.substring(0, now.length-1);
 
       service.setForegroundNotificationInfo(
         title: "HeartReader Background Service",

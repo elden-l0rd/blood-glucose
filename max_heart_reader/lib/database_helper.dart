@@ -36,7 +36,7 @@ class DatabaseHelper {
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE graphData(
-        timestamp STRING PRIMARY KEY,
+        timestamp DATETIME PRIMARY KEY,
         battery TEXT,
         heart_rate TEXT,
         spo2 TEXT,
@@ -51,7 +51,19 @@ class DatabaseHelper {
 
   Future<int> insertGraphData(graphData data) async {
     final db = await instance.database;
-    return await db.insert('graphData', data.toMap());
+
+    if (db.isOpen) {
+      final insertedId = await db.insert('graphData', data.toMap());
+      if (insertedId != 0) {
+        debugPrint('Data inserted with ID: $insertedId');
+      } else {
+        debugPrint('Failed to insert data into the database.');
+      }
+      return insertedId;
+    } else {
+      debugPrint('Database is closed');
+      throw Exception('Database is closed');
+    }
   }
 
   Future<List<graphData>> getGraphDataList() async {
@@ -61,7 +73,7 @@ class DatabaseHelper {
     // Convert the timestamp to DateTime objects for easier comparison
     List<graphData> dataList = List.generate(maps.length, (i) {
       return graphData(
-        timestamp: maps[i]['timestamp'], // Convert timestamp to DateTime
+        timestamp: maps[i]['timestamp'],
         batteryText: maps[i]['battery'],
         heartRateText: maps[i]['heart_rate'],
         spo2Text: maps[i]['spo2'],
@@ -73,50 +85,55 @@ class DatabaseHelper {
       );
     });
 
+    print('Data List Length: ${dataList.length}'); // Check the length of dataList
+
+    return dataList;
+
     // Sort the data by timestamp in ascending order
-    dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-
-    List<graphData> readingsWithin2Minutes = [];
-    DateTime startTime = DateTime.parse(dataList.first.timestamp);
-
-    // Iterate over the data and filter readings within 2 minutes of the start time
-    for (var data in dataList) {
-      if (DateTime.parse(data.timestamp).difference(startTime).inMinutes <= 2) {
-        readingsWithin2Minutes.add(data);
-      } else {
-        break; // Stop iteration if the time difference exceeds 2 minutes
-      }
-    }
-
-    // Find the maximum glucose value within the selected readings
-    double maxGlucoseValue = readingsWithin2Minutes
-        .map((data) => data.glucose_mmolL)
-        .reduce((a, b) => a > b ? a : b);
-
-    // Plot the maximum value against the last reading used when calculating
-    List<graphData> chartData = [
-      graphData(
-        timestamp: startTime.toString(), // Convert DateTime to String if needed
-        glucose_mmolL: maxGlucoseValue,
-        batteryText: '',
-        heartRateText: '',
-        spo2Text: '',
-        glucose_mgDL: .0,
-        cholesterolText: '',
-        UA_menText: '',
-        UA_womenText: '',
-      )
-    ];
-    return chartData;
+    // dataList.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+    
+    // List<graphData> readingsWithin2Minutes = [];
+    // DateTime startTime = DateTime.parse(dataList.first.timestamp);
+    
+    // // Iterate over the data and filter readings within 2 minutes of the start time
+    // for (var data in dataList) {
+    //   if (DateTime.parse(data.timestamp).difference(startTime).inMinutes <= 1) {
+    //     readingsWithin2Minutes.add(data);
+    //   } else {
+    //     break; // Stop iteration if the time difference exceeds 2 minutes
+    //   }
+    // }
+    
+    // print(
+    //     'Readings Within 2 Minutes Length: ${readingsWithin2Minutes.length}'); // Check the length of readingsWithin2Minutes
+    
+    // // Find the maximum glucose value within the selected readings
+    // double maxGlucoseValue = readingsWithin2Minutes
+    //     .map((data) => data.glucose_mmolL)
+    //     .reduce((a, b) => a > b ? a : b);
+     
+    // // Plot the maximum value against the last reading used when calculating
+    // List<graphData> chartData = [
+    //   graphData(
+    //     timestamp: startTime.toIso8601String(),
+    //     batteryText: '',
+    //     heartRateText: '',
+    //     spo2Text: '',
+    //     glucose_mmolL: maxGlucoseValue,
+    //     glucose_mgDL: .0,
+    //     cholesterolText: '',
+    //     UA_menText: '',
+    //     UA_womenText: '',
+    //   )
+    // ];
+    // return chartData;
   }
-
-
 
   Future<List<Map<String, dynamic>>> getAllData() async {
     final databasePath = await getDatabasesPath();
     final database = await openDatabase(join(databasePath, 'data.db'));
     final result = await database.query('graphData');
-    await database.close();
+    // await database.close();
     return result;
   }
 
@@ -131,28 +148,29 @@ class DatabaseHelper {
 
       // Extract row data for each record
       for (final record in data) {
-        final rowData = columnNames.map((columnName) => record[columnName]).toList();
+        final rowData =
+            columnNames.map((columnName) => record[columnName]).toList();
         csvData.add(rowData);
       }
     }
 
     String csvContent = const ListToCsvConverter().convert(csvData);
-      final file = await _localFile;
-      await file.writeAsString(csvContent);
-      
-      if (send_email) {
-        // Send email with attachment
-        final Email emailer = Email(
-          subject: 'CSV Data Export',
-          recipients: [email_add],
-          body: 'Please find attached the CSV data file.',
-          attachmentPaths: [file.path], // Attach the XLS file
-        );
-        await FlutterEmailSender.send(emailer);
-      }
+    final file = await _localFile;
+    await file.writeAsString(csvContent);
 
-      globals.toastMessage = 'CSV file saved successfully';
-      findDevicesWidget.showToast();
+    if (send_email) {
+      // Send email with attachment
+      final Email emailer = Email(
+        subject: 'CSV Data Export',
+        recipients: [email_add],
+        body: 'Please find attached the CSV data file.',
+        attachmentPaths: [file.path], // Attach the XLS file
+      );
+      await FlutterEmailSender.send(emailer);
+    }
+
+    globals.toastMessage = 'CSV file saved successfully';
+    findDevicesWidget.showToast();
   }
 
   void exportDataAsXLS(bool send_email, String email_add) async {
@@ -168,35 +186,39 @@ class DatabaseHelper {
 
       // Extract row data for each record
       for (final record in data) {
-        final rowData = columnNames.map((columnName) => record[columnName]).toList();
+        final rowData =
+            columnNames.map((columnName) => record[columnName]).toList();
         sheet.appendRow(rowData);
       }
     }
-    String formattedDateTime = DateFormat(globals.timeFormat).format(DateTime.now());
-    String day = formattedDateTime.substring(0,2);
-    String month = formattedDateTime.substring(3,5);
-    String year = formattedDateTime.substring(6,10);
-    String hour = formattedDateTime.substring(11,13);
-    String minute = formattedDateTime.substring(14,16);
-    String second = formattedDateTime.substring(17,19);
+    String formattedDateTime =
+        DateFormat(globals.timeFormat).format(DateTime.now());
+    String month = formattedDateTime.substring(0, 2);
+    String day = formattedDateTime.substring(3, 5);
+    String year = formattedDateTime.substring(6, 10);
+    String hour = formattedDateTime.substring(11, 13);
+    String minute = formattedDateTime.substring(14, 16);
+    String second = formattedDateTime.substring(17, 19);
 
     final path = await _localPath;
-    final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_{$second}.xls');
+    final file = File(
+        '$path/data_${day}_${month}_${year}_${hour}_${minute}_${second}.xls');
     if (!await file.exists()) {
       file.create();
     }
     final excelBytes = excel.save()!; // Add null check here
-    await file.writeAsBytes(List.from(excelBytes)); // Convert to non-nullable list
+    await file
+        .writeAsBytes(List.from(excelBytes)); // Convert to non-nullable list
 
     if (send_email) {
-    // Send email with attachment
-    final Email emailer = Email(
-      subject: 'XLS Data Export',
-      recipients: [email_add],
-      body: 'Please find attached the XLS data file.',
-      attachmentPaths: [file.path], // Attach the XLS file
-    );
-    await FlutterEmailSender.send(emailer);
+      // Send email with attachment
+      final Email emailer = Email(
+        subject: 'XLS Data Export',
+        recipients: [email_add],
+        body: 'Please find attached the XLS data file.',
+        attachmentPaths: [file.path], // Attach the XLS file
+      );
+      await FlutterEmailSender.send(emailer);
     }
     globals.toastMessage = 'XLS file saved successfully';
     // detailsScreen=null;
@@ -216,16 +238,18 @@ class DatabaseHelper {
 
   // Retrieve the file from path found
   Future<File> get _localFile async {
-    String formattedDateTime = DateFormat(globals.timeFormat).format(DateTime.now());
-    String day = formattedDateTime.substring(0,2);
-    String month = formattedDateTime.substring(3,5);
-    String year = formattedDateTime.substring(6,10);
-    String hour = formattedDateTime.substring(11,13);
-    String minute = formattedDateTime.substring(14,16);
-    String second = formattedDateTime.substring(17,19);
+    String formattedDateTime =
+        DateFormat(globals.timeFormat).format(DateTime.now());
+    String month = formattedDateTime.substring(0, 2);
+    String day = formattedDateTime.substring(3, 5);
+    String year = formattedDateTime.substring(6, 10);
+    String hour = formattedDateTime.substring(11, 13);
+    String minute = formattedDateTime.substring(14, 16);
+    String second = formattedDateTime.substring(17, 19);
 
     final path = await _localPath;
-    final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
+    final file = File(
+        '$path/data_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
     if (!await file.exists()) {
       file.create();
     }
@@ -237,7 +261,6 @@ class DatabaseHelper {
     String? input_name = UserPreferences.getName();
     return input_name;
   }
-
 }
 
 class graphData {
@@ -251,17 +274,17 @@ class graphData {
   final String UA_menText;
   final String UA_womenText;
 
-  graphData(
-    {required this.timestamp, 
-      required this.batteryText,
-      required this.heartRateText,
-      required this.spo2Text,
-      required this.glucose_mmolL,
-      required this.glucose_mgDL,
-      required this.cholesterolText,
-      required this.UA_menText,
-      required this.UA_womenText,
-      });
+  graphData({
+    required this.timestamp,
+    required this.batteryText,
+    required this.heartRateText,
+    required this.spo2Text,
+    required this.glucose_mmolL,
+    required this.glucose_mgDL,
+    required this.cholesterolText,
+    required this.UA_menText,
+    required this.UA_womenText,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -272,7 +295,7 @@ class graphData {
       'glucose_mmolL': glucose_mmolL,
       'glucose_mgDL': glucose_mgDL,
       'cholesterol': cholesterolText,
-      'uaMen':  UA_menText,
+      'uaMen': UA_menText,
       'uaWomen': UA_womenText,
     };
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:max_heart_reader/LandingPage/home.dart';
 import 'package:max_heart_reader/find_devices.dart';
 
 import 'package:max_heart_reader/details_screen.dart';
@@ -17,6 +18,7 @@ class _LandingPageState extends State<LandingPage> {
     //   'Home',
     //   style: optionStyle,
     // ),
+    HomePage(),
     DetailsScreen(),
     FindDevicesScreen(),
   ];
@@ -49,10 +51,10 @@ class _LandingPageState extends State<LandingPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.home),
-          //   label: 'Home',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
