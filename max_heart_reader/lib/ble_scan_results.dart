@@ -18,9 +18,6 @@ import 'find_devices.dart' as findDevicesWidget;
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-// Graphing tools
-import 'package:syncfusion_flutter_charts/charts.dart';
-
 class ScanResultTile extends StatefulWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})
       : super(key: key);
@@ -107,42 +104,42 @@ class _ScanResultTileState extends State<ScanResultTile> {
         UA_result_W = 'Abnormal: ${UA_women} mmol/L';
 
       // Store data into local directory
-      String timestamp = getCurrentDateTime();
       String cholesterolText = cholesterol.toString();
 
-      List<graphData> rowData = [
-        graphData(
-          timestamp: getCurrentDateTime(),
-          batteryText: "${battery.toStringAsFixed(0)}%",
-          heartRateText: '${heartRateText} bpm',
-          spo2Text: spo2Text,
-          glucose_mmolL: glucose,
-          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-          cholesterolText: '${cholesterolText} mg/dL',
-          UA_menText: UA_result_M,
-          UA_womenText: UA_result_W,
-        ),
-      ];
+      // UNCOMMENT FOR ACTUAL STORAGE OF DATA INTO DB
+      // List<graphData> rowData = [
+      //   graphData(
+      //     timestamp: getCurrentDateTime(),
+      //     batteryText: "${battery.toStringAsFixed(0)}%",
+      //     heartRateText: '${heartRateText} bpm',
+      //     spo2Text: spo2Text,
+      //     glucose_mmolL: glucose,
+      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+      //     cholesterolText: '${cholesterolText} mg/dL',
+      //     UA_menText: UA_result_M,
+      //     UA_womenText: UA_result_W,
+      //   ),
+      // ];
       
-      debugPrint("battery: $battery");
-      debugPrint("heartRate: $heartRate");
-      debugPrint("spo2: $spo2");
-      debugPrint("glucose: $glucose");
-      debugPrint("glucose: $glucose_mgDL");
-      debugPrint("cholesterol: $cholesterol");
-      debugPrint("UA_men: $UA_result_M");
-      debugPrint("UA_women: $UA_result_W");
+      // debugPrint("battery: $battery");
+      // debugPrint("heartRate: $heartRate");
+      // debugPrint("spo2: $spo2");
+      // debugPrint("glucose: $glucose");
+      // debugPrint("glucose: $glucose_mgDL");
+      // debugPrint("cholesterol: $cholesterol");
+      // debugPrint("UA_men: $UA_result_M");
+      // debugPrint("UA_women: $UA_result_W");
 
-      for (graphData row in rowData) {
-        if (row.glucose_mmolL == 0.0) continue;
+      // for (graphData row in rowData) {
+      //   if (row.glucose_mmolL == 0.0) continue;
 
-        try {
-          int insertedId = await DatabaseHelper.instance.insertGraphData(row);
-          debugPrint('Data inserted with ID: $insertedId');
-        } catch (e) {
-          debugPrint('Error inserting data: $e');
-        }
-      }
+      //   try {
+      //     int insertedId = await DatabaseHelper.instance.insertGraphData(row);
+      //     debugPrint('Data inserted with ID: $insertedId');
+      //   } catch (e) {
+      //     debugPrint('Error inserting data: $e');
+      //   }
+      // }
 
       double tileHeight = 50;
       Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
