@@ -55,8 +55,9 @@ dependencies:
   sqflite: ^2.2.8+4
   excel: ^2.1.0
   mailer: ^6.0.1
-  syncfusion_flutter_charts: ^21.2.4
   influxdb_client: ^2.6.0
+  fl_chart: ^0.62.0
+  syncfusion_flutter_charts: ^21.2.4
 
 
 # Run commands to generate splash screen

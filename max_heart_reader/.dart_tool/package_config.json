@@ -164,6 +164,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "fl_chart",
+      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/fl_chart-0.62.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/chufeng/Downloads/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -549,7 +555,7 @@
     },
     {
       "name": "syncfusion_flutter_core",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-21.2.6",
+      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-21.2.9",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -704,7 +710,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-06-08T01:27:50.945035Z",
+  "generated": "2023-06-08T07:51:37.187663Z",
   "generator": "pub",
   "generatorVersion": "3.0.0"
 }
