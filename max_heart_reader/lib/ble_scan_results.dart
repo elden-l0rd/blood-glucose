@@ -106,7 +106,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
       // Store data into local directory
       String cholesterolText = cholesterol.toString();
 
-      // UNCOMMENT FOR ACTUAL STORAGE OF DATA INTO DB
+      // UNCOMMENT FOR ACTUAL APP RELEASE
+      // stores data into db
       // List<graphData> rowData = [
       //   graphData(
       //     timestamp: getCurrentDateTime(),
@@ -120,7 +121,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
       //     UA_womenText: UA_result_W,
       //   ),
       // ];
-      
+      //
       // debugPrint("battery: $battery");
       // debugPrint("heartRate: $heartRate");
       // debugPrint("spo2: $spo2");
@@ -129,10 +130,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
       // debugPrint("cholesterol: $cholesterol");
       // debugPrint("UA_men: $UA_result_M");
       // debugPrint("UA_women: $UA_result_W");
-
+      //
       // for (graphData row in rowData) {
       //   if (row.glucose_mmolL == 0.0) continue;
-
+      //
       //   try {
       //     int insertedId = await DatabaseHelper.instance.insertGraphData(row);
       //     debugPrint('Data inserted with ID: $insertedId');
@@ -351,7 +352,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                 },
                 child: Text('Export data'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
+                  backgroundColor: Colors.orange,
                 ),
               ),
             ],
@@ -390,7 +391,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
+                  backgroundColor: Colors.orange,
                 ),
               ),
               ElevatedButton(
@@ -405,7 +406,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
+                  backgroundColor: Colors.orange,
                 ),
               ),
               ElevatedButton(
@@ -420,7 +421,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
+                  backgroundColor: Colors.orange,
                 ),
               ),
               ElevatedButton(
@@ -435,7 +436,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
+                  backgroundColor: Colors.orange,
                 ),
               ),
             ],
@@ -479,7 +480,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                       Navigator.of(context).pop();
                     },
                     style: TextButton.styleFrom(
-                      primary: Colors.orange,
+                      backgroundColor: Colors.orange,
                     ),
                   ),
                   TextButton(
@@ -492,7 +493,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                       DatabaseHelper.instance.exportDataAsCSV(true, email_add);
                     },
                     style: TextButton.styleFrom(
-                      primary: Colors.orange,
+                      backgroundColor: Colors.orange,
                     ),
                   ),
                 ],
@@ -527,7 +528,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                       Navigator.of(context).pop();
                     },
                     style: TextButton.styleFrom(
-                      primary: Colors.orange,
+                      backgroundColor: Colors.orange,
                     ),
                   ),
                   TextButton(
@@ -540,7 +541,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                       DatabaseHelper.instance.exportDataAsXLS(true, email_add);
                     },
                     style: TextButton.styleFrom(
-                      primary: Colors.orange,
+                      backgroundColor: Colors.orange,
                     ),
                   ),
                 ],

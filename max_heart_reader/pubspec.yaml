@@ -55,7 +55,6 @@ dependencies:
   excel: ^2.1.0
   mailer: ^6.0.1
   influxdb_client: ^2.6.0
-  time_chart: ^0.5.4
   syncfusion_flutter_charts: ^21.2.4
 
 

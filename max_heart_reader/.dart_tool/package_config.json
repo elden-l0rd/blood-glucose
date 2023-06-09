@@ -230,12 +230,6 @@
       "languageVersion": "2.17"
     },
     {
-      "name": "flutter_localizations",
-      "rootUri": "file:///Users/chufeng/Downloads/flutter/packages/flutter_localizations",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
       "name": "flutter_native_splash",
       "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/flutter_native_splash-2.2.17",
       "packageUri": "lib/",
@@ -308,12 +302,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "linked_scroll_controller",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/linked_scroll_controller-0.2.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "lints",
       "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/lints-2.1.0",
       "packageUri": "lib/",
@@ -358,18 +346,6 @@
     {
       "name": "path",
       "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/path-1.8.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "path_drawing",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/path_drawing-1.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "path_parsing",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/path_parsing-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -584,20 +560,8 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "time_chart",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/time_chart-0.5.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
       "name": "timezone",
       "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/timezone-0.9.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "touchable",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/touchable-1.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -728,7 +692,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-06-08T09:49:12.312721Z",
+  "generated": "2023-06-09T07:00:10.780939Z",
   "generator": "pub",
   "generatorVersion": "3.0.0"
 }
