@@ -4,8 +4,8 @@
 import 'package:flutter/material.dart';
 
 // Project Files
-import 'globals.dart' as globals;
-import 'find_devices.dart' as findDevicesWidget;
+import '../../globals.dart' as globals;
+import '../../Server/find_devices.dart' as findDevicesWidget;
 
 // Email notification
 // https://www.youtube.com/watch?v=YkA4TUgCmRA&ab_channel=StechiezDIY

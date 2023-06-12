@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/LandingPage/home.dart';
-import 'package:max_heart_reader/find_devices.dart';
+import 'package:max_heart_reader/Server/find_devices.dart';
 
-import 'package:max_heart_reader/details_screen.dart';
+import 'package:max_heart_reader/Client/src/details_screen.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -14,10 +14,6 @@ class _LandingPageState extends State<LandingPage> {
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    // Text(
-    //   'Home',
-    //   style: optionStyle,
-    // ),
     HomePage(),
     DetailsScreen(),
     FindDevicesScreen(),

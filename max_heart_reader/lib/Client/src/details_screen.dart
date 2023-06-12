@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:max_heart_reader/user_preferences.dart';
-import 'package:max_heart_reader/button_widget.dart';
+import 'package:max_heart_reader/Client/src/user_preferences.dart';
+import 'package:max_heart_reader/Client/button_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailsScreen extends StatefulWidget {
