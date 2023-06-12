@@ -6,7 +6,6 @@
 
 // Flutter/Dart
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:math';
 import 'dart:async';
 
@@ -55,17 +54,28 @@ class _ScanResultTileState extends State<ScanResultTile> {
         },
       );
     } else {
-      return Column();
-    }
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text("No devices found..")
+          ]
+        );
+      }
   }
 
-  //Widget _buildTitle(BuildContext context, influxDBClient) {
   Future<Widget> _buildTitle(BuildContext context) async {
-    // bool isDeviceDetected = false;
+    double batteryLevel = -.1;
+    String batteryText = "- %";
+    String heartRateText = "-";
+    String spo2Text = "-";
+    String glucoseText = "-";
+    String cholesterolText = '-';
+    String UA_result_M = '-';
+    String UA_result_W = '-';
 
+    // device name can be changed
     if (widget.result.device.name.contains("BGL")) {
-      // can be changed to e.g. "3LOGY-Watch"
-
       // // [FFFE69905F20134041]
       // //    0x    FFFE      69        90              5F          20        13            40              41
       // //          1         99.06 %   144 BPM         95 %
@@ -75,6 +85,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
       // int ID = processedData[0];
       double battery = processedData[1];
+      batteryLevel = battery;
       int heartRate = processedData[2];
       int spo2 = processedData[3];
 
@@ -86,13 +97,13 @@ class _ScanResultTileState extends State<ScanResultTile> {
       double UA_men = processedData[6]; //in mmol/L
       double UA_women = processedData[7];
 
-      String heartRateText = "";
-      String spo2Text = "";
+      batteryText = batteryLevel.toStringAsFixed(0) + " %";
       heartRateText = heartRate.toString();
       spo2Text = spo2.toStringAsFixed(0) + " %";
-
-      String UA_result_M = 'Normal';
-      String UA_result_W = 'Normal';
+      glucoseText = glucose_mgDL.toStringAsFixed(2);
+      cholesterolText = cholesterol.toStringAsFixed(2);
+      UA_result_M = UA_men.toStringAsFixed(2);
+      UA_result_W = UA_women.toStringAsFixed(2);
 
       if (UA_men >= 0.24 && UA_men <= 0.51) {
         UA_result_M = 'Normal: ${UA_men} mmol/L';
@@ -102,9 +113,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
         UA_result_W = 'Normal: ${UA_women} mmol/L';
       } else
         UA_result_W = 'Abnormal: ${UA_women} mmol/L';
-
-      // Store data into local directory
-      String cholesterolText = cholesterol.toString();
 
       // UNCOMMENT FOR ACTUAL APP RELEASE
       // stores data into db
@@ -141,228 +149,222 @@ class _ScanResultTileState extends State<ScanResultTile> {
       //     debugPrint('Error inserting data: $e');
       //   }
       // }
+    }
 
-      double tileHeight = 50;
-      Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
+    double tileHeight = 50;
+    Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
 
-      List<Color> _getGradientColors(double battery) {
-        if (battery > 50.0) {
-          return [Colors.green, Colors.lightGreen];
-        } else if (battery > 25.0) {
-          return [Colors.orange, Colors.deepOrange];
-        } else if (battery >= 0.0) {
-          return [Colors.red, Colors.redAccent];
-        } else {
-          return [
-            Colors.grey,
-            Colors.grey
-          ]; // Default colors for negative battery level
-        }
+    List<Color> _getGradientColors(double battery) {
+      if (battery > 50.0) {
+        return [Colors.green, Colors.lightGreen];
+      } else if (battery > 25.0) {
+        return [Colors.orange, Colors.deepOrange];
+      } else if (battery >= 0.0) {
+        return [Colors.red, Colors.redAccent];
+      } else {
+        return [Colors.grey, Colors.grey]; // Default colors for negative battery level
       }
+    }
 
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            widget.result.device.name,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start, // horizontally
-              crossAxisAlignment: CrossAxisAlignment.start, // vertically
-              children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      height: tileHeight,
-                      child: Card(
-                        color: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              14.0), // Apply border radius to the Card
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: _getGradientColors(
-                                  battery), // Function to determine gradient colors
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              battery.toStringAsFixed(0) + " %",
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      "Battery",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                      child: Center(
-                        child: Text(
-                          heartRateText,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Heart \nRate",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                      child: Center(
-                        child: Text(
-                          spo2Text,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Blood \nOxygen",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                      child: Center(
-                        child: Text(
-                          glucose.toStringAsFixed(2),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Glucose",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                      child: Center(
-                        child: Text(
-                          cholesterol.toStringAsFixed(2),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Cholesterol",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                      child: Center(
-                        child: Text(
-                          UA_men.toStringAsFixed(2),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Men\nUric Acid",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-                Column(children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: tileHeight,
-                    child: Card(
-                      color: darkTileColor,
-                      child: Center(
-                        child: Text(
-                          UA_women.toStringAsFixed(2),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Women\nUric Acid",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-              ],
-            ),
-          ),
-          Row(
-            // Export data
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          widget.result.device.name,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start, // horizontally
+            crossAxisAlignment: CrossAxisAlignment.start, // vertically
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Call method to export as .csv or .xls
-                  // temporarily hard coded data into database, just query for now
-                  showExportDialog(context);
-                },
-                child: Text('Export data'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    height: tileHeight,
+                    child: Card(
+                      color: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            14.0), // Apply border radius to the Card
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: _getGradientColors(
+                                batteryLevel), // Function to determine gradient colors
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            batteryText,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    "Battery",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
+              Column(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  height: tileHeight,
+                  child: Card(
+                    color: darkTileColor,
+                    child: Center(
+                      child: Text(
+                        heartRateText,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Heart \nRate",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              Column(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  height: tileHeight,
+                  child: Card(
+                    color: darkTileColor,
+                    child: Center(
+                      child: Text(
+                        spo2Text,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Blood \nOxygen",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              Column(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: tileHeight,
+                  child: Card(
+                    color: darkTileColor,
+                    child: Center(
+                      child: Text(
+                        glucoseText,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Glucose",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              Column(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: tileHeight,
+                  child: Card(
+                    color: darkTileColor,
+                    child: Center(
+                      child: Text(
+                        cholesterolText,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Cholesterol",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              Column(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: tileHeight,
+                  child: Card(
+                    color: darkTileColor,
+                    child: Center(
+                      child: Text(
+                        UA_result_M,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Men\nUric Acid",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              Column(children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: tileHeight,
+                  child: Card(
+                    color: darkTileColor,
+                    child: Center(
+                      child: Text(
+                        UA_result_W,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Women\nUric Acid",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]),
             ],
           ),
-        ],
-      );
-    } else {
-      // The BLE device is valid but does not belong to 3logytech organization
-      return Column();
-    }
+        ),
+        Row(
+          // Export data
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Call method to export as .csv or .xls
+                // temporarily hard coded data into database, just query for now
+                showExportDialog(context);
+              },
+              child: Text('Export data'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   void showExportDialog(BuildContext context) {

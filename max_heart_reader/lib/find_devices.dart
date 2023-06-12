@@ -120,7 +120,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   Container(
-                    //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                     child: const Text('List of Devices',
                         style: TextStyle(fontSize: 16)),
                     width: double.infinity,
