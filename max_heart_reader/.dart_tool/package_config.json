@@ -50,18 +50,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "charts_common",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/charts_common-0.12.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "charts_flutter",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/charts_flutter-0.12.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "checked_yaml",
       "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
       "packageUri": "lib/",
@@ -162,12 +150,6 @@
       "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/fixnum-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "fl_chart",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/fl_chart-0.62.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
     },
     {
       "name": "flutter",
@@ -303,7 +285,7 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/intl-0.17.0",
+      "rootUri": "file:///Users/chufeng/.pub-cache/hosted/pub.dev/intl-0.18.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -710,7 +692,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-06-08T07:51:37.187663Z",
+  "generated": "2023-06-12T03:01:40.216119Z",
   "generator": "pub",
   "generatorVersion": "3.0.0"
 }
