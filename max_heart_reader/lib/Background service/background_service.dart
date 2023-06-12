@@ -7,7 +7,7 @@ import 'dart:ui';
 // Project files
 // import 'main.dart';
 import 'background_ble_upload.dart';
-import 'globals.dart' as globals;
+import '../globals.dart' as globals;
 
 // Background Service libraries
 import 'package:device_info_plus/device_info_plus.dart';

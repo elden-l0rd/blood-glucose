@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'dart:async'; // required to run a timer
 
 // Project files
-import 'ble_scan_results.dart';
+import 'src/ble_scan_results.dart';
 // import 'background_service.dart';
 // import 'background_ble_upload.dart';
-import 'globals.dart' as globals;
+import '../globals.dart' as globals;
 // import 'ifttt_notifications.dart';
 
 // BLE

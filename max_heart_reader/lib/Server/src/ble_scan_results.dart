@@ -6,13 +6,14 @@
 
 // Flutter/Dart
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 import 'dart:async';
 
 // Other project files
 import 'database_helper.dart';
-import 'globals.dart' as globals;
-import 'find_devices.dart' as findDevicesWidget;
+import '../../globals.dart' as globals;
+import '../find_devices.dart' as findDevicesWidget;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -54,14 +55,53 @@ class _ScanResultTileState extends State<ScanResultTile> {
         },
       );
     } else {
-        return Column(
+      return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text("No devices found..")
-          ]
-        );
-      }
+          children: <Widget>[Text("No devices found..")]);
+    }
+  }
+
+  Widget buildDashboardTile(
+      {required String title, required String value,List<Color>? gradientColors, required Color color}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        gradient: gradientColors != null
+            ? LinearGradient(colors: gradientColors)
+            : null,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            value,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<Widget> _buildTitle(BuildContext context) async {
@@ -162,7 +202,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
       } else if (battery >= 0.0) {
         return [Colors.red, Colors.redAccent];
       } else {
-        return [Colors.grey, Colors.grey]; // Default colors for negative battery level
+        return [
+          Colors.grey,
+          Colors.grey
+        ]; // Default colors for negative battery level
       }
     }
 
@@ -175,173 +218,49 @@ class _ScanResultTileState extends State<ScanResultTile> {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start, // horizontally
-            crossAxisAlignment: CrossAxisAlignment.start, // vertically
+        Expanded(
+          child: GridView.count(
+            crossAxisCount: 2,
+            padding: EdgeInsets.all(16),
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
             children: [
-              Column(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: tileHeight,
-                    child: Card(
-                      color: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            14.0), // Apply border radius to the Card
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: _getGradientColors(
-                                batteryLevel), // Function to determine gradient colors
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            batteryText,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Battery",
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              buildDashboardTile(
+                title: 'Battery',
+                value: batteryText,
+                gradientColors: _getGradientColors(batteryLevel),
+                color: Colors.grey,
               ),
-              Column(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  height: tileHeight,
-                  child: Card(
-                    color: darkTileColor,
-                    child: Center(
-                      child: Text(
-                        heartRateText,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Heart \nRate",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]),
-              Column(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  height: tileHeight,
-                  child: Card(
-                    color: darkTileColor,
-                    child: Center(
-                      child: Text(
-                        spo2Text,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Blood \nOxygen",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]),
-              Column(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: tileHeight,
-                  child: Card(
-                    color: darkTileColor,
-                    child: Center(
-                      child: Text(
-                        glucoseText,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Glucose",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]),
-              Column(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: tileHeight,
-                  child: Card(
-                    color: darkTileColor,
-                    child: Center(
-                      child: Text(
-                        cholesterolText,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Cholesterol",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]),
-              Column(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: tileHeight,
-                  child: Card(
-                    color: darkTileColor,
-                    child: Center(
-                      child: Text(
-                        UA_result_M,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Men\nUric Acid",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]),
-              Column(children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: tileHeight,
-                  child: Card(
-                    color: darkTileColor,
-                    child: Center(
-                      child: Text(
-                        UA_result_W,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Women\nUric Acid",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]),
+              buildDashboardTile(
+                title: 'Heart Rate',
+                value: heartRateText,
+                color: darkTileColor,
+              ),
+              buildDashboardTile(
+                title: 'Blood Oxygen',
+                value: spo2Text,
+                color: darkTileColor,
+              ),
+              buildDashboardTile(
+                title: 'Glucose',
+                value: glucoseText,
+                color: darkTileColor,
+              ),
+              buildDashboardTile(
+                title: 'Cholesterol',
+                value: cholesterolText,
+                color: darkTileColor,
+              ),
+              buildDashboardTile(
+                title: 'Men Uric Acid',
+                value: UA_result_M,
+                color: darkTileColor,
+              ),
+              buildDashboardTile(
+                title: 'Women Uric Acid',
+                value: UA_result_W,
+                color: darkTileColor,
+              ),
             ],
           ),
         ),

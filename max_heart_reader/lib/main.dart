@@ -62,19 +62,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:max_heart_reader/user_preferences.dart';
+import 'package:max_heart_reader/Client/src/user_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 // Project files
-import 'bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
+import 'Background service/bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
 // 2nd screen of the app (find devices)
-import 'background_service.dart'; // Background Service
+import 'Background service/background_service.dart'; // Background Service
 import 'globals.dart' as globals; // Global variables
-import 'find_devices.dart'
+import 'Server/find_devices.dart'
     as findDevicesWidget; // to display Toast notification
-import 'background_ble_upload.dart' as background1;
+import 'Background service/background_ble_upload.dart' as background1;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
