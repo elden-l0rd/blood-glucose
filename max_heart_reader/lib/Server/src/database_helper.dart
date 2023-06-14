@@ -8,7 +8,7 @@ import 'package:max_heart_reader/Client/src/user_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../../globals.dart' as globals;
-import '../find_devices.dart' as findDevicesWidget;
+import 'find_devices.dart' as findDevicesWidget;
 import 'package:excel/excel.dart';
 
 class DatabaseHelper {
@@ -182,7 +182,6 @@ class DatabaseHelper {
       await FlutterEmailSender.send(emailer);
     }
     globals.toastMessage = 'XLS file saved successfully';
-    // detailsScreen=null;
     findDevicesWidget.showToast();
   }
 
@@ -214,7 +213,6 @@ class DatabaseHelper {
     if (!await file.exists()) {
       file.create();
     }
-    // detailsScreen=null;
     return file;
   }
 

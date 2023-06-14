@@ -1,19 +1,17 @@
 // Copyright 2017, Paul DeMarco.
 // All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
 
 // Flutter/Dart
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:math';
 import 'dart:async';
 
 // Other project files
 import 'database_helper.dart';
 import '../../globals.dart' as globals;
-import '../find_devices.dart' as findDevicesWidget;
+import 'find_devices.dart' as findDevicesWidget;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';

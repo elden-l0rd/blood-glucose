@@ -9,7 +9,7 @@ import 'dart:math';
 // Project Files
 import '../globals.dart' as globals;
 // import 'ifttt_notifications.dart';
-import '../Server/find_devices.dart' as findDevicesWidget;
+import '../Server/src/find_devices.dart' as findDevicesWidget;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
