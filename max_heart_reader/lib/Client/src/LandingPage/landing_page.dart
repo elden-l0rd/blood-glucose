@@ -32,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _selectedIndex == 0
-          ? AppBar(
+          ? AppBar( 
               backgroundColor: Colors.black,
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

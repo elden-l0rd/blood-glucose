@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:max_heart_reader/Client/src/glucose_widget.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -7,6 +8,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  bool isGlucoseExpanded = false;
+  
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
@@ -23,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
                     Image.asset(
                       'assets/images/trilogy_logo.png',
                       fit: BoxFit.fitHeight,
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      height: MediaQuery.of(context).size.height * .05,
                     )
                   ],
                 ))
@@ -154,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Card(
                       //SpO2
-                      elevation: 0.0,
+                      elevation: .0,
                       color: Color.fromARGB(68, 250, 21, 5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
@@ -233,8 +236,8 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
-                    Card(
-                      elevation: 0.0,
+                    Card( //glucose level
+                      elevation: .0,
                       color: Color.fromARGB(58, 170, 255, 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
@@ -320,22 +323,30 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           Align(
                             alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Material(
-                                elevation: 4,
-                                shape: CircleBorder(),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    shape: BoxShape.circle,
+                            heightFactor: 4.2,
+                            widthFactor: 2.2,
+                            child: Container(
+                              width: 72,
+                              height: 37,
+                              child: Padding(
+                                padding: EdgeInsets.all(6.5),
+                                child: Material(
+                                  elevation: 1.61803399,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                  child: IconButton(
-                                    icon: Icon(Icons.add),
-                                    color: Colors.transparent,
+                                  child: TextButton(
                                     onPressed: () {
                                       // Handle button click
                                     },
+                                    child: Text(
+                                      'Expand',
+                                      style: TextStyle(
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 141, 141, 141),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -344,9 +355,10 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
+                    // GlucoseCard(),
                     Card(
                       //cholesterol level
-                      elevation: 0.0,
+                      elevation: .0,
                       color: Color.fromARGB(54, 4, 238, 255),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
@@ -427,7 +439,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Card(
                       //uric acid (men)
-                      elevation: 0.0,
+                      elevation: .0,
                       color: Color.fromARGB(255, 249, 188, 98),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
@@ -508,7 +520,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Card(
                       //uric acid (women)
-                      elevation: 0.0,
+                      elevation: .0,
                       color: Color.fromARGB(235, 255, 227, 89),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
