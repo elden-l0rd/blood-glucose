@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
 // Trilogy Technologies
 // Project: Smart Wearable v5
 // Project done by Matas Sabaliauskas (under Christopher Ng)
@@ -7,77 +5,76 @@
 // This will not work on an emulator as it will not find any bluetooth devices
 // iOS app compiled for iOS but changes to flutter project need to be made, to allow all packages to work, and to gain all permissions
 // background services are likely to work at 15 min intervals rather than 15 s
-
+//
 // Change the name of the app:
 // https://stackoverflow.com/questions/49353199/how-can-i-change-the-app-display-name-build-with-flutter
-
+//
 // Change the icon of the app:
 // https://pub.dev/packages/flutter_launcher_icons
-
+//
 // Change applicationId and bundle identifier to prevent overwrite
 // https://stackoverflow.com/questions/58229150/how-to-run-a-copy-of-flutter-project-without-overwriting-the-existing-app
-
+//
 // Cloud database in real-time: influxDB
 // https://www.influxdata.com/blog/getting-started-dart-influxdb/
-
+//
 // Run background service to keep uploading data when app is turned off
 // https://pub.dev/packages/flutter_background_service
-
+//
 // Splash screen:
 // https://pub.dev/packages/flutter_native_splash/example
 // https://www.youtube.com/watch?v=dB0dOnc2k10&ab_channel=JohannesMilke
-
+//
 // Loading screen:
 // https://codewithflutter.com/create-splash-screen-in-flutter-app/
-
+//
 // Enable and Check Location Permissions
 // https://pub.dev/packages/permission_handler
-
+//
 // Allow power management in the background
 // https://pub.dev/packages/wakelock
-
+//
 // to compile on iOS:
 // 1. nil:NilClass for Flutter App / CocoaPod Error
 // https://stackoverflow.com/questions/67443265/error-regarding-undefined-method-map-for-nilnilclass-for-flutter-app-cocoap
-
+//
 // 2. Make sure to click "Trust" on iPhone when connecting iPhone to PC
-
+//
 // 3. bundle ID error
 // https://stackoverflow.com/questions/51098042/how-to-get-bundle-id-in-flutter
-
+//
 // 4. "Untrusted Developer" after XCode build is done.
 // https://developer.apple.com/forums/thread/660288
 // General -> VPN & Device Management -> Developer App -> Verify
-
+//
 // 5. Make sure that the sign in is successful in XCode:
 // https://docs.flutter.dev/deployment/ios
 // Go to XCode -> Runner -> Signing & Capabilities -> Team -> Select apple developer account
-
+//
 // 6. Dart SDK is not configured
 // https://stackoverflow.com/questions/48650831/dart-sdk-is-not-configured
 // Click on settings gear (IDE and Project Settings) -> Preferences -> Language & Framework -> Flutter -> choose flutter SDK
-
+//
 // 7. (when compiling Android app on Macbook): Execution failed for task ':app-compileFlutterBuildDebug'.
 // https://stackoverflow.com/questions/61930007/how-to-solve-execution-failed-for-task-appcompileflutterbuilddebug
 
 // Main dart/flutter libraries
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:max_heart_reader/user_preferences.dart';
+import 'package:max_heart_reader/Client/src/user_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 // Project files
-import 'bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
+import 'Background service/bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
 // 2nd screen of the app (find devices)
-import 'background_service.dart'; // Background Service
+import 'Background service/background_service.dart'; // Background Service
 import 'globals.dart' as globals; // Global variables
-import 'find_devices.dart'
+import 'Server/src/find_devices.dart'
     as findDevicesWidget; // to display Toast notification
-import 'background_ble_upload.dart' as background1;
+import 'Background service/background_ble_upload.dart' as background1;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -87,131 +84,80 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Check location permissions
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-
-// Wakelock
-// import 'package:wakelock/wakelock.dart';
 
 //New imports
-import 'LandingPage/landing_page.dart';
+import 'Client/src/LandingPage/landing_page.dart';
 
 Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
   background1.runBackgroundDeviceScan();
 });
 
 Future<void> getPermissions(context) async {
-  if (await getLocationWhenInUsePermission() != 1) {
-    debugPrint(
-        'main.dart: getLocationWhenInUsePermission waiting for permission!');
-  } else {
-    debugPrint('main.dart: getLocationWhenInUsePermission SUCCESS!');
-  }
+  (await getLocationWhenInUsePermission()==1)
+    ? debugPrint('main.dart: getLocationWhenInUsePermission SUCCESS!')
+    : debugPrint('main.dart: getLocationWhenInUsePermission waiting for permission!');
 
-  if (await getLocationAlwaysPermission() != 1) {
-    debugPrint(
-        'main.dart: getLocationAlwaysPermission waiting for permission!');
-  } else {
-    debugPrint('main.dart: getLocationAlwaysPermission SUCCESS!');
-  }
+  (await getLocationAlwaysPermission() == 1) 
+    ? debugPrint('main.dart: getLocationAlwaysPermission SUCCESS!')
+    : debugPrint('main.dart: getLocationAlwaysPermission waiting for permission!');
+  
+  (await getIgnoreBatteryOptimizationPermission() == 1) 
+    ?  debugPrint('main.dart: getIgnoreBatteryOptimizationPermission SUCCESS!')
+    :  debugPrint('main.dart: getIgnoreBatteryOptimizationPermission waiting for permission!');
 
-  if (await getIgnoreBatteryOptimizationPermission() != 1) {
-    debugPrint(
-        'main.dart: getIgnoreBatteryOptimizationPermission waiting for permission!');
-  } else {
-    debugPrint('main.dart: getIgnoreBatteryOptimizationPermission SUCCESS!');
-  }
-
-  if (await getPushNotificationsPermission() != 1) {
-    debugPrint(
-        'main.dart: getPushNotificationsPermission waiting for permission!');
-  } else {
-    debugPrint('main.dart: getPushNotificationsPermission SUCCESS!');
-  }
+  (await getPushNotificationsPermission() == 1)
+    ?  debugPrint('main.dart: getPushNotificationsPermission SUCCESS!')
+    :  debugPrint('main.dart: getPushNotificationsPermission waiting for permission!');
 
   checkPermissions(context);
 }
 
+// Granted -> return 1
+// Restricted or Denied -> return 0
 Future<int> getLocationWhenInUsePermission() async {
-  await Permission.locationWhenInUse
-      .request(); // [WHILE USING THE APP / ONLY THIS TIME / DENY]
-
-  if (await Permission.locationWhenInUse.request().isGranted) {
-    // GRANTED
-    return 1;
-  } else {
-    // RESTRICTED OR DENIED
-    return 0;
-  }
+  // [WHILE USING THE APP / ONLY THIS TIME / DENY]
+  await Permission.locationWhenInUse.request();
+  return (await Permission.locationWhenInUse.request().isGranted) ? 1 : 0;
 }
 
 Future<int> getLocationAlwaysPermission() async {
-  await Permission.locationAlways
-      .request(); // [ALLOW ALL THE TIME / ALLOW ONLY WHILE USING THE APP / ASK EVERY TIME / DENY]
-
-  if (await Permission.locationAlways.request().isGranted) {
-    // GRANTED
-    return 1;
-  } else {
-    // RESTRICTED OR DENIED
-    return 0;
-  }
+  // [ALLOW ALL THE TIME / ALLOW ONLY WHILE USING THE APP / ASK EVERY TIME / DENY]
+  await Permission.locationAlways.request();
+  return (await Permission.locationAlways.request().isGranted) ? 1 : 0;
 }
 
 Future<int> getIgnoreBatteryOptimizationPermission() async {
-  await Permission.ignoreBatteryOptimizations.request(); // [ALLOW / DENY]
-
-  if (await Permission.ignoreBatteryOptimizations.request().isGranted) {
-    // GRANTED
-    return 1;
-  } else {
-    // RESTRICTED OR DENIED
-    return 0;
-  }
+  // [ALLOW / DENY]
+  await Permission.ignoreBatteryOptimizations.request();
+  return (await Permission.ignoreBatteryOptimizations.request().isGranted) ? 1 : 0;
 }
 
 Future<int> getPushNotificationsPermission() async {
-  await Permission.notification.request(); // [ALLOW / DENY]
-
-  if (await Permission.notification.request().isGranted) {
-    // GRANTED
-    return 1;
-  } else {
-    // RESTRICTED OR DENIED
-    return 0;
-  }
+  // [ALLOW / DENY]
+  await Permission.notification.request();
+  return (await Permission.notification.request().isGranted) ? 1 : 0;
 }
 
 Future<void> checkPermissions(context) async {
-  var locationWhenInUseStatus = await Permission.locationWhenInUse.status
-      .isGranted; // null when it was not initialized, false if not granted, true if granted access
+  // null when it was not initialized, false if not granted, true if granted access
+  var locationWhenInUseStatus = await Permission.locationWhenInUse.status.isGranted;
+  
   var locationAlwaysStatus = await Permission.locationAlways.status.isGranted;
   var bluetoothStatus = await Permission.bluetooth.status.isGranted;
   var bluetoothScanStatus = await Permission.bluetoothScan.status.isGranted;
-  var bluetoothAdvertiseStatus =
-      await Permission.bluetoothAdvertise.status.isGranted;
-  var bluetoothConnectStatus =
-      await Permission.bluetoothConnect.status.isGranted;
-  var batteryOptimizationsStatus =
-      await Permission.ignoreBatteryOptimizations.status.isGranted;
-  // var storeInExtStorageStatus = await Permission.storage.isGranted;
+  var bluetoothAdvertiseStatus = await Permission.bluetoothAdvertise.status.isGranted;
+  var bluetoothConnectStatus = await Permission.bluetoothConnect.status.isGranted;
+  var batteryOptimizationsStatus = await Permission.ignoreBatteryOptimizations.status.isGranted;
   var pushNotificationsPermission = await Permission.notification.isGranted;
 
-  debugPrint(
-      'main.dart: checkPermissions [locationWhenInUseStatus = $locationWhenInUseStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [locationAlwaysStatus = $locationAlwaysStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [bluetoothStatus = $bluetoothStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [bluetoothScanStatus = $bluetoothScanStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [bluetoothAdvertiseStatus = $bluetoothAdvertiseStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [bluetoothConnectStatus = $bluetoothConnectStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [batteryOptimizationsStatus = $batteryOptimizationsStatus]');
-  debugPrint(
-      'main.dart: checkPermissions [pushNotificationsPermission = $pushNotificationsPermission]');
+  debugPrint('main.dart: checkPermissions [locationWhenInUseStatus = $locationWhenInUseStatus]');
+  debugPrint('main.dart: checkPermissions [locationAlwaysStatus = $locationAlwaysStatus]');
+  debugPrint('main.dart: checkPermissions [bluetoothStatus = $bluetoothStatus]');
+  debugPrint('main.dart: checkPermissions [bluetoothScanStatus = $bluetoothScanStatus]');
+  debugPrint('main.dart: checkPermissions [bluetoothAdvertiseStatus = $bluetoothAdvertiseStatus]');
+  debugPrint('main.dart: checkPermissions [bluetoothConnectStatus = $bluetoothConnectStatus]');
+  debugPrint('main.dart: checkPermissions [batteryOptimizationsStatus = $batteryOptimizationsStatus]');
+  debugPrint('main.dart: checkPermissions [pushNotificationsPermission = $pushNotificationsPermission]');
 
   // if the user enables permissions successfully
   if (locationWhenInUseStatus && locationAlwaysStatus) {
