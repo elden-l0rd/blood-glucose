@@ -72,7 +72,7 @@ import 'Background service/bluetooth_off_screen.dart'; // 1st screen of the app 
 // 2nd screen of the app (find devices)
 import 'Background service/background_service.dart'; // Background Service
 import 'globals.dart' as globals; // Global variables
-import 'Server/find_devices.dart'
+import 'Server/src/find_devices.dart'
     as findDevicesWidget; // to display Toast notification
 import 'Background service/background_ble_upload.dart' as background1;
 
@@ -86,7 +86,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 //New imports
-import 'LandingPage/landing_page.dart';
+import 'Client/src/LandingPage/landing_page.dart';
 
 Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
   background1.runBackgroundDeviceScan();
