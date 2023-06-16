@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/Client/src/LandingPage/home.dart';
-import 'package:max_heart_reader/Client/src/dashboard.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
 import 'package:max_heart_reader/Server/src/find_devices.dart';
 
 import 'package:max_heart_reader/Client/src/details_screen.dart';

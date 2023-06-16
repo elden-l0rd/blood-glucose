@@ -1,33 +1,26 @@
 import 'package:flutter/material.dart';
 
-class GlucoseCard extends StatefulWidget {
+class CholesterolCard extends StatefulWidget {
+  const CholesterolCard({Key? key}) : super(key: key);
   @override
-  _GlucoseCardState createState() => _GlucoseCardState();
+  _CholesterolCardState createState() => _CholesterolCardState();
 }
 
-class _GlucoseCardState extends State<GlucoseCard> {
-  bool isExpanded = false;
-
+class _CholesterolCardState extends State<CholesterolCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: .0,
-      color: Color.fromARGB(58, 170, 255, 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: ExpansionPanelList(
-        elevation: 0,
-        expandedHeaderPadding: EdgeInsets.zero,
-        expansionCallback: (int panelIndex, bool isExpanded) {
-          setState(() {
-            this.isExpanded = !isExpanded;
-          });
-        },
-        children: [
-          ExpansionPanel(
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return Padding(
+    return Stack(
+      children: <Widget>[
+        Card(
+          elevation: .0,
+          color: Color.fromARGB(54, 4, 238, 255),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
                 padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,12 +32,12 @@ class _GlucoseCardState extends State<GlucoseCard> {
                         height: 50,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Color.fromARGB(96, 170, 255, 12),
+                          color: Color.fromARGB(87, 88, 236, 247),
                         ),
                         child: ClipOval(
                           child: Image.asset(
-                            'assets/images/glucose_icon.png',
-                            fit: BoxFit.cover,
+                            'assets/images/cholesterol_molecule_icon.png',
+                            fit: BoxFit.fitHeight,
                           ),
                         ),
                       ),
@@ -57,7 +50,7 @@ class _GlucoseCardState extends State<GlucoseCard> {
                           Padding(
                             padding: EdgeInsets.only(top: 3, right: 8),
                             child: Text(
-                              '4.21',
+                              '2.01',
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 27,
@@ -68,13 +61,12 @@ class _GlucoseCardState extends State<GlucoseCard> {
                           Padding(
                             padding: EdgeInsets.only(top: 0, right: 8),
                             child: Text(
-                              'mmol/L',
+                              'mg/dL',
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey,
-                              ),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey),
                             ),
                           ),
                         ],
@@ -82,23 +74,22 @@ class _GlucoseCardState extends State<GlucoseCard> {
                     ),
                   ],
                 ),
-              );
-            },
-            body: Padding(
-              padding: EdgeInsets.only(left: 18),
-              child: Text(
-                'Glucose\nLevel',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w900,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 18),
+                child: Text(
+                  'Cholesterol\nLevel',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
-            ),
-            isExpanded: isExpanded,
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
