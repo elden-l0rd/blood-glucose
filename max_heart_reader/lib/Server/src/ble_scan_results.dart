@@ -189,7 +189,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
       // }
     }
 
-    double tileHeight = 50;
+    // double tileHeight = 50;
     Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
 
     List<Color> _getGradientColors(double battery) {
