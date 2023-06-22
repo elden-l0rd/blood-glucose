@@ -3,7 +3,6 @@
 
 // Flutter/Dart
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:async'; // required to run a timer
 
@@ -138,16 +137,25 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
               StreamBuilder<List<ScanResult>>(
                 stream: FlutterBluePlus.instance.scanResults,
                 initialData: const [],
-                builder: (c, snapshot) => Column(
-                  children: snapshot.data!
-                      .map(
-                        (r) => ScanResultTile(
-                          result: r,
-                          onTap: () => {},
-                        ),
-                      )
-                      .toList(),
-                ),
+                builder: (c, snapshot) {
+                  final scanResults = snapshot.data!;
+                  // scanResults.forEach((result) {
+                  //   if (result.device.name.isNotEmpty) {
+                  //     print('Detected Device (1): ${result.device.name}');
+                  //   }
+                  // });
+
+                  return Column(
+                    children: scanResults
+                        .map(
+                          (r) => ScanResultTile(
+                            result: r,
+                            onTap: () => {},
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
               ),
             ],
           ),

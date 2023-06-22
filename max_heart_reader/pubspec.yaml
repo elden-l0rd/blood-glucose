@@ -32,30 +32,30 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   android_alarm_manager_plus: ^3.0.1
+  app_settings: ^4.2.0
   baseflow_plugin_template: ^2.1.2
   cupertino_icons: ^1.0.5
-  flutter_blue_plus: ^1.4.0
-  flutter_launcher_icons: ^0.13.1
-  flutter_background_service: ^2.4.6
-  flutter_local_notifications: ^14.1.1
-  fluttertoast: ^8.2.1
-  flutter_native_splash: ^2.2.9
-  flutter_email_sender: ^5.2.0
-  flutter_foreground_task: ^5.2.1
   device_info_plus: ^8.0.0
-  shared_preferences: ^2.1.1
-  intl: ^0.18.0
-  url_launcher: ^6.1.11
+  excel: ^2.1.0
+  flutter_background_service: ^3.0.1
+  flutter_blue_plus: ^1.4.0
+  flutter_email_sender: ^5.2.0
+  flutter_foreground_task: ^6.0.0+1
+  flutter_launcher_icons: ^0.13.1
+  flutter_local_notifications: ^14.1.1
+  flutter_native_splash: ^2.2.9
+  fluttertoast: ^8.2.1
   http: ^1.0.0
+  influxdb_client: ^2.6.0
+  intl: ^0.18.0
+  mailer: ^6.0.1
   path_provider: ^2.0.15
   permission_handler: ^10.2.0
-  wakelock: ^0.6.2
-  app_settings: ^4.2.0
+  shared_preferences: ^2.1.1
   sqflite: ^2.2.8+4
-  excel: ^2.1.0
-  mailer: ^6.0.1
-  influxdb_client: ^2.6.0
   syncfusion_flutter_charts: ^21.2.4
+  url_launcher: ^6.1.11
+  wakelock: ^0.6.2
 
 
 # Run commands to generate splash screen
@@ -67,12 +67,9 @@ flutter_native_splash:
   image: assets/images/splash.png   # Trilogy Technologies logo
 
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -84,9 +81,8 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+
 # The following section is specific to Flutter.
-
-
 flutter:
 
   # The following line ensures that the Material Icons font is
