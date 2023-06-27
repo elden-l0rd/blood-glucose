@@ -41,12 +41,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
   @override
   Widget build(BuildContext context) {
-    bool isBGLDeviceDetected = false;
     if (widget.result.device.name.isNotEmpty &&
         widget.result.advertisementData.serviceData.isNotEmpty &&
         widget.result.device.name.contains("BGL")) {
           
-      isBGLDeviceDetected = true;
       return FutureBuilder<Widget>(
         future: _buildTitle(context),
         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
@@ -107,39 +105,39 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
       // UNCOMMENT FOR ACTUAL APP RELEASE
       // stores data into db
-      List<graphData> rowData = [
-        graphData(
-          timestamp: getCurrentDateTime(),
-          batteryText: "${battery.toStringAsFixed(0)}%",
-          heartRateText: '${heartRateText} bpm',
-          spo2Text: spo2Text,
-          glucose_mmolL: glucose,
-          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-          cholesterolText: '${cholesterolText} mg/dL',
-          UA_menText: UA_result_M,
-          UA_womenText: UA_result_W,
-        ),
-      ];
-
-      debugPrint("battery: $battery");
-      debugPrint("heartRate: $heartRate");
-      debugPrint("spo2: $spo2");
-      debugPrint("glucose: $glucose");
-      debugPrint("glucose: $glucose_mgDL");
-      debugPrint("cholesterol: $cholesterol");
-      debugPrint("UA_men: $UA_result_M");
-      debugPrint("UA_women: $UA_result_W");
-
-      for (graphData row in rowData) {
-        if (row.glucose_mmolL == 0.0) continue;
-
-        try {
-          int insertedId = await DatabaseHelper.instance.insertGraphData(row);
-          debugPrint('Data inserted with ID: $insertedId');
-        } catch (e) {
-          debugPrint('Error inserting data: $e');
-        }
-      }
+      // List<graphData> rowData = [
+      //   graphData(
+      //     timestamp: getCurrentDateTime(),
+      //     batteryText: "${battery.toStringAsFixed(0)}%",
+      //     heartRateText: '${heartRateText} bpm',
+      //     spo2Text: spo2Text,
+      //     glucose_mmolL: glucose,
+      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+      //     cholesterolText: '${cholesterolText} mg/dL',
+      //     UA_menText: UA_result_M,
+      //     UA_womenText: UA_result_W,
+      //   ),
+      // ];
+      //
+      // debugPrint("battery: $battery");
+      // debugPrint("heartRate: $heartRate");
+      // debugPrint("spo2: $spo2");
+      // debugPrint("glucose: $glucose");
+      // debugPrint("glucose: $glucose_mgDL");
+      // debugPrint("cholesterol: $cholesterol");
+      // debugPrint("UA_men: $UA_result_M");
+      // debugPrint("UA_women: $UA_result_W");
+      //
+      // for (graphData row in rowData) {
+      //   if (row.glucose_mmolL == 0.0) continue;
+      //
+      //   try {
+      //     int insertedId = await DatabaseHelper.instance.insertGraphData(row);
+      //     debugPrint('Data inserted with ID: $insertedId');
+      //   } catch (e) {
+      //     debugPrint('Error inserting data: $e');
+      //   }
+      // }
 
       double tileHeight = 50;
       Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);

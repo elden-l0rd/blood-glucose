@@ -66,11 +66,16 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<graphData>> getGraphDataList() async {
+  //Specify time interval to get data from (if necessary)
+  Future<List<graphData>> getGraphDataList(
+      {String? filterDay,
+      String? filterWeek,
+      String? filterMonth,
+      String? filterYear}) async {
     final db = await instance.database;
     final List<Map<String, dynamic>> maps = await db.query('graphData');
 
-    // Convert the timestamp to DateTime objects for easier comparison
+    // Convert timestamp to DateTime
     List<graphData> dataList = List.generate(maps.length, (i) {
       return graphData(
         timestamp: maps[i]['timestamp'],
@@ -85,8 +90,43 @@ class DatabaseHelper {
       );
     });
 
-    print('Data List Length: ${dataList.length}'); // Check the length of dataList
+    print('Data List Length: ${dataList.length}');
 
+    // Filter the data based on the provided filters
+    if (filterDay != null) {
+      dataList = dataList.where((data) {
+        final dataDateTime = DateTime.parse(data.timestamp);
+        final filterDateTime = DateTime.parse(filterDay);
+        return dataDateTime.year == filterDateTime.year &&
+            dataDateTime.month == filterDateTime.month &&
+            dataDateTime.day == filterDateTime.day;
+      }).toList();
+    } else if (filterWeek != null) {
+      // Filter by week (7 days)
+      final filterDateTime = DateTime.parse(filterWeek);
+      final startDateTime =
+          filterDateTime.subtract(Duration(days: filterDateTime.weekday - 1));
+      final endDateTime = startDateTime.add(Duration(days: 6));
+      dataList = dataList.where((data) {
+        final dataDateTime = DateTime.parse(data.timestamp);
+        return dataDateTime
+                .isAfter(startDateTime.subtract(Duration(days: 1))) &&
+            dataDateTime.isBefore(endDateTime.add(Duration(days: 1)));
+      }).toList();
+    } else if (filterMonth != null) {
+      dataList = dataList.where((data) {
+        final dataDateTime = DateTime.parse(data.timestamp);
+        final filterDateTime = DateTime.parse(filterMonth);
+        return dataDateTime.year == filterDateTime.year &&
+            dataDateTime.month == filterDateTime.month;
+      }).toList();
+    } else if (filterYear != null) {
+      dataList = dataList.where((data) {
+        final dataDateTime = DateTime.parse(data.timestamp);
+        final filterDateTime = DateTime.parse(filterYear);
+        return dataDateTime.year == filterDateTime.year;
+      }).toList();
+    }
     return dataList;
   }
 
