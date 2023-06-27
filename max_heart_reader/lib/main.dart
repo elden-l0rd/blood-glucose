@@ -136,14 +136,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     getPermissions(context);
-
-    // Timer(const Duration(seconds: 5), ()=> {
-    //     ()=>Navigator.pushReplacement(context,
-    //     MaterialPageRoute(builder:
-    //         (context) =>
-    //             const HomeScreen()
-    //     ))
-    // });
   }
 
   @override

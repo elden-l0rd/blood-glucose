@@ -37,7 +37,6 @@ class FindDevicesScreen extends StatefulWidget {
 }
 
 class _FindDevicesScreenState extends State<FindDevicesScreen> {
-  //int timerCounter = 0;
 
   String serviceStatusText = 'ACTIVE';
   Color serviceStatusColor = Colors.green;

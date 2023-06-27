@@ -55,7 +55,6 @@ Future<int> getPushNotificationsPermission() async {
 Future<void> checkPermissions(context) async {
   // null when it was not initialized, false if not granted, true if granted access
   var locationWhenInUseStatus = await Permission.locationWhenInUse.status.isGranted;
-  
   var locationAlwaysStatus = await Permission.locationAlways.status.isGranted;
   var bluetoothStatus = await Permission.bluetooth.status.isGranted;
   var bluetoothScanStatus = await Permission.bluetoothScan.status.isGranted;
@@ -79,11 +78,6 @@ Future<void> checkPermissions(context) async {
     debugPrint('main.dart: checkPermissions initializing background service');
     await initializeService();
 
-    // enable WakeLock
-    // Does not work as expected so not required...
-    //debugPrint('main.dart: checkPermissions enabling WakeLock!');
-    //Wakelock.toggle(enable: true);
-
     globals.toastMessage = 'All Permissions Were Enabled Successfully!';
     findDevicesWidget.showToast();
 
@@ -94,8 +88,8 @@ Future<void> checkPermissions(context) async {
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     });
 
-    // if the user denies permissions
-  } else {
+
+  } else {  // if the user denies permissions
     debugPrint(
         'main.dart: checkPermissions Error! Some permissions were denied!');
     globals.toastMessage =

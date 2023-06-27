@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class GlucoseCard extends StatefulWidget {
+  final double glucose_level;
+  GlucoseCard({required this.glucose_level});
+
   @override
   _GlucoseCardState createState() => _GlucoseCardState();
 }
 
 class _GlucoseCardState extends State<GlucoseCard> {
   bool isExpanded = false;
+  
+  double get currentglucoselevel => widget.glucose_level;
 
   void toggleExpansion() {
     setState(() {
@@ -16,10 +21,17 @@ class _GlucoseCardState extends State<GlucoseCard> {
 
   @override
   Widget build(BuildContext context) {
+    String g = '';
+    print(g);
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      height: isExpanded ? MediaQuery.of(context).size.height : null,
+      height: isExpanded
+          ? MediaQuery.of(context).size.height
+          : MediaQuery.of(context).size.height / 4,
+      width: isExpanded
+          ? MediaQuery.of(context).size.width
+          : MediaQuery.of(context).size.width / 2,
       child: Card(
         elevation: .0,
         color: Color.fromARGB(58, 170, 255, 12),
@@ -61,10 +73,10 @@ class _GlucoseCardState extends State<GlucoseCard> {
                             Padding(
                               padding: EdgeInsets.only(top: 3, right: 8),
                               child: Text(
-                                '4.21',
+                                currentglucoselevel.toString(),
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                  fontSize: 27,
+                                  fontSize: 30,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
@@ -75,7 +87,7 @@ class _GlucoseCardState extends State<GlucoseCard> {
                                 'mmol/L',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.grey,
                                 ),
@@ -93,7 +105,7 @@ class _GlucoseCardState extends State<GlucoseCard> {
                     'Glucose\nLevel',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 23,
                       fontWeight: FontWeight.w900,
                     ),
                   ),

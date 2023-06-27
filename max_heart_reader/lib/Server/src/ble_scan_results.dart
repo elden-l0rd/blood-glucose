@@ -7,10 +7,12 @@
 // Flutter/Dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
 import 'dart:math';
 import 'dart:async';
 
 // Other project files
+import '../device_data.dart';
 import 'database_helper.dart';
 import '../../globals.dart' as globals;
 import 'find_devices.dart' as findDevicesWidget;
@@ -39,8 +41,12 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
   @override
   Widget build(BuildContext context) {
+    bool isBGLDeviceDetected = false;
     if (widget.result.device.name.isNotEmpty &&
-        widget.result.advertisementData.serviceData.isNotEmpty) {
+        widget.result.advertisementData.serviceData.isNotEmpty &&
+        widget.result.device.name.contains("BGL")) {
+          
+      isBGLDeviceDetected = true;
       return FutureBuilder<Widget>(
         future: _buildTitle(context),
         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
@@ -59,9 +65,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
   }
 
   Future<Widget> _buildTitle(BuildContext context) async {
-
     if (widget.result.device.name.contains("BGL")) {
-
+      setState(() {});
       // // [FFFE69905F20134041]
       // //    0x    FFFE      69        90              5F          20        13            40              41
       // //          1         99.06 %   144 BPM         95 %
@@ -85,6 +90,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String heartRateText = "";
       String spo2Text = "";
       heartRateText = heartRate.toString();
+      String cholesterolText = cholesterol.toStringAsFixed(2);
       spo2Text = spo2.toStringAsFixed(0) + " %";
 
       String UA_result_M = 'Normal';
@@ -99,44 +105,41 @@ class _ScanResultTileState extends State<ScanResultTile> {
       } else
         UA_result_W = 'Abnormal: ${UA_women} mmol/L';
 
-      // Store data into local directory
-      String cholesterolText = cholesterol.toString();
-
       // UNCOMMENT FOR ACTUAL APP RELEASE
       // stores data into db
-      // List<graphData> rowData = [
-      //   graphData(
-      //     timestamp: getCurrentDateTime(),
-      //     batteryText: "${battery.toStringAsFixed(0)}%",
-      //     heartRateText: '${heartRateText} bpm',
-      //     spo2Text: spo2Text,
-      //     glucose_mmolL: glucose,
-      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-      //     cholesterolText: '${cholesterolText} mg/dL',
-      //     UA_menText: UA_result_M,
-      //     UA_womenText: UA_result_W,
-      //   ),
-      // ];
-      //
-      // debugPrint("battery: $battery");
-      // debugPrint("heartRate: $heartRate");
-      // debugPrint("spo2: $spo2");
-      // debugPrint("glucose: $glucose");
-      // debugPrint("glucose: $glucose_mgDL");
-      // debugPrint("cholesterol: $cholesterol");
-      // debugPrint("UA_men: $UA_result_M");
-      // debugPrint("UA_women: $UA_result_W");
-      //
-      // for (graphData row in rowData) {
-      //   if (row.glucose_mmolL == 0.0) continue;
-      //
-      //   try {
-      //     int insertedId = await DatabaseHelper.instance.insertGraphData(row);
-      //     debugPrint('Data inserted with ID: $insertedId');
-      //   } catch (e) {
-      //     debugPrint('Error inserting data: $e');
-      //   }
-      // }
+      List<graphData> rowData = [
+        graphData(
+          timestamp: getCurrentDateTime(),
+          batteryText: "${battery.toStringAsFixed(0)}%",
+          heartRateText: '${heartRateText} bpm',
+          spo2Text: spo2Text,
+          glucose_mmolL: glucose,
+          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+          cholesterolText: '${cholesterolText} mg/dL',
+          UA_menText: UA_result_M,
+          UA_womenText: UA_result_W,
+        ),
+      ];
+
+      debugPrint("battery: $battery");
+      debugPrint("heartRate: $heartRate");
+      debugPrint("spo2: $spo2");
+      debugPrint("glucose: $glucose");
+      debugPrint("glucose: $glucose_mgDL");
+      debugPrint("cholesterol: $cholesterol");
+      debugPrint("UA_men: $UA_result_M");
+      debugPrint("UA_women: $UA_result_W");
+
+      for (graphData row in rowData) {
+        if (row.glucose_mmolL == 0.0) continue;
+
+        try {
+          int insertedId = await DatabaseHelper.instance.insertGraphData(row);
+          debugPrint('Data inserted with ID: $insertedId');
+        } catch (e) {
+          debugPrint('Error inserting data: $e');
+        }
+      }
 
       double tileHeight = 50;
       Color darkTileColor = const Color.fromARGB(255, 25, 25, 25);
@@ -156,10 +159,32 @@ class _ScanResultTileState extends State<ScanResultTile> {
         }
       }
 
+      DeviceData connectedDeviceData = DeviceData(
+        battery: int.parse(battery.toStringAsFixed(0)),
+        heartRate: heartRate,
+        spo2: spo2,
+        glucose: glucose,
+        cholesterol: cholesterol,
+        UA_men: UA_men,
+        UA_women: UA_women,
+      );
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Dashboard(deviceData: connectedDeviceData),
+                ),
+              );
+            },
+            child: Text('Go to Dashboard'),
+          ),
           Text(
             widget.result.device.name,
             overflow: TextOverflow.ellipsis,
@@ -343,7 +368,6 @@ class _ScanResultTileState extends State<ScanResultTile> {
               ElevatedButton(
                 onPressed: () {
                   // Call method to export as .csv or .xls
-                  // temporarily hard coded data into database, just query for now
                   showExportDialog(context);
                 },
                 child: Text('Export data'),

@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
 class UricAcidCardMen extends StatefulWidget {
-  const UricAcidCardMen({Key? key}) : super(key: key);
+  final double uric_men;
+  UricAcidCardMen({required this.uric_men});
 
   @override
   _UricAcidCardMenState createState() => _UricAcidCardMenState();
 }
 
 class _UricAcidCardMenState extends State<UricAcidCardMen> {
+  double get currentUAmen => widget.uric_men;
+
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: .0,
-        color: Color.fromARGB(255, 249, 188, 98),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
-        ),
+      elevation: .0,
+      color: Color.fromARGB(255, 249, 188, 98),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 4,
+        width: MediaQuery.of(context).size.width / 2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -49,10 +55,10 @@ class _UricAcidCardMenState extends State<UricAcidCardMen> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            '0.47',
+                            currentUAmen.toStringAsFixed(2),
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontSize: 27,
+                              fontSize: 30,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
@@ -63,7 +69,7 @@ class _UricAcidCardMenState extends State<UricAcidCardMen> {
                             'mmol/L',
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.grey),
                           ),
@@ -80,13 +86,14 @@ class _UricAcidCardMenState extends State<UricAcidCardMen> {
                 'Uric Acid\n(Men)',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 23,
                   fontWeight: FontWeight.w900,
                 ),
               ),
             ),
           ],
         ),
-      );
+      ),
+    );
   }
 }
