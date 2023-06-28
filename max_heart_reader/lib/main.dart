@@ -62,7 +62,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:max_heart_reader/Client/src/user_preferences.dart';
+import 'package:max_heart_reader/Client/src/LandingPage/user_preferences.dart';
 import 'package:max_heart_reader/Client/src/permissions.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';

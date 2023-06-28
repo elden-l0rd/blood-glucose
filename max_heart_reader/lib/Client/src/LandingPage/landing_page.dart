@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:max_heart_reader/Client/src/LandingPage/home.dart';
+import 'package:max_heart_reader/Client/src/LandingPage/graph/review_data.dart';
 import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
 import 'package:max_heart_reader/Server/device_data.dart';
 import 'package:max_heart_reader/Server/src/find_devices.dart';
 
-import 'package:max_heart_reader/Client/src/details_screen.dart';
+import 'package:max_heart_reader/Client/src/LandingPage/details_screen.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     _widgetOptions = [
-      HomePage(),
+      ReviewDataPage(),
       DetailsScreen(),
       FindDevicesScreen(),
       Dashboard(deviceData: initData),
@@ -64,7 +64,7 @@ class _LandingPageState extends State<LandingPage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.black),
-            label: 'Home',
+            label: 'Review Data',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person, color: Colors.black),

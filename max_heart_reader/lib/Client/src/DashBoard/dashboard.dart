@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/cholesterol_card.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/glucose_card.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/heartRate_card.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/spo2_card.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/uricAcidMen_card.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/uricAcidWomen_card.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard_cards/cholesterol_card.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard_cards/glucose_card.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard_cards/heartRate_card.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard_cards/spo2_card.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard_cards/uricAcidMen_card.dart';
+import 'package:max_heart_reader/Client/src/DashBoard/dashboard_cards/uricAcidWomen_card.dart';
 import 'package:max_heart_reader/Server/device_data.dart';
 
 class Dashboard extends StatefulWidget {

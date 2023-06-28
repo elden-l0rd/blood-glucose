@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:max_heart_reader/Client/src/user_preferences.dart';
+import 'package:max_heart_reader/Client/src/LandingPage/user_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../../globals.dart' as globals;
