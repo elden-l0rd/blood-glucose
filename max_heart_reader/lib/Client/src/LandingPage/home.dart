@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../Server/src/database_helper.dart';
+import 'dart:math'; // for Random (marketing video)
+
+const List<String> timeSelectionList = ["All", "Day", "Week", "Month", "Year"];
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -14,30 +17,37 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      // View graph
-      child: Container(
-        height: 700,
-        padding: EdgeInsets.all(8.0),
-        child: FutureBuilder<List<graphData>>(
-          // future: DatabaseHelper.instance.getGraphDataList(filterMonth: '2023-06-01'),
-          future: DatabaseHelper.instance.getGraphDataList(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return buildChart(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              return Center(
-                child: SizedBox(
-                  height: 40,
-                  width: 40,
-                  child: CircularProgressIndicator(color: Colors.orange),
-                ),
-              );
-            }
-          },
-        ),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            // View graph
+            child: Container(
+              height: 700,
+              padding: EdgeInsets.all(8.0),
+              child: FutureBuilder<List<graphData>>(
+                // future: DatabaseHelper.instance.getGraphDataList(filterMonth: '2023-06-01'),
+                future: DatabaseHelper.instance.getGraphDataList(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return buildChart(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return Center(
+                      child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator(color: Colors.orange),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -45,44 +55,49 @@ class HomePageState extends State<HomePage> {
   Widget buildChart(List<graphData> data) {
     List<graphData> rowData = [];
 
-    // !!!!!!!  for Trilogy marketing video !!!!!!!
-    // !!!!!!!    COMMENT for actual code   !!!!!!!
-    // void generateRandomData() {
-    //   DateTime startDate = DateTime(2023, 6, 8);
-    //   DateTime endDate = DateTime(2025, 6, 8);
-    //   Random random = Random();
-    //
-    //   for (int i = 0; i < 8; i++) {
-    //     DateTime randomDate = DateTime(
-    //       startDate.year + random.nextInt(endDate.year - startDate.year + 1),
-    //       1 + random.nextInt(12),
-    //       1 + random.nextInt(31),
-    //       random.nextInt(24),
-    //       random.nextInt(60),
-    //       random.nextInt(60),
-    //     );
-    //
-    //     String timestamp = randomDate.toString();
-    //     String formattedTimestamp = timestamp.split('.')[0];
-    //
-    //     graphData data = graphData(
-    //       timestamp: formattedTimestamp,
-    //       batteryText: '38%',
-    //       heartRateText: '77 bpm',
-    //       spo2Text: '98%',
-    //       glucose_mmolL: 2.0 + Random().nextDouble() * 11,
-    //       glucose_mgDL: .01,
-    //       cholesterolText: '2.01 mg/dL',
-    //       UA_menText: 'Normal: 0.32 mmol/L',
-    //       UA_womenText: 'Normal: 0.26 mmol/L',
-    //     );
-    //
-    //     rowData.add(data);
-    //   }
-    //   print("Data added successfully!");
-    // }
-    //
-    // generateRandomData();
+    // !!!!!!!  for Trilogy marketing video  !!!!!!!
+    // !!!!!!!  COMMENT OUT for actual code  !!!!!!!
+    void generateRandomData() {
+      DateTime startDate = DateTime(2023, 6, 8);
+      Random random = Random();
+      List<Duration> durations = [];
+
+      for (int i = 0; i < 8; i++) {
+        Duration randomDuration = Duration(days: random.nextInt(30));
+        durations.add(randomDuration);
+      }
+      durations.sort();
+      DateTime currentDate = startDate;
+
+      for (int i = 0; i < 8; i++) {
+        currentDate = currentDate.add(durations[i]);
+
+        // Ensure the current date does not exceed the end date
+        if (currentDate.isAfter(DateTime(2025, 6, 8))) {
+          break;
+        }
+
+        String timestamp = currentDate.toString();
+        String formattedTimestamp = timestamp.split('.')[0];
+
+        graphData data = graphData(
+          timestamp: formattedTimestamp,
+          batteryText: '38%',
+          heartRateText: '77 bpm',
+          spo2Text: '98%',
+          glucose_mmolL: 2.0 + Random().nextDouble() * 11,
+          glucose_mgDL: .01,
+          cholesterolText: '2.01 mg/dL',
+          UA_menText: 'Normal: 0.32 mmol/L',
+          UA_womenText: 'Normal: 0.26 mmol/L',
+        );
+
+        rowData.add(data);
+      }
+      print("Data added successfully!");
+    }
+
+    generateRandomData();
     // rowData = [
     //   graphData(
     //     timestamp: '2023-06-08 12:00:00',
@@ -95,39 +110,9 @@ class HomePageState extends State<HomePage> {
     //     UA_menText: 'Normal: 0.32 mmol/L',
     //     UA_womenText: 'Normal: 0.26 mmol/L',
     //   ),
-    //   graphData(
-    //     timestamp: '2023-06-10 12:00:00',
-    //     batteryText: '38%',
-    //     heartRateText: '77 bpm',
-    //     spo2Text: '98%',
-    //     glucose_mmolL: 2.0 + Random().nextDouble() * 11,
-    //     glucose_mgDL: .01,
-    //     cholesterolText: '2.01 mg/dL',
-    //     UA_menText: 'Normal: 0.32 mmol/L',
-    //     UA_womenText: 'Normal: 0.26 mmol/L',
-    //   ),
-    //   graphData(
-    //     timestamp: '2023-06-11 12:00:00',
-    //     batteryText: '38%',
-    //     heartRateText: '77 bpm',
-    //     spo2Text: '98%',
-    //     glucose_mmolL: 2.0 + Random().nextDouble() * 11,
-    //     glucose_mgDL: .01,
-    //     cholesterolText: '2.01 mg/dL',
-    //     UA_menText: 'Normal: 0.32 mmol/L',
-    //     UA_womenText: 'Normal: 0.26 mmol/L',
-    //   ),
-    //   graphData(
-    //     timestamp: '2023-06-11 18:00:00',
-    //     batteryText: '38%',
-    //     heartRateText: '77 bpm',
-    //     spo2Text: '98%',
-    //     glucose_mmolL: 2.0 + Random().nextDouble() * 11,
-    //     glucose_mgDL: .01,
-    //     cholesterolText: '2.01 mg/dL',
-    //     UA_menText: 'Normal: 0.32 mmol/L',
-    //     UA_womenText: 'Normal: 0.26 mmol/L',
-    //   ),
+    //   .
+    //   .
+    //   .
     // ];
 
     // insert data into db
@@ -142,16 +127,44 @@ class HomePageState extends State<HomePage> {
       }
     }
 
+    String dropdownValue = timeSelectionList.first;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 87, 86, 86),
+          ),
+          child: DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.white),
+            dropdownColor: const Color.fromARGB(255, 87, 86, 86),
+            onChanged: (String? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items:
+                timeSelectionList.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
         Expanded(
           child: SfCartesianChart(
             title: ChartTitle(
               text: "Glucose levels [mmol/L]",
               textStyle: TextStyle(
                 fontSize: 15.5,
+                color: Colors.white,
               ),
             ),
             plotAreaBackgroundColor: Colors.black,

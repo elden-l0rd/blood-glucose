@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/heartRate_card.dart';
 
 class NormalDashboard extends StatefulWidget {
   final double battery;
