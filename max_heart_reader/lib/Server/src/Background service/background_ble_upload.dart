@@ -7,9 +7,9 @@ import 'dart:async';
 import 'dart:math';
 
 // Project Files
-import '../globals.dart' as globals;
+import '../../../globals.dart' as globals;
 // import 'ifttt_notifications.dart';
-import '../Server/src/find_devices.dart' as findDevicesWidget;
+import '../find_devices.dart' as findDevicesWidget;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';

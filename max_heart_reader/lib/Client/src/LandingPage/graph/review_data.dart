@@ -9,7 +9,7 @@ class ReviewDataPage extends StatefulWidget {
   const ReviewDataPage({
     Key? key,
   }) : super(key: key);
-  
+
   @override
   ReviewDataPageState createState() => ReviewDataPageState();
 }
@@ -39,8 +39,8 @@ class ReviewDataPageState extends State<ReviewDataPage> {
                   dropdownValue = value!;
                 });
               },
-              items:
-                  timeSelectionList.map<DropdownMenuItem<String>>((String value) {
+              items: timeSelectionList
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -73,18 +73,31 @@ class ReviewDataPageState extends State<ReviewDataPage> {
               ),
             ),
           ),
-          ElevatedButton(
-          onPressed: () {
-            nextPeriod();
-          },
-          child: Text('Next Period'),
-        ),
-          ElevatedButton(
-            onPressed: () {
-              _updateGraphData();
-            },
-            child: Text('Update Graph Data'),
-          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  nextPeriod();
+                },
+                child: Text('Next Period'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                ),
+              ),
+              SizedBox(width: 10), // Add some spacing between the buttons
+              ElevatedButton(
+                onPressed: () {
+                  _updateGraphData();
+                },
+                child: Text('Update Graph Data'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -95,33 +108,41 @@ class ReviewDataPageState extends State<ReviewDataPage> {
       return await DatabaseHelper.instance.getGraphDataList();
     } else if (dropdownValue == 'Day') {
       if (filter != null) {
-        return await DatabaseHelper.instance.getGraphDataList(filterDay: filter);
+        return await DatabaseHelper.instance
+            .getGraphDataList(filterDay: filter);
       }
       DateTime now = DateTime.now();
       String filterDay = DateTime(now.year, now.month, now.day).toString();
-      return await DatabaseHelper.instance.getGraphDataList(filterDay: filterDay);
+      return await DatabaseHelper.instance
+          .getGraphDataList(filterDay: filterDay);
     } else if (dropdownValue == 'Week') {
       if (filter != null) {
-        return await DatabaseHelper.instance.getGraphDataList(filterWeek: filter);
+        return await DatabaseHelper.instance
+            .getGraphDataList(filterWeek: filter);
       }
       DateTime now = DateTime.now();
       DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
       String filterWeek = startOfWeek.toString();
-      return await DatabaseHelper.instance.getGraphDataList(filterWeek: filterWeek);
+      return await DatabaseHelper.instance
+          .getGraphDataList(filterWeek: filterWeek);
     } else if (dropdownValue == 'Month') {
       if (filter != null) {
-        return await DatabaseHelper.instance.getGraphDataList(filterMonth: filter);
+        return await DatabaseHelper.instance
+            .getGraphDataList(filterMonth: filter);
       }
       DateTime now = DateTime.now();
       String filterMonth = DateTime(now.year, now.month).toString();
-      return await DatabaseHelper.instance.getGraphDataList(filterMonth: filterMonth);
+      return await DatabaseHelper.instance
+          .getGraphDataList(filterMonth: filterMonth);
     } else if (dropdownValue == 'Year') {
       if (filter != null) {
-        return await DatabaseHelper.instance.getGraphDataList(filterYear: filter);
+        return await DatabaseHelper.instance
+            .getGraphDataList(filterYear: filter);
       }
       DateTime now = DateTime.now();
       String filterYear = DateTime(now.year).toString();
-      return await DatabaseHelper.instance.getGraphDataList(filterYear: filterYear);
+      return await DatabaseHelper.instance
+          .getGraphDataList(filterYear: filterYear);
     }
     return [];
   }
@@ -134,7 +155,9 @@ class ReviewDataPageState extends State<ReviewDataPage> {
     if (dropdownValue == 'Day') {
       // Increment the current date by one day
       DateTime currentDate = DateTime.now().add(Duration(days: 1));
-      String filterDay = DateTime(currentDate.year, currentDate.month, currentDate.day).toString();
+      String filterDay =
+          DateTime(currentDate.year, currentDate.month, currentDate.day)
+              .toString();
       setState(() {
         dropdownValue = 'Day';
         _fetchGraphData(filter: filterDay); // Fetch data for the next day
@@ -142,7 +165,8 @@ class ReviewDataPageState extends State<ReviewDataPage> {
     } else if (dropdownValue == 'Week') {
       // Increment the current date by one week
       DateTime currentDate = DateTime.now().add(Duration(days: 7));
-      DateTime startOfWeek = currentDate.subtract(Duration(days: currentDate.weekday - 1));
+      DateTime startOfWeek =
+          currentDate.subtract(Duration(days: currentDate.weekday - 1));
       String filterWeek = startOfWeek.toString();
       setState(() {
         dropdownValue = 'Week';
@@ -151,7 +175,8 @@ class ReviewDataPageState extends State<ReviewDataPage> {
     } else if (dropdownValue == 'Month') {
       // Increment the current date by one month
       DateTime currentDate = DateTime.now().add(Duration(days: 30));
-      String filterMonth = DateTime(currentDate.year, currentDate.month).toString();
+      String filterMonth =
+          DateTime(currentDate.year, currentDate.month).toString();
       setState(() {
         dropdownValue = 'Month';
         _fetchGraphData(filter: filterMonth); // Fetch data for the next month
@@ -168,7 +193,6 @@ class ReviewDataPageState extends State<ReviewDataPage> {
   }
 
   Widget buildChart(List<graphData> data) {
-
     // !!!!!!!  for Trilogy marketing video  !!!!!!!
     // !!!!!!!   UNCOMMENT for actual code   !!!!!!!
     // List<graphData> rowData = [];
@@ -194,7 +218,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
             title: ChartTitle(
               text: "Glucose levels [mmol/L]",
               textStyle: TextStyle(
-                fontSize: 15.5,
+                fontSize: 16,
                 color: Colors.white,
               ),
             ),
@@ -214,26 +238,39 @@ class ReviewDataPageState extends State<ReviewDataPage> {
             series: <ChartSeries>[
               RangeColumnSeries<graphData, String>(
                 dataSource: data,
-                color: Colors.blueAccent,
+                // color: Colors.blueAccent,
+                pointColorMapper: (graphData point, _) {
+                  return (point.glucose_mmolL > 6.9)
+                      ? Colors.red
+                      : Colors.blueAccent;
+                },
                 xValueMapper: (graphData point, _) => point.timestamp,
                 lowValueMapper: (graphData point, _) => 0,
-                highValueMapper: (graphData point, _) => point.glucose_mmolL,
+                highValueMapper: (graphData point, _) =>
+                    double.parse(point.glucose_mmolL.toStringAsFixed(2)),
                 dataLabelSettings: DataLabelSettings(
                   isVisible: true,
                   showZeroValue: false,
                   angle: -90,
                   labelAlignment: ChartDataLabelAlignment.auto,
-                  labelPosition: ChartDataLabelPosition.inside,
+                  labelPosition: ChartDataLabelPosition.outside,
                   textStyle: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Roboto',
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w400,
-                    fontSize: 10,
+                    fontSize: 12,
                   ),
                 ),
               ),
             ],
+            tooltipBehavior: TooltipBehavior(
+              enable: true,
+              format: 'point.high',
+              textStyle: TextStyle(color: Colors.white),
+              header: 'Value',
+              duration: 1500, // ms
+            ),
           ),
         ),
       ],

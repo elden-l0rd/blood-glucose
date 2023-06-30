@@ -112,35 +112,6 @@ class _GlucoseCardState extends State<GlucoseCard> {
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              heightFactor: 4.2,
-              widthFactor: 2.2,
-              child: Container(
-                width: 72,
-                height: 37,
-                child: Padding(
-                  padding: EdgeInsets.all(6.5),
-                  child: Material(
-                    elevation: 1.61803399,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextButton(
-                      onPressed: toggleExpansion,
-                      child: Text(
-                        'Expand',
-                        style: TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 141, 141, 141),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

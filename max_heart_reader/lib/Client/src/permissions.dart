@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/main.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../Background service/background_service.dart';
+import '../../Server/src/Background service/background_service.dart';
 import '../../globals.dart' as globals; // Global variables
 import '../../Server/src/find_devices.dart'
     as findDevicesWidget; // to display Toast notification

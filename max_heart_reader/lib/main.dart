@@ -69,9 +69,9 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 // Project files
-import 'Background service/bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
+import 'Server/src/Background service/bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
 // 2nd screen of the app (find devices)
-import 'Background service/background_ble_upload.dart' as background1;
+import 'Server/src/Background service/background_ble_upload.dart' as background1;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
