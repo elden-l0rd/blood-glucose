@@ -4,6 +4,9 @@
 
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
 
+// 3logytest@gmail.com
+// 3logytech123
+
 // Flutter/Dart
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
@@ -103,39 +106,39 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
       // UNCOMMENT FOR ACTUAL APP RELEASE
       // stores data into db
-      List<graphData> rowData = [
-        graphData(
-          timestamp: getCurrentDateTime(),
-          batteryText: "${battery.toStringAsFixed(0)}%",
-          heartRateText: '${heartRateText} bpm',
-          spo2Text: spo2Text,
-          glucose_mmolL: glucose,
-          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-          cholesterolText: '${cholesterolText} mg/dL',
-          UA_menText: UA_result_M,
-          UA_womenText: UA_result_W,
-        ),
-      ];
-      
-      debugPrint("battery: $battery");
-      debugPrint("heartRate: $heartRate");
-      debugPrint("spo2: $spo2");
-      debugPrint("glucose: $glucose");
-      debugPrint("glucose: $glucose_mgDL");
-      debugPrint("cholesterol: $cholesterol");
-      debugPrint("UA_men: $UA_result_M");
-      debugPrint("UA_women: $UA_result_W");
-      
-      for (graphData row in rowData) {
-        if (row.glucose_mmolL == 0.0) continue;
-      
-        try {
-          int insertedId = await DatabaseHelper.instance.insertGraphData(row);
-          debugPrint('Data inserted with ID: $insertedId');
-        } catch (e) {
-          debugPrint('Error inserting data: $e');
-        }
-      }
+      // List<graphData> rowData = [
+      //   graphData(
+      //     timestamp: getCurrentDateTime(),
+      //     batteryText: "${battery.toStringAsFixed(0)}%",
+      //     heartRateText: '${heartRateText} bpm',
+      //     spo2Text: spo2Text,
+      //     glucose_mmolL: glucose,
+      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+      //     cholesterolText: '${cholesterolText} mg/dL',
+      //     UA_menText: UA_result_M,
+      //     UA_womenText: UA_result_W,
+      //   ),
+      // ];
+
+      // debugPrint("battery: $battery");
+      // debugPrint("heartRate: $heartRate");
+      // debugPrint("spo2: $spo2");
+      // debugPrint("glucose: $glucose");
+      // debugPrint("glucose: $glucose_mgDL");
+      // debugPrint("cholesterol: $cholesterol");
+      // debugPrint("UA_men: $UA_result_M");
+      // debugPrint("UA_women: $UA_result_W");
+
+      // for (graphData row in rowData) {
+      //   if (row.glucose_mmolL == 0.0) continue;
+
+      //   try {
+      //     int insertedId = await DatabaseHelper.instance.insertGraphData(row);
+      //     debugPrint('Data inserted with ID: $insertedId');
+      //   } catch (e) {
+      //     debugPrint('Error inserting data: $e');
+      //   }
+      // }
 
       DeviceData connectedDeviceData = DeviceData(
         battery: int.parse(battery.toStringAsFixed(0)),
@@ -151,17 +154,39 @@ class _ScanResultTileState extends State<ScanResultTile> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      Dashboard(deviceData: connectedDeviceData),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Dashboard(deviceData: connectedDeviceData),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.arrow_forward),
+                label: Text('Go to Dashboard'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, 
+                  backgroundColor: Colors.orange,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.0),
+                  ),
+                )
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  widget.result.device.name,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-              );
-            },
-            child: Text('Go to Dashboard'),
+              ),
+            ],
           ),
           Text(
             widget.result.device.name,

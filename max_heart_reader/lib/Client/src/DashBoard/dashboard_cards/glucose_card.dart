@@ -34,7 +34,7 @@ class _GlucoseCardState extends State<GlucoseCard> {
           : MediaQuery.of(context).size.width / 2,
       child: Card(
         elevation: .0,
-        color: Color.fromARGB(58, 170, 255, 12),
+        color: Color.fromARGB(246, 200, 241, 160),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(22),
         ),
@@ -55,7 +55,7 @@ class _GlucoseCardState extends State<GlucoseCard> {
                           height: 50,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color.fromARGB(96, 170, 255, 12),
+                            color: Color.fromARGB(159, 170, 255, 12),
                           ),
                           child: ClipOval(
                             child: Image.asset(

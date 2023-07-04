@@ -249,7 +249,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
                 highValueMapper: (graphData point, _) =>
                     double.parse(point.glucose_mmolL.toStringAsFixed(2)),
                 dataLabelSettings: DataLabelSettings(
-                  isVisible: true,
+                  isVisible: false,
                   showZeroValue: false,
                   angle: -90,
                   labelAlignment: ChartDataLabelAlignment.auto,
@@ -267,7 +267,13 @@ class ReviewDataPageState extends State<ReviewDataPage> {
             tooltipBehavior: TooltipBehavior(
               enable: true,
               format: 'point.high',
-              textStyle: TextStyle(color: Colors.white),
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Roboto',
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w700,
+                fontSize: 17,
+                ),
               header: 'Value',
               duration: 1500, // ms
             ),
