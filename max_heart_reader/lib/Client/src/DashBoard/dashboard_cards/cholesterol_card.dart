@@ -15,7 +15,7 @@ class _CholesterolCardState extends State<CholesterolCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: .0,
-      color: Color.fromARGB(240, 166, 238, 244),
+      color: Color.fromARGB(54, 4, 238, 255),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(22),
       ),
@@ -37,7 +37,7 @@ class _CholesterolCardState extends State<CholesterolCard> {
                       height: 50,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color.fromARGB(126, 88, 236, 247),
+                        color: Color.fromARGB(87, 88, 236, 247),
                       ),
                       child: ClipOval(
                         child: Image.asset(
@@ -55,7 +55,8 @@ class _CholesterolCardState extends State<CholesterolCard> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            currentcholes.toString(),
+                            // currentcholes.toString(),
+                            '2.77',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,

@@ -56,7 +56,8 @@ class _HeartRateCardState extends State<HeartRateCard> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            storeheartRate.toString(),
+                            // storeheartRate.toString(),
+                            '88',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,

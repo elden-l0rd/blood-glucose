@@ -73,7 +73,8 @@ class _GlucoseCardState extends State<GlucoseCard> {
                             Padding(
                               padding: EdgeInsets.only(top: 3, right: 8),
                               child: Text(
-                                currentglucoselevel.toString(),
+                                // currentglucoselevel.toString(),
+                                '6.80',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 30,

@@ -14,7 +14,7 @@ class _SpO2CardState extends State<SpO2Card> {
   Widget build(BuildContext context) {
     return Card(
       elevation: .0,
-      color: Color.fromARGB(255, 255, 199, 212),
+      color: Color.fromARGB(255, 255, 113, 146),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(22),
       ),
@@ -54,7 +54,8 @@ class _SpO2CardState extends State<SpO2Card> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            currentspo2.toString(),
+                            // currentspo2.toString(),
+                            '98',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,

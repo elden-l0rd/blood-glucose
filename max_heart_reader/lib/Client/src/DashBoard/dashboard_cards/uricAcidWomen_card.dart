@@ -55,7 +55,8 @@ class _UricAcidCardWomenState extends State<UricAcidCardWomen> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            currentUAwomen.toStringAsFixed(2),
+                            // currentUAwomen.toStringAsFixed(2),
+                            '0.35',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,
