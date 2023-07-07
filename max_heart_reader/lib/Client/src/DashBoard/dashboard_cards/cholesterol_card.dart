@@ -15,7 +15,7 @@ class _CholesterolCardState extends State<CholesterolCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: .0,
-      color: Color.fromARGB(54, 4, 238, 255),
+      color: Color.fromARGB(218, 54, 234, 247),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(22),
       ),

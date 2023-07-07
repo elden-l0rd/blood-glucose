@@ -1,13 +1,17 @@
 \documentclass[a4paper]{scrreprt}
+\usepackage[top=2.2cm, bottom=3.5cm]{geometry}
 \usepackage{listings}
 \usepackage{underscore}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{longtable}
+\usepackage{tabularx}
 \usepackage{fancyhdr}
+\usepackage{subcaption}
 \usepackage[bookmarks=true]{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+\graphicspath{{./images}}
 \hypersetup{
     bookmarks=false,    % show bookmarks bar?
     pdftitle={Software Requirement Specification},    % title
@@ -30,19 +34,20 @@
 % Set the footer style for the current page only
 \fancypagestyle{currentpagefooter}{
   \fancyfoot[C]{Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document.}
-  \renewcommand{\headrulewidth}{0pt} % Remove header line
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
 }
 \thispagestyle{currentpagefooter}
 
 \begin{flushright}
-    \rule{16cm}{5pt}\vskip1cm
+    \rule{16cm}{5pt}\vskip2cm
     \begin{bfseries}
         \Huge{SOFTWARE REQUIREMENTS\\ SPECIFICATION}\\
-        \vspace{2.5cm}
+        \vspace{3.5cm}
         for\\
         \vspace{1.5cm}
         Glucometer App\\
-        \vspace{2cm}
+        \vspace{3.2cm}
         \LARGE{Version \myversion}\\
         \vspace{1.5cm}
         Prepared by : Wong Chu Feng\\
@@ -52,10 +57,11 @@
         13 July 2023\\
     \end{bfseries}
 \end{flushright}
+\clearpage
 
-\section*{Revision History}
+\chapter*{Revision History}
 \begin{center}
-\begin{longtable}{|p{2.8cm}|l|p{7.5cm}|l|}
+\begin{longtable}{|p{2.8cm}|l|p{7cm}|l|}
     \hline
     \textbf{Name} & \textbf{Date} & \textbf{Description} & \textbf{Version} \\
     \hline
@@ -236,9 +242,114 @@ A demonstration video and app screenshots alongside this SRS documentation will 
 \section{User Interfaces}
 The app features a personal information page that includes fields that accepts user input where the system only accepts a valid value. For example, the 'age' field must only accept values in $[0, 120]$, 'height' field must be between $(0, 272]$, etc.
 \newline
-\newline
-\colorbox{red}{Add screenshots of app here!}
+\subsection{Personal Information page}
+This page includes fields where the user is able to key in his/her own information. Each detail can be changed and saved accordingly.
 
+\begin{itemize}
+    \item Users can click on the input text box and type in the respective values and select their gender from 2 options, Male or Female.
+    \item To save the data, they will click on the ‘Save’ button and the data will always appear there even after they have navigated to another tab. To change the input data, they just have to click on the box, retype in a new data and click on ‘Save’.
+    \item The data will always appear there even after they have navigated to another tab.
+\end{itemize}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.43]{personal_info.png}
+  \caption{Personal Information page}
+  \label{fig:personal-info}
+\end{figure}
+\clearpage
+
+\subsection{Find Devices page}
+This page will be where the user search for the oximeter. The live updates of the biodata received will be redirected to the next Dashboard page.
+\newline
+When a device is connected in 3.1.2(a), a row of data containing the variables that are being measured is displayed. They include heart rate, blood oxygen level, glucose level, cholesterol level, men uric acid level and women uric acid level.
+\newline
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.15]{find_devices.jpeg}
+        \caption{Device connected}
+        \label{fig:graph1}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.15]{dashboard_data.jpeg}
+        \caption{Dashboard with data}
+        \label{fig:graph2}
+    \end{subfigure}
+    \label{fig:finddev}
+\end{figure}
+\clearpage
+
+\subsubsection{3.1.2.1 Export data}
+To export data, the user will click on the 'Export data' button. The data will be exported into either .xls or .csv.
+\newline
+\newline
+The first 2 options:
+\begin{itemize}
+    \item Exports the data and saves into the phone’s local storage as a CSV file or an Excel file.
+\end{itemize}
+The last 2 options:
+\begin{itemize}
+    \item Emails the data in either as a CSV file or an Excel file. The file will also be saved into the phone’s local storage automatically.
+\end{itemize}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.15]{export_page.jpeg}
+    \caption{Export dialogue}
+\end{figure}
+\clearpage
+
+\subsection{Graph page}
+This page will be where the user search for the oximeter. The live updates of the biodata received will be redirected to the next Dashboard page.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.5]{graph_all.png}
+        \caption{Graph showing 'All' data}
+        \label{fig:graph1}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.5]{graph_filter-options.png}
+        \caption{Graph's filtering options}
+        \label{fig:graph2}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[h]
+\ContinuedFloat
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.47]{graph_day.png}
+        \caption{Data filtered by day}
+        \label{fig:graph3}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.47]{graph_week.png}
+        \caption{Data filtered by week}
+        \label{fig:graph4}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[h]
+\ContinuedFloat
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.47]{graph_month.png}
+        \caption{Data filtered by month}
+        \label{fig:graph5}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[scale=0.47]{graph_year.png}
+        \caption{Data filtered by year}
+        \label{fig:graph6}
+    \end{subfigure}
+\end{figure}
+
+\clearpage
 \section{Hardware Interfaces}
 The app interacts with the following hardware components:
 \begin{itemize}
@@ -343,9 +454,144 @@ The graph used in the app is a bar graph.
     \item Security or software updates shall be rolled out periodically and when necessary.
 \end{itemize}
 \section{Software Quality Attributes}
+The app adheres to good software engineering design principles of
+\begin{itemize}
+    \item Good design
+    \begin{itemize}
+        \item Reusability of features
+        \begin{itemize}
+            \item Methods for user account creation and storing of user data in a database can be reused for another project.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+        \item Testability of features
+        \begin{itemize}
+            \item Each feature can be tested independently.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+        \item Maintainability of features
+        \begin{itemize}
+            \item Ensured readability of code.
+            \item Included comments to help anyone else reading the source code understand what the function does.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+        \item Extensibility of features
+        \begin{itemize}
+            \item The flexible architecture allows new modules or components to be added without affecting the existing system.
+        \end{itemize}
+    \end{itemize}
+    \item Design Patterns
+    \begin{itemize}
+        \item Single responsibility principle
+        \begin{itemize}
+            \item Our application is broken down into smaller, individual functions, each with a single responsibility.
+            \item Improves reusability as each function can be reused in other modules.
+            \item Improves maintainability as each function is less likely to affect other functions.
+        \end{itemize}
+    \end{itemize}
+    \item Design Principles
+    \begin{itemize}
+        \item High cohesion
+        \begin{itemize}
+            \item The modules in the system have a single, well-defined responsibility.
+        \end{itemize}
+        \item Low coupling
+        \begin{itemize}
+            \item Changes in one module will not affect other functions.
+            \item Modules do not have overlapping responsibilities and does not affect each other at all.
+        \end{itemize}
+        \item Open-Closed
+        \begin{itemize}
+            \item Extension of current functions is possible.
+        \end{itemize}
+        \item Separation of concerns
+        \begin{itemize}
+            \item The code is more readable since all the components do not have overlapping functionalities.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
 
 
 \chapter{Use Case Descriptions}
+\renewcommand{\arraystretch}{1.85}
+\begin{tabular}{|l|p{10cm}|}
+\hline
+Use Case ID: & UC01\\
+\hline
+Use Case Name: & Create profile\\
+\hline
+Date Created: & 7 Jul 2023\\
+\hline
+Last Updated: & 7 Jul 2023\\
+\hline
+Actor: & \\
+\hline
+Description: & \\
+\hline
+Preconditions: & \\
+\hline
+Postconditions: & \\
+\hline
+Priority: & \\
+\hline
+Frequency of use: & \\
+\hline
+Flow of events: & \\
+\hline
+Alternative flow: & \\
+\hline
+Exceptions: & \\
+\hline
+Includes: & \\
+\hline
+Special Requirements: & \\
+\hline
+Assumptions: & \\
+\hline
+Notes and Issues: & \\
+\hline
+\end{tabular}
+\newline
+\begin{tabular}{|l|p{10cm}|}
+\hline
+Use Case ID: & UC02\\
+\hline
+Use Case Name: & Find devices\\
+\hline
+Date Created: & 7 Jul 2023\\
+\hline
+Last Updated: & 7 Jul 2023\\
+\hline
+Actor: & \\
+\hline
+Description: & \\
+\hline
+Preconditions: & \\
+\hline
+Postconditions: & \\
+\hline
+Priority: & \\
+\hline
+Frequency of use: & \\
+\hline
+Flow of events: & \\
+\hline
+Alternative flow: & \\
+\hline
+Exceptions: & \\
+\hline
+Includes: & \\
+\hline
+Special Requirements: & \\
+\hline
+Assumptions: & \\
+\hline
+Notes and Issues: & \\
+\hline
+\end{tabular}
+\newline
 
 \chapter{System Diagrams}
 \section{Use Case diagrams}
