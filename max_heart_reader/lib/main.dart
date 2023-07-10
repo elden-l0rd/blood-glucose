@@ -77,6 +77,9 @@ import 'Server/src/Background service/background_ble_upload.dart' as background1
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'Client/src/LandingPage/landing_page.dart';
+import 'globals.dart';
+// import 'l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
   background1.runBackgroundDeviceScan();
@@ -190,6 +193,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // supportedLocales: L10n.all,
+      // localizationsDelegates: L10n.delegates,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: currentLocale,
       home: StreamBuilder<BluetoothState>(
         stream: FlutterBluePlus.instance.state,
         initialData: BluetoothState.unknown,

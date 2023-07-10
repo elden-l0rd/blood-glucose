@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:max_heart_reader/Client/src/LandingPage/user_preferences.dart';
 import 'package:max_heart_reader/Client/button_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../globals.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../l10n/change_language.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -67,9 +71,17 @@ class DetailsScreenState extends State<DetailsScreen> {
       appBar: AppBar(
         title: Padding(
             padding: EdgeInsets.only(top: 25),
-            child: Text(
-              "Personal Information",
-              style: TextStyle(fontSize: 26),
+            child: Row(
+              children: [
+                Text(
+                L10n.translation(context).personalInformation,
+                style: TextStyle(fontSize: 24),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: LanguageButton(),
+                ),
+              ],
             )),
         backgroundColor: Colors.black,
       ),
