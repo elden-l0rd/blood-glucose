@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
+
 class SpO2Card extends StatefulWidget {
   final int SpO2;
   SpO2Card({required this.SpO2});
@@ -83,7 +85,7 @@ class _SpO2CardState extends State<SpO2Card> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                'SpO2',
+                L10n.translation(context).spo2,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

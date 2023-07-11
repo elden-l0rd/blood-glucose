@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
+
 class HeartRateCard extends StatefulWidget {
   final int heartRate;
   HeartRateCard({required this.heartRate});
@@ -86,7 +88,7 @@ class _HeartRateCardState extends State<HeartRateCard> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                'Heart Rate',
+                L10n.translation(context).heartrate,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/l10n.dart';
 import 'database_helper.dart';
 
 void showExportDialog(BuildContext context) {
@@ -8,9 +9,9 @@ void showExportDialog(BuildContext context) {
       builder: (BuildContext context) {
         return Center(
           child: AlertDialog(
-            title: Text('Export Format', style: TextStyle(color: Colors.white)),
+            title: Text(L10n.translation(context).exportformat, style: TextStyle(color: Colors.white)),
             content: Text(
-              'Choose the export format.',
+              L10n.translation(context).chooseexportformat,
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: const Color.fromARGB(255, 39, 39, 39),

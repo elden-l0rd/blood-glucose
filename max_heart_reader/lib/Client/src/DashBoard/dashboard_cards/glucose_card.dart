@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
+
 class GlucoseCard extends StatefulWidget {
   final double glucose_level;
   GlucoseCard({required this.glucose_level});
@@ -103,7 +105,7 @@ class _GlucoseCardState extends State<GlucoseCard> {
                 Padding(
                   padding: EdgeInsets.only(left: 18),
                   child: Text(
-                    'Glucose\nLevel',
+                    L10n.translation(context).glucoselevel,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 23,

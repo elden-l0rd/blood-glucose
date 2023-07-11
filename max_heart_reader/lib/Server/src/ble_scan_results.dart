@@ -14,6 +14,7 @@ import 'package:max_heart_reader/Client/src/DashBoard/normal_dashboard.dart';
 import 'dart:async';
 
 // Other project files
+import '../../l10n/l10n.dart';
 import '../device_data.dart';
 import 'database_helper.dart';
 import 'export_data.dart';
@@ -168,7 +169,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   );
                 },
                 icon: Icon(Icons.arrow_forward),
-                label: Text('Go to Dashboard'),
+                label: Text(L10n.translation(context).gotodashboard),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, 
                   backgroundColor: Colors.orange,
@@ -211,7 +212,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   // Call method to export as .csv or .xls
                   showExportDialog(context);
                 },
-                child: Text('Export data'),
+                child: Text(L10n.translation(context).exportdata),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/l10n.dart';
 
 class NormalDashboard extends StatefulWidget {
   final double battery;
@@ -85,8 +86,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                           ),
                         ),
                       ),
-                      const Text(
-                        "Battery",
+                      Text(
+                        L10n.translation(context)!.battery,
                         style: TextStyle(color: Colors.white, fontSize: 12),
                         textAlign: TextAlign.center,
                       ),
@@ -107,8 +108,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "Heart \nRate",
+                    Text(
+                      L10n.translation(context).heartrate,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -128,8 +129,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "Blood \nOxygen",
+                    Text(
+                      L10n.translation(context).bloodoxygen,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -149,8 +150,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "Glucose",
+                    Text(
+                      L10n.translation(context).glucose,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -170,8 +171,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "Cholesterol",
+                    Text(
+                      L10n.translation(context).cholesterol,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -191,8 +192,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "Men\nUric Acid",
+                    Text(
+                      L10n.translation(context).uricacidmen,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -212,8 +213,8 @@ class _NormalDashboardState extends State<NormalDashboard> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "Women\nUric Acid",
+                    Text(
+                      L10n.translation(context).uricacidwomen,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
