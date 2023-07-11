@@ -5,6 +5,8 @@
   "finddevices": "查找设备",
   "dashboard": "仪表盘",
   "personalInformation": "个人信息",
+  "name": "姓名",
+  "yName": "您的姓名",
   "age": "年龄",
   "gender": "性别",
   "sGender": "选择性别",

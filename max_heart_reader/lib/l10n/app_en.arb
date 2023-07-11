@@ -5,6 +5,8 @@
     "finddevices": "Find Devices",
     "dashboard": "Dashboard",
     "personalInformation": "Personal Information",
+    "name": "Name",
+    "yName": "Your Name",
     "age": "Age",
     "gender": "Gender",
     "sGender": "Select Gender",

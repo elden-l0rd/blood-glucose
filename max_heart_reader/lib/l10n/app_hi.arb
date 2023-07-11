@@ -5,6 +5,8 @@
   "finddevices": "उपकरण खोजें",
   "dashboard": "डैशबोर्ड",
   "personalInformation": "व्यक्तिगत जानकारी",
+  "name": "नाम",
+  "yName": "आपका नाम",
   "age": "आयु",
   "gender": "लिंग",
   "sGender": "लिंग चुनें",

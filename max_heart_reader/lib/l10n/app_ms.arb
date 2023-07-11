@@ -5,6 +5,8 @@
   "finddevices": "Cari Peranti",
   "dashboard": "Papan Pemuka",
   "personalInformation": "Maklumat Peribadi",
+  "name": "Nama",
+  "yName": "Nama Anda",
   "age": "Umur",
   "gender": "Jantina",
   "sGender": "Pilih Jantina",

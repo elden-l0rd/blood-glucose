@@ -14,7 +14,6 @@ class _LanguageButtonState extends State<LanguageButton> {
     if (newLocale != currentLocale) {
       setState(() {
         currentLocale = newLocale;
-        print(currentLocale);
         HomeScreen.setLocale(context, newLocale);
       });
     }
