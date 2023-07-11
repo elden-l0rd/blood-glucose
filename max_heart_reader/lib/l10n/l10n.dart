@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class L10n {
   static final all = [
     const Locale('en'), //english
     const Locale('zh'), //chinese
-    const Locale('ar'), //arabic
+    const Locale('ms'), //malay
     const Locale('hi'), //hindi
-    const Locale('es'), //spanish
-  ];
-
-  static final delegates = [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
   ];
 
   static String getFlag(String code) {
     switch (code) {
       case 'zh':
         return '🇨🇳';
-      case 'ar':
-        return '🇸🇦';
+      case 'ms':
+        return '🇲🇾';
       case 'hi':
         return '🇮🇳';
-      case 'es':
-        return '🇪🇸';
       default:
         return '🇺🇸';
     }
@@ -36,12 +26,10 @@ class L10n {
     switch (locale.languageCode) {
       case 'zh':
         return ' - Chinese';
-      case 'ar':
-        return ' - Arabic';
+      case 'ms':
+        return ' - Malay';
       case 'hi':
         return ' - Hindi';
-      case 'es':
-        return ' - Spanish';
       default:
         return ' - English';
     }

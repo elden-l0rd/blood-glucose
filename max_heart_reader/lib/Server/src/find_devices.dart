@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:async'; // required to run a timer
 
 // Project files
+import '../../l10n/l10n.dart';
 import 'ble_scan_results.dart';
 // import 'background_service.dart';
 // import 'background_ble_upload.dart';
@@ -96,7 +97,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Container(
                     //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-                    child: const Text('List of Devices',
+                    child: Text(L10n.translation(context).listofdevices,
                         style: TextStyle(fontSize: 16)),
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -118,7 +119,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   Container(
-                    child: const Text('List of Devices',
+                    child: Text(L10n.translation(context).listofdevices,
                         style: TextStyle(fontSize: 16)),
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -172,7 +173,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                   width: 20,
                   child: CircularProgressIndicator(
                       color: Colors.white, strokeWidth: 2)),
-              label: const Text('STOP'),
+              label: Text(L10n.translation(context).stop),
               backgroundColor: Colors.orange[200],
               onPressed: () => FlutterBluePlus.instance.stopScan(),
             );
@@ -182,7 +183,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                     height: 20,
                     width: 20,
                     child: Icon(Icons.search, color: Colors.white)),
-                label: const Text('SCAN'),
+                label: Text(L10n.translation(context).scan),
                 backgroundColor: Colors.orange,
                 onPressed: () => FlutterBluePlus.instance.startScan(
                     timeout:

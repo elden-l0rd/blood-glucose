@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
+
 class UricAcidCardWomen extends StatefulWidget {
   final double uric_women;
   UricAcidCardWomen({required this.uric_women});
@@ -84,7 +86,7 @@ class _UricAcidCardWomenState extends State<UricAcidCardWomen> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                'Uric Acid\n(Women)',
+                L10n.translation(context).uricacidwomen,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

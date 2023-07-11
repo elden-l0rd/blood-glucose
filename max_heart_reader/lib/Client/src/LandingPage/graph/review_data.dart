@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../Server/src/database_helper.dart';
+import '../../../../l10n/l10n.dart';
 import 'rowData.dart'; // for Random (marketing video)
 
 const List<String> timeSelectionList = ["All", "Day", "Week", "Month", "Year"];
@@ -81,7 +82,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
                 onPressed: () {
                   nextPeriod();
                 },
-                child: Text('Next Period'),
+                child: Text(L10n.translation(context).nextperiod),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                 ),
@@ -91,7 +92,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
                 onPressed: () {
                   _updateGraphData();
                 },
-                child: Text('Update Graph Data'),
+                child: Text(L10n.translation(context).updategraphdata),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                 ),
@@ -104,9 +105,9 @@ class ReviewDataPageState extends State<ReviewDataPage> {
   }
 
   Future<List<graphData>> _fetchGraphData({String? filter}) async {
-    if (dropdownValue == 'All') {
+    if (dropdownValue == L10n.translation(context).all) {
       return await DatabaseHelper.instance.getGraphDataList();
-    } else if (dropdownValue == 'Day') {
+    } else if (dropdownValue == L10n.translation(context).day) {
       if (filter != null) {
         return await DatabaseHelper.instance
             .getGraphDataList(filterDay: filter);
@@ -115,7 +116,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
       String filterDay = DateTime(now.year, now.month, now.day).toString();
       return await DatabaseHelper.instance
           .getGraphDataList(filterDay: filterDay);
-    } else if (dropdownValue == 'Week') {
+    } else if (dropdownValue == L10n.translation(context).week) {
       if (filter != null) {
         return await DatabaseHelper.instance
             .getGraphDataList(filterWeek: filter);
@@ -125,7 +126,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
       String filterWeek = startOfWeek.toString();
       return await DatabaseHelper.instance
           .getGraphDataList(filterWeek: filterWeek);
-    } else if (dropdownValue == 'Month') {
+    } else if (dropdownValue == L10n.translation(context).month) {
       if (filter != null) {
         return await DatabaseHelper.instance
             .getGraphDataList(filterMonth: filter);
@@ -134,7 +135,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
       String filterMonth = DateTime(now.year, now.month).toString();
       return await DatabaseHelper.instance
           .getGraphDataList(filterMonth: filterMonth);
-    } else if (dropdownValue == 'Year') {
+    } else if (dropdownValue == L10n.translation(context).year) {
       if (filter != null) {
         return await DatabaseHelper.instance
             .getGraphDataList(filterYear: filter);
@@ -152,41 +153,41 @@ class ReviewDataPageState extends State<ReviewDataPage> {
   }
 
   void nextPeriod() {
-    if (dropdownValue == 'Day') {
+    if (dropdownValue == L10n.translation(context).day) {
       // Increment the current date by one day
       DateTime currentDate = DateTime.now().add(Duration(days: 1));
       String filterDay =
           DateTime(currentDate.year, currentDate.month, currentDate.day)
               .toString();
       setState(() {
-        dropdownValue = 'Day';
+        dropdownValue = L10n.translation(context).day;
         _fetchGraphData(filter: filterDay); // Fetch data for the next day
       });
-    } else if (dropdownValue == 'Week') {
+    } else if (dropdownValue == L10n.translation(context).week) {
       // Increment the current date by one week
       DateTime currentDate = DateTime.now().add(Duration(days: 7));
       DateTime startOfWeek =
           currentDate.subtract(Duration(days: currentDate.weekday - 1));
       String filterWeek = startOfWeek.toString();
       setState(() {
-        dropdownValue = 'Week';
+        dropdownValue = L10n.translation(context).week;
         _fetchGraphData(filter: filterWeek); // Fetch data for the next week
       });
-    } else if (dropdownValue == 'Month') {
+    } else if (dropdownValue == L10n.translation(context).month) {
       // Increment the current date by one month
       DateTime currentDate = DateTime.now().add(Duration(days: 30));
       String filterMonth =
           DateTime(currentDate.year, currentDate.month).toString();
       setState(() {
-        dropdownValue = 'Month';
+        dropdownValue = L10n.translation(context).month;
         _fetchGraphData(filter: filterMonth); // Fetch data for the next month
       });
-    } else if (dropdownValue == 'Year') {
+    } else if (dropdownValue == L10n.translation(context).year) {
       // Increment the current date by one year
       DateTime currentDate = DateTime.now().add(Duration(days: 365));
       String filterYear = DateTime(currentDate.year).toString();
       setState(() {
-        dropdownValue = 'Year';
+        dropdownValue = L10n.translation(context).year;
         _fetchGraphData(filter: filterYear); // Fetch data for the next year
       });
     }
@@ -216,7 +217,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
         Expanded(
           child: SfCartesianChart(
             title: ChartTitle(
-              text: "Glucose levels [mmol/L]",
+              text: L10n.translation(context).glucoselevelmmolL,
               textStyle: TextStyle(
                 fontSize: 16,
                 color: Colors.white,

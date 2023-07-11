@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
+
 class CholesterolCard extends StatefulWidget {
   final double cholesterol;
   CholesterolCard({required this.cholesterol});
@@ -84,7 +86,7 @@ class _CholesterolCardState extends State<CholesterolCard> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                'Cholesterol\nLevel',
+                L10n.translation(context).cholesterollevel,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

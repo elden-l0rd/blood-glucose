@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:max_heart_reader/Client/src/LandingPage/user_preferences.dart';
 import 'package:max_heart_reader/Client/button_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../globals.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../l10n/change_language.dart';
 
@@ -79,7 +77,10 @@ class DetailsScreenState extends State<DetailsScreen> {
                 ),
                 const SizedBox(width: 15),
                 Expanded(
-                  child: LanguageButton(),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: LanguageButton(),
+                  )
                 ),
               ],
             )),
@@ -119,12 +120,12 @@ class DetailsScreenState extends State<DetailsScreen> {
   }
 
   Widget buildName() => buildTitle(
-        title: 'Name',
+        title: L10n.translation(context).name,
         child: TextFormField(
           controller: nameController,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: '   Your name',
+            hintText: L10n.translation(context).yName,
             hintStyle: TextStyle(
                 color: const Color.fromARGB(255, 88, 86, 86),
                 fontSize: 13), // Set hint text color to white
@@ -142,13 +143,13 @@ class DetailsScreenState extends State<DetailsScreen> {
     bool isAgeValid = true;
 
     return buildTitle(
-      title: 'Age',
+      title: L10n.translation(context).age,
       child: TextFormField(
         controller: ageController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          hintText: '   Age',
+          hintText: L10n.translation(context).age,
           hintStyle: TextStyle(
               color: const Color.fromARGB(255, 88, 86, 86),
               fontSize: 13), // Set hint text color to white
@@ -179,12 +180,12 @@ class DetailsScreenState extends State<DetailsScreen> {
   }
 
   Widget buildGender() => buildTitle(
-        title: 'Gender',
+        title: L10n.translation(context).gender,
         child: DropdownButtonFormField<String>(
           value: gender.isEmpty ? null : gender,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: gender.isEmpty ? '   Select Gender' : '',
+            hintText: gender.isEmpty ? L10n.translation(context).sGender : '',
             hintStyle: TextStyle(
                 color: const Color.fromARGB(255, 88, 86, 86),
                 fontSize: 13), // Set hint text color to white
@@ -194,19 +195,19 @@ class DetailsScreenState extends State<DetailsScreen> {
           ),
           items: <DropdownMenuItem<String>>[
             if (gender.isEmpty)
-              const DropdownMenuItem<String>(
+              DropdownMenuItem<String>(
                 value: '',
-                child: Text('Select Gender'),
+                child: Text(L10n.translation(context).sGender),
               ),
             DropdownMenuItem<String>(
-              value: 'Male',
-              child: const Text('Male',
+              value: L10n.translation(context).male,
+              child: Text(L10n.translation(context).male,
                   style: TextStyle(
                       color: Colors.black)), // Set dropdown item color to white
             ),
             DropdownMenuItem<String>(
-              value: 'Female',
-              child: const Text('Female',
+              value: L10n.translation(context).female,
+              child: Text(L10n.translation(context).female,
                   style: TextStyle(
                       color: Colors.black)), // Set dropdown item color to white
             ),
@@ -220,13 +221,13 @@ class DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildHeight() => buildTitle(
-        title: 'Height (cm)',
+        title: L10n.translation(context).height,
         child: TextFormField(
           controller: heightController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: '   Height in cm',
+            hintText: L10n.translation(context).height,
             hintStyle: TextStyle(
                 color: const Color.fromARGB(255, 88, 86, 86),
                 fontSize: 13), // Set hint text color to white
@@ -241,13 +242,13 @@ class DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildWeight() => buildTitle(
-        title: 'Weight (kg)',
+        title: L10n.translation(context).weight,
         child: TextFormField(
           controller: weightController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            hintText: '   Weight in kg',
+            hintText: L10n.translation(context).weight,
             hintStyle: TextStyle(
                 color: const Color.fromARGB(255, 88, 86, 86),
                 fontSize: 13), // Set hint text color to white
@@ -262,7 +263,7 @@ class DetailsScreenState extends State<DetailsScreen> {
       );
 
   Widget buildButton() => ButtonWidget(
-        text: 'Save',
+        text: L10n.translation(context).save,
         onClicked: () async {
           name = nameController.text;
           age = ageController.text;
