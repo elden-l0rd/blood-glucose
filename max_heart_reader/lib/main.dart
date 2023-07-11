@@ -186,18 +186,33 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _HomeScreenState state = context.findAncestorStateOfType<_HomeScreenState>()!;
+    state.setLocale(newLocale);
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Locale? _locale;
+
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // supportedLocales: L10n.all,
-      // localizationsDelegates: L10n.delegates,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: currentLocale,
+      locale: _locale,
       home: StreamBuilder<BluetoothState>(
         stream: FlutterBluePlus.instance.state,
         initialData: BluetoothState.unknown,
@@ -212,3 +227,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
