@@ -67,19 +67,15 @@ import 'package:max_heart_reader/Client/src/permissions.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
-
 // Project files
 import 'Server/src/Background service/bluetooth_off_screen.dart'; // 1st screen of the app (bluetooth off)
 // 2nd screen of the app (find devices)
 import 'Server/src/Background service/background_ble_upload.dart' as background1;
-
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-
 import 'Client/src/LandingPage/landing_page.dart';
-import 'globals.dart';
-// import 'l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
   background1.runBackgroundDeviceScan();
@@ -227,4 +223,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

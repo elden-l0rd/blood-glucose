@@ -9,9 +9,9 @@ void showExportDialog(BuildContext context) {
       builder: (BuildContext context) {
         return Center(
           child: AlertDialog(
-            title: Text(L10n.translation(context).exportformat, style: TextStyle(color: Colors.white)),
+            title: Text(L10n.translation(context)?.exportformat ?? 'Export Data', style: TextStyle(color: Colors.white)),
             content: Text(
-              L10n.translation(context).chooseexportformat,
+              L10n.translation(context)?.chooseexportformat ?? 'Choose export format',
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: const Color.fromARGB(255, 39, 39, 39),
@@ -190,7 +190,3 @@ void showExportDialog(BuildContext context) {
       }
     });
   }
-
-
-
-  

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:max_heart_reader/Client/src/LandingPage/graph/review_data.dart';
-import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
-import 'package:max_heart_reader/Server/device_data.dart';
-import 'package:max_heart_reader/Server/src/find_devices.dart';
-
-import 'package:max_heart_reader/Client/src/LandingPage/details_screen.dart';
+import '/Client/src/LandingPage/graph/review_data.dart';
+import '/Client/src/DashBoard/dashboard.dart';
+import '/Server/device_data.dart';
+import '/Server/src/find_devices.dart';
+import '/Client/src/LandingPage/details_screen.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -13,18 +12,17 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   
-    DeviceData initData = DeviceData(
-    battery: 0,
-    heartRate: 0,
-    spo2: 0,
-    glucose: 0.0,
-    cholesterol: 0.0,
-    UA_men: 0.0,
-    UA_women: 0.0,
-    );
+  DeviceData initData = DeviceData(
+  battery: 0,
+  heartRate: 0,
+  spo2: 0,
+  glucose: 0.0,
+  cholesterol: 0.0,
+  UA_men: 0.0,
+  UA_women: 0.0,
+  );
+
   static List<Widget> _widgetOptions = <Widget>[];
 
   void _onItemTapped(int index) {

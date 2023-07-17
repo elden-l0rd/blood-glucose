@@ -3,10 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
-
-// 3logytest@gmail.com
-// 3logytech123
-
 // Flutter/Dart
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
@@ -16,12 +12,11 @@ import 'dart:async';
 // Other project files
 import '../../l10n/l10n.dart';
 import '../device_data.dart';
-import 'database_helper.dart';
 import 'export_data.dart';
 import 'process_data.dart';
-
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
 
 class ScanResultTile extends StatefulWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})
@@ -67,21 +62,19 @@ class _ScanResultTileState extends State<ScanResultTile> {
   Future<Widget> _buildTitle(BuildContext context) async {
     if (widget.result.device.name.contains("BGL")) {
       setState(() {});
-      // // [FFFE69905F20134041]
-      // //    0x    FFFE      69        90              5F          20        13            40              41
-      // //          1         99.06 %   144 BPM         95 %
-      // //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
+      // [FFFE69905F20134041]
+      //    0x    FFFE      69        90              5F          20        13            40              41
+      //          1         99.06 %   144 BPM         95 %
+      //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
       List processedData = processData(widget.result.device.name,
           getNiceServiceData(widget.result.advertisementData.serviceData));
 
-      // int ID = processedData[0];
       double battery = processedData[1];
       int heartRate = processedData[2];
       int spo2 = processedData[3];
 
-      // 1.0 mmol/L = 18.02 mg/dL
+      // note: 1.0 mmol/L = 18.02 mg/dL
       double glucose = processedData[4];
-      double glucose_mgDL = glucose * 18.02;
 
       double cholesterol = processedData[5];
       double UA_men = processedData[6]; //in mmol/L
@@ -90,11 +83,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String heartRateText = "";
       String spo2Text = "";
       heartRateText = heartRate.toString();
-      String cholesterolText = cholesterol.toStringAsFixed(2);
       spo2Text = spo2.toStringAsFixed(0) + " %";
 
-      String UA_result_M = 'Normal';
-      String UA_result_W = 'Normal';
+      String UA_result_M = '';
+      String UA_result_W = '';
 
       if (UA_men >= 0.24 && UA_men <= 0.51) {
         UA_result_M = 'Normal: ${UA_men} mmol/L';
@@ -169,7 +161,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
                   );
                 },
                 icon: Icon(Icons.arrow_forward),
-                label: Text(L10n.translation(context).gotodashboard),
+                label: Text(L10n.translation(context)!.gotodashboard),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, 
                   backgroundColor: Colors.orange,
@@ -208,11 +200,26 @@ class _ScanResultTileState extends State<ScanResultTile> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () {
-                  // Call method to export as .csv or .xls
-                  showExportDialog(context);
-                },
-                child: Text(L10n.translation(context).exportdata),
+                // onPressed: () {
+                //   // Call method to export as .csv or .xls
+                //   showExportDialog(context);
+                // },
+                  onPressed: () {
+                    // Call method to export as .csv or .xls
+                    try {
+                      showExportDialog(context);
+                    } catch (error) {
+                      // Handle any errors that occur during the export process
+                      print("===============================================================");
+                      print('Export failed: $error');
+                      print("===============================================================");
+                      // Optionally, you can show an error message to the user using a snackbar or dialog
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Export failed: $error')),
+                      );
+                    }
+                  },
+                child: Text(L10n.translation(context)!.exportdata),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                 ),

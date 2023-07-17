@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../l10n/l10n.dart';
 
 class SpO2Card extends StatefulWidget {
@@ -56,8 +55,7 @@ class _SpO2CardState extends State<SpO2Card> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            // currentspo2.toString(),
-                            '98',
+                            currentspo2.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,
@@ -85,7 +83,7 @@ class _SpO2CardState extends State<SpO2Card> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                L10n.translation(context).spo2,
+                L10n.translation(context)!.spo2,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

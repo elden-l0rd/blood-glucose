@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../l10n/l10n.dart';
 
 class HeartRateCard extends StatefulWidget {
@@ -58,8 +57,7 @@ class _HeartRateCardState extends State<HeartRateCard> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            // storeheartRate.toString(),
-                            '88',
+                            storeheartRate.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,
@@ -88,7 +86,7 @@ class _HeartRateCardState extends State<HeartRateCard> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                L10n.translation(context).heartrate,
+                L10n.translation(context)!.heartrate,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

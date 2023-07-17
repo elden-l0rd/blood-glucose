@@ -35,7 +35,7 @@ class L10n {
     }
   }
 
-  static AppLocalizations translation(BuildContext context) {
-    return AppLocalizations.of(context)!;
+  static AppLocalizations? translation(BuildContext context) {
+    return AppLocalizations.of(context);
   }
 }

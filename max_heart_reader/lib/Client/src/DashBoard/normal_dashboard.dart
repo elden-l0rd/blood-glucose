@@ -109,7 +109,7 @@ class _NormalDashboardState extends State<NormalDashboard> {
                       ),
                     ),
                     Text(
-                      L10n.translation(context).heartrate,
+                      L10n.translation(context)!.heartrate,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -130,7 +130,7 @@ class _NormalDashboardState extends State<NormalDashboard> {
                       ),
                     ),
                     Text(
-                      L10n.translation(context).bloodoxygen,
+                      L10n.translation(context)!.bloodoxygen,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -151,7 +151,7 @@ class _NormalDashboardState extends State<NormalDashboard> {
                       ),
                     ),
                     Text(
-                      L10n.translation(context).glucose,
+                      L10n.translation(context)!.glucose,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -172,7 +172,7 @@ class _NormalDashboardState extends State<NormalDashboard> {
                       ),
                     ),
                     Text(
-                      L10n.translation(context).cholesterol,
+                      L10n.translation(context)!.cholesterol,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -193,7 +193,7 @@ class _NormalDashboardState extends State<NormalDashboard> {
                       ),
                     ),
                     Text(
-                      L10n.translation(context).uricacidmen,
+                      L10n.translation(context)!.uricacidmen,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -214,7 +214,7 @@ class _NormalDashboardState extends State<NormalDashboard> {
                       ),
                     ),
                     Text(
-                      L10n.translation(context).uricacidwomen,
+                      L10n.translation(context)!.uricacidwomen,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),

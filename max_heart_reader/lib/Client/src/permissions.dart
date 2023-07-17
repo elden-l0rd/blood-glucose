@@ -90,10 +90,8 @@ Future<void> checkPermissions(context) async {
 
 
   } else {  // if the user denies permissions
-    debugPrint(
-        'main.dart: checkPermissions Error! Some permissions were denied!');
-    globals.toastMessage =
-        'Permissions Were Not Enabled!\nPlease Enable in Settings';
+    debugPrint('main.dart: checkPermissions Error! Some permissions were denied!');
+    globals.toastMessage = 'Permissions Were Not Enabled!\nPlease Enable in Settings';
     findDevicesWidget.showToast();
 
     openAppSettings();

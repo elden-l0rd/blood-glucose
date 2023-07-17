@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../l10n/l10n.dart';
 
 class UricAcidCardWomen extends StatefulWidget {
@@ -57,8 +56,7 @@ class _UricAcidCardWomenState extends State<UricAcidCardWomen> {
                         Padding(
                           padding: EdgeInsets.only(top: 3, right: 8),
                           child: Text(
-                            // currentUAwomen.toStringAsFixed(2),
-                            '0.35',
+                            currentUAwomen.toStringAsFixed(2),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 30,
@@ -86,7 +84,7 @@ class _UricAcidCardWomenState extends State<UricAcidCardWomen> {
             Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                L10n.translation(context).uricacidwomen,
+                L10n.translation(context)!.uricacidwomen,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 23,

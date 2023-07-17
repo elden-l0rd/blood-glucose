@@ -3,12 +3,9 @@ import 'dart:io' show Platform;
 
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-
-
 // Turn on Bluetooth setting in iOS: app_settings package
 // https://pub.dev/packages/app_settings
 import 'package:app_settings/app_settings.dart';
-
 
 
 // 1st Screen: Bluetooth Off Status
@@ -120,8 +117,6 @@ class BluetoothOffScreen extends StatelessWidget {
           ],
         ),
       ),
-
-      
     );
   }
 }

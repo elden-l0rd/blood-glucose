@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:max_heart_reader/Client/src/LandingPage/user_preferences.dart';
+import '../../Client/src/LandingPage/user_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../../globals.dart' as globals;
@@ -134,7 +134,6 @@ class DatabaseHelper {
     final databasePath = await getDatabasesPath();
     final database = await openDatabase(join(databasePath, 'data.db'));
     final result = await database.query('graphData');
-    // await database.close();
     return result;
   }
 
@@ -192,8 +191,7 @@ class DatabaseHelper {
         sheet.appendRow(rowData);
       }
     }
-    String formattedDateTime =
-        DateFormat(globals.timeFormat).format(DateTime.now());
+    String formattedDateTime = DateFormat(globals.timeFormat).format(DateTime.now());
     String month = formattedDateTime.substring(0, 2);
     String day = formattedDateTime.substring(3, 5);
     String year = formattedDateTime.substring(6, 10);
@@ -238,8 +236,7 @@ class DatabaseHelper {
 
   // Retrieve the file from path found
   Future<File> get _localFile async {
-    String formattedDateTime =
-        DateFormat(globals.timeFormat).format(DateTime.now());
+    String formattedDateTime = DateFormat(globals.timeFormat).format(DateTime.now());
     String month = formattedDateTime.substring(0, 2);
     String day = formattedDateTime.substring(3, 5);
     String year = formattedDateTime.substring(6, 10);
@@ -248,8 +245,7 @@ class DatabaseHelper {
     String second = formattedDateTime.substring(17, 19);
 
     final path = await _localPath;
-    final file = File(
-        '$path/data_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
+    final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_$second.csv');
     if (!await file.exists()) {
       file.create();
     }

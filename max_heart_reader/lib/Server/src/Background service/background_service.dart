@@ -102,20 +102,13 @@ void onStart(ServiceInstance service) async {
         content: "Last Cloud Upload at $formattedDate",
       );
     }
-
-
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     debugPrint('background_service: -----------------------------------------------------------------------');
     /// you can see this log in logcat
     debugPrint('background_service: FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
-
-    
-
     debugPrint('background_service: BLE device scan is starting in the background!');
     runBackgroundDeviceScan(); // background_ble_upload.dart
-
-    // debugPrint('background_service: -----------------------------------------------------------------------');
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // test using external plugin
