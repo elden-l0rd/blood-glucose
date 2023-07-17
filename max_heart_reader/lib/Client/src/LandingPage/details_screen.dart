@@ -72,16 +72,15 @@ class DetailsScreenState extends State<DetailsScreen> {
             child: Row(
               children: [
                 Text(
-                L10n.translation(context).personalInformation,
-                style: TextStyle(fontSize: 24),
+                  L10n.translation(context).personalInformation,
+                  style: TextStyle(fontSize: 24),
                 ),
                 const SizedBox(width: 15),
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: LanguageButton(),
-                  )
-                ),
+                    child: Align(
+                  alignment: Alignment.centerRight,
+                  child: LanguageButton(),
+                )),
               ],
             )),
         backgroundColor: Colors.black,
@@ -139,10 +138,7 @@ class DetailsScreenState extends State<DetailsScreen> {
         ),
       );
 
-  Widget buildAge() {
-    bool isAgeValid = true;
-
-    return buildTitle(
+  Widget buildAge() => buildTitle(
       title: L10n.translation(context).age,
       child: TextFormField(
         controller: ageController,
@@ -158,26 +154,21 @@ class DetailsScreenState extends State<DetailsScreen> {
           contentPadding: EdgeInsets.symmetric(vertical: 10),
         ),
         onChanged: (age) {
-          if (int.tryParse(age) != null && int.parse(age) < 130) {
-            setState(() {
-              this.age = age;
-              isAgeValid = true;
-            });
-          } else {
-            // Show an error message?
-            setState(() {
-              isAgeValid = false;
-            });
+          int? parsedAge = int.tryParse(age);
+          if (parsedAge != null &&
+              parsedAge > 0 &&
+              parsedAge < 120) {
+                setState(() => this.age = parsedAge.toString());
+              }
+          else {
+            // Auto clear the input field if entered age is invalid
+            setState(() => ageController.clear());
           }
         },
         style: TextStyle(
-            color: isAgeValid
-                ? Colors.black
-                : Colors
-                    .red), // Set input text color to white or red (when invalid)
+            color: Colors.black),
       ),
     );
-  }
 
   Widget buildGender() => buildTitle(
         title: L10n.translation(context).gender,
@@ -235,7 +226,17 @@ class DetailsScreenState extends State<DetailsScreen> {
             fillColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 10),
           ),
-          onChanged: (height) => setState(() => this.height = height),
+          onChanged: (height) {
+            int? parsedHeight = int.tryParse(height);
+            if (parsedHeight != null &&
+                parsedHeight > 0 &&
+                parsedHeight < 210) {
+              setState(() => this.height = parsedHeight.toString());
+            } else {
+              // Auto clear the input field if the entered height is invalid
+              setState(() => heightController.clear());
+            }
+          },
           style:
               TextStyle(color: Colors.black), // Set input text color to white
         ),
@@ -256,7 +257,19 @@ class DetailsScreenState extends State<DetailsScreen> {
             fillColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(vertical: 7),
           ),
-          onChanged: (weight) => setState(() => this.weight = weight),
+          // onChanged: (weight) => setState(() => this.weight = weight),
+          onChanged: (weight) {
+            int? parsedWeight = int.tryParse(weight);
+            if (parsedWeight!= null &&
+                parsedWeight > 0 &&
+                parsedWeight < 400) {
+                  setState(() => this.weight = parsedWeight.toString());
+                }
+            else {
+              // Auto clear input field if entered weight is invalid
+              setState(() => weightController.clear());
+            }
+          },
           style:
               TextStyle(color: Colors.black), // Set input text color to white
         ),

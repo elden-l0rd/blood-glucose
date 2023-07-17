@@ -96,14 +96,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
-    - assets/images/air_purifier/
 
 flutter_icons:
-  image_path: "assets/icons/Heart-Reader.png" # Heart-Reader for Android
-  #image_path: "assets/icons/air_purifier_icon_1920_2.png" # air_purifier_icon_1920_2 for iOS
+  image_path: "assets/icons/Heart-Reader.png"
   android: true
   ios: true
   adaptive_icon_background: "assets/icons/black_background.png"
-  adaptive_icon_foreground: "assets/icons/Heart-Reader.png"  # Heart-Reader for Android
-  #adaptive_icon_foreground: "assets/icons/air_purifier_icon_1920_2.png"  # air_purifier_icon_1920_2 for iOS
-
+  adaptive_icon_foreground: "assets/icons/Heart-Reader.png"
