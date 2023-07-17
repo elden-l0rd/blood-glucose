@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../Client/src/LandingPage/user_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../../globals.dart' as globals;
+import '../../utils/globals.dart' as globals;
 import 'find_devices.dart' as findDevicesWidget;
 import 'package:excel/excel.dart';
 
@@ -200,8 +200,7 @@ class DatabaseHelper {
     String second = formattedDateTime.substring(17, 19);
 
     final path = await _localPath;
-    final file = File(
-        '$path/data_${day}_${month}_${year}_${hour}_${minute}_${second}.xls');
+    final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_${second}.xls');
     if (!await file.exists()) {
       file.create();
     }
@@ -226,10 +225,12 @@ class DatabaseHelper {
   // Get path of folder
   Future<String> get _localPath async {
     try {
-      final directory = await getExternalStorageDirectory();
+      final directory = (Platform.isAndroid)
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
       return directory!.path;
     } catch (e) {
-      debugPrint("Documents directory error...");
+      debugPrint("Documents directory error... -> "+e.toString());
       return 'NULL';
     }
   }

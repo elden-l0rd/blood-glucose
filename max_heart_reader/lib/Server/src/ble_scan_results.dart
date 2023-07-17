@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:max_heart_reader/Client/src/DashBoard/dashboard.dart';
 import 'package:max_heart_reader/Client/src/DashBoard/normal_dashboard.dart';
 import 'dart:async';
-
 // Other project files
 import '../../l10n/l10n.dart';
 import '../device_data.dart';
-import 'export_data.dart';
+import '../../Client/src/export_data.dart';
 import 'process_data.dart';
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -200,24 +199,9 @@ class _ScanResultTileState extends State<ScanResultTile> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ElevatedButton(
-                // onPressed: () {
-                //   // Call method to export as .csv or .xls
-                //   showExportDialog(context);
-                // },
                   onPressed: () {
-                    // Call method to export as .csv or .xls
-                    try {
-                      showExportDialog(context);
-                    } catch (error) {
-                      // Handle any errors that occur during the export process
-                      print("===============================================================");
-                      print('Export failed: $error');
-                      print("===============================================================");
-                      // Optionally, you can show an error message to the user using a snackbar or dialog
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Export failed: $error')),
-                      );
-                    }
+                  // Call method to export as .csv or .xls
+                    showExportDialog(context);
                   },
                 child: Text(L10n.translation(context)!.exportdata),
                 style: ElevatedButton.styleFrom(

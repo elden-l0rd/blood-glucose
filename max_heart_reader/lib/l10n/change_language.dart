@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../globals.dart';
+import '../utils/globals.dart';
 import '../main.dart';
 import 'l10n.dart';
 

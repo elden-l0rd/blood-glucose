@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../globals.dart' as globals;
+import '../../utils/globals.dart' as globals;
 import 'find_devices.dart' as findDevicesWidget;
 import 'dart:math';
 

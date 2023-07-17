@@ -8,7 +8,7 @@ import 'dart:async'; // required to run a timer
 // Project files
 import '../../l10n/l10n.dart';
 import 'ble_scan_results.dart';
-import '../../globals.dart' as globals;
+import '../../utils/globals.dart' as globals;
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 // Flutter Toast notification

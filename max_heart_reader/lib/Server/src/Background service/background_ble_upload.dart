@@ -4,7 +4,7 @@
 // Flutter/Dart
 import 'package:flutter/material.dart';
 // Project Files
-import '../../../globals.dart' as globals;
+import '../../../utils/globals.dart' as globals;
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 

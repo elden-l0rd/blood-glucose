@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/main.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../Server/src/Background service/background_service.dart';
-import '../../globals.dart' as globals; // Global variables
-import '../../Server/src/find_devices.dart'
-    as findDevicesWidget; // to display Toast notification
+import '../Server/src/Background service/background_service.dart';
+import '../utils/globals.dart' as globals; // Global variables
+import '../Server/src/find_devices.dart' as findDevicesWidget; // to display Toast notification
 
 Future<void> getPermissions(context) async {
   (await getLocationWhenInUsePermission()==1)
@@ -22,6 +21,10 @@ Future<void> getPermissions(context) async {
   (await getPushNotificationsPermission() == 1)
     ?  debugPrint('main.dart: getPushNotificationsPermission SUCCESS!')
     :  debugPrint('main.dart: getPushNotificationsPermission waiting for permission!');
+
+  (await getStorageAccessPermission() == 1)
+    ?  debugPrint('main.dart: getStorageAccessPermission SUCCESS!')
+    :  debugPrint('main.dart: getStorageAccessPermission waiting for permission!');
 
   checkPermissions(context);
 }
@@ -52,6 +55,12 @@ Future<int> getPushNotificationsPermission() async {
   return (await Permission.notification.request().isGranted) ? 1 : 0;
 }
 
+Future<int> getStorageAccessPermission() async {
+  // [ALLOW / DENY]
+  await Permission.storage.request();
+  return (await Permission.storage.request().isGranted) ? 1 : 0;
+}
+
 Future<void> checkPermissions(context) async {
   // null when it was not initialized, false if not granted, true if granted access
   var locationWhenInUseStatus = await Permission.locationWhenInUse.status.isGranted;
@@ -62,6 +71,7 @@ Future<void> checkPermissions(context) async {
   var bluetoothConnectStatus = await Permission.bluetoothConnect.status.isGranted;
   var batteryOptimizationsStatus = await Permission.ignoreBatteryOptimizations.status.isGranted;
   var pushNotificationsPermission = await Permission.notification.isGranted;
+  var storageAccessPermission = await Permission.storage.isGranted;
 
   debugPrint('main.dart: checkPermissions [locationWhenInUseStatus = $locationWhenInUseStatus]');
   debugPrint('main.dart: checkPermissions [locationAlwaysStatus = $locationAlwaysStatus]');
@@ -71,6 +81,7 @@ Future<void> checkPermissions(context) async {
   debugPrint('main.dart: checkPermissions [bluetoothConnectStatus = $bluetoothConnectStatus]');
   debugPrint('main.dart: checkPermissions [batteryOptimizationsStatus = $batteryOptimizationsStatus]');
   debugPrint('main.dart: checkPermissions [pushNotificationsPermission = $pushNotificationsPermission]');
+  debugPrint('main.dart: checkPermissions [storageAccessPermission = $storageAccessPermission]');
 
   // if the user enables permissions successfully
   if (locationWhenInUseStatus && locationAlwaysStatus) {
