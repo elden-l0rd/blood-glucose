@@ -1,21 +1,18 @@
 # Glucometer App
 
 
-<div style="display: flex; justify-content: center;">
+<h1 align="center">
   <img src="max_heart_reader/assets/icons/Heart-Reader.png" alt="GlucometerApp Logo" width="212" height="212"/>
-</div>
-
+</h1>
 
 ## Description
 The Glucometer App is a comprehensive digital companion for health tracking. Record and monitor vital health metrics such as heart rate, cholesterol, uric acid, glucose, and SpO2 levels. With data storage, sharing options, and visual trend analysis via graphs, this app revolutionizes teleconsultation and remote health monitoring. Bridge the gap between patients and healthcare professionals for more informed and personalized remote consultations.
-
 
 ## Installation
 To run this app on your local machine, follow these steps:
 
 1. Ensure you have Flutter installed on your system. If not, you can install it from the official Flutter website: [https://flutter.dev/docs/get-started/install](https://flutter.dev/docs/get-started/install)
 2. To build: You'll need [Android Studio](https://developer.android.com/studio/), [Xcode](https://developer.apple.com/xcode/), [iOS Simulator](https://docs.expo.io/workflow/ios-simulator/) and [Cocoapods](https://cocoapods.org/). You will need to sign in to your Apple Developer account to run the app on your device.
-
 
 From your command line:
 
