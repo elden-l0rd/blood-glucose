@@ -201,12 +201,11 @@ class DatabaseHelper {
 
     final path = await _localPath;
     final file = File('$path/data_${day}_${month}_${year}_${hour}_${minute}_${second}.xls');
-    if (!await file.exists()) {
+    if (!await file.exists() && Platform.isAndroid) {
       file.create();
     }
     final excelBytes = excel.save()!; // Add null check here
-    await file
-        .writeAsBytes(List.from(excelBytes)); // Convert to non-nullable list
+    await file.writeAsBytes(List.from(excelBytes)); // Convert to non-nullable list
 
     if (send_email) {
       // Send email with attachment

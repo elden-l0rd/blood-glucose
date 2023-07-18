@@ -3,12 +3,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
 // Project files
 // import 'main.dart';
 import 'background_ble_upload.dart';
 import '../../../utils/globals.dart' as globals;
-
 // Background Service libraries
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +14,6 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Background timer and alarm
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-
-// Initiliase FlutterLocalNotificationsPlugin
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-AndroidInitializationSettings  initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
 
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
@@ -66,7 +57,6 @@ void onStart(ServiceInstance service) async {
   // For flutter prior to version 3.0.0
   // We have to register the plugin manually
 
-
   SharedPreferences preferences = await SharedPreferences.getInstance();
   await preferences.setString("hello", "world");
 
@@ -84,14 +74,8 @@ void onStart(ServiceInstance service) async {
     service.stopSelf();
   });
 
-  await initializeNotifications();
-  scheduleNotifications();
-
   // bring to foreground
   Timer.periodic(const Duration(seconds: globals.BLE_SCAN_INTERVAL), (timer) async {
-    // final hello = preferences.getString("hello");
-    // debugPrint('background_service: hello = $hello');
-
     // App Service Notification in mobile notification area
     if (service is AndroidServiceInstance) {
       String now = DateTime.now().toString();
@@ -132,39 +116,4 @@ void onStart(ServiceInstance service) async {
       },
     );
   });
-}
-
-Future<void> initializeNotifications() async {
-  final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-}
-
-void scheduleNotifications() {
-  AndroidAlarmManager.periodic(
-    const Duration(hours: 8),
-    0,
-    showNotification,
-    startAt: DateTime.now(),
-    exact: true,
-    wakeup: true,
-  );
-}
-
-void showNotification() async {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    '0',
-    'Reminder to take readings',
-    channelDescription: 'Every ${globals.REMINDER_MINUTES} minutes, a notification is \sent to the user\'s phone to remind them to take an oximeter reading.',
-    importance: Importance.max,
-    priority: Priority.high,
-  );
-
-  const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-
-  await flutterLocalNotificationsPlugin.show(
-    0,
-    'Hello! - REMINDER!',
-    'It\'s time to take a reading using the Oximeter!',
-    platformChannelSpecifics,
-  );
 }
