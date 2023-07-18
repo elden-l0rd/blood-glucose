@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
-
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 // Turn on Bluetooth setting in iOS: app_settings package

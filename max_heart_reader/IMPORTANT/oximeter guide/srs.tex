@@ -86,12 +86,14 @@
     Dashboard enhancement & 15 June 2023 & Created a new, visually appealing dashboard to display biodata & 0.8.3\\
     \hline
     BLE compatibility improvement & 22 June 2023 & Fixed problem where newer devices cannot deteect BLE device. & 0.8.4\\
-    \hline
+    \hline  
     Data filtering and graph visualisation & 28 June 2023 & Users are now able to filter the data and view their data on the graph by the day, week, month, or year. & 0.8.5\\
     \hline
     Refactor code & 29 June 2023 & This version change focuses on code refactoring, primarily to improve readability of the code base. This reorganization streamlines the development process, increase code efficiency and ensures a more robust foundation for future enhancements to any component in the app. & 0.8.5.1\\
     \hline
     Graph colour highlighting & 30 June 2023 & Graph now visually highlights glucose levels above the threshold. & 0.8.5.2\\
+    \hline
+    Multi-language support & 11 July 2023 & Added multi-language support for English, Mandarin, Malay, Hindi and Tamil. & 0.9.0\\
     \hline
 \end{longtable}
 \end{center}
@@ -234,7 +236,7 @@ A demonstration video and app screenshots alongside this SRS documentation will 
 \begin{itemize}
     \item Users must be connected to Wi-Fi or mobile data and have a device that supports Bluetooth connectivity.
     \item Users must use a mobile device that is either on Android or iOS platforms to download the app.
-    \item \colorbox{yellow}{The app will only be in English.}
+    \item The app will support English, Mandarin, Malay, Hindi and Tamil languages.
     \item The app is only designed for mobile phone usage.
 \end{itemize}
 
@@ -371,16 +373,15 @@ The app interacts with the following software components:
     \item Third-party libraries
     The app incorporates several third-party packages.
     \begin{itemize}
-        \item baseflow\_plugin\_template (version 2.1.2): A plugin template that simplifies the development of Flutter plugins.
+        \item app\_settings (version 4.2.0): Opens device settings page.
+        \item csv (version 5.0.2): Enables reading and writing of CSV files for import and export functions.
         \item cupertino\_icons (version 1.0.5): Provides a collection of Cupertino-style icons for use in the app's user interface.
         \item device\_info\_plus (version 8.0.0): Retrieves device-specific information such as model, operating system and hardware details.
         \item excel (version 2.1.0): Enables reading and writing of Excel files for import and export functions.
         \item flutter\_background\_service (version 3.0.1): Allows the app to run in the background.
         \item flutter\_blue\_plus (version 1.4.0): Provides Bluetooth functionality and enables communication with Bluetooth devices.
         \item flutter\_email\_sender (version 5.2.0): Enables sending of emails from within the app using the device's local email application.
-        \item flutter\_foreground\_task (version 6.0.0+1): Allows running tasks in the foreground, ensuring their execution even if app is in the background.
         \item flutter\_launcher\_icons (version 0.13.1): Simplifies the process of generating an app launcher icon for different platforms.
-        \item flutter\_local\_notifications (version 14.1.1): Enables the app to display local notifications on the user's device.
         \item flutter\_native\_splash (version 2.2.9): Simplifies the generation of native splash screens for the app on different platforms.
         \item fluttertoast (version 8.2.1): Displays toast messages on the screen after certain actions.
         \item intl (version 0.18.0): Offers internationalisation and localisation support for the app's user interface.
@@ -389,7 +390,6 @@ The app interacts with the following software components:
         \item shared\_preferences (version 2.1.1): Stores and retrieves the app preferences and settings in a persistent manner.
         \item sqflite (version 2.2.8+4): Provides SQLite database support for the app, for storing of data locally.
         \item syncfusion\_flutter\_charts (version 21.2.4): Enables visualisation of blood glucose trends and generate informative graphs.
-        \item wakelock (version 0.6.2): Prevents the device from entering sleep mode to ensure the app is always running.
     \end{itemize}
 \end{itemize}
 
@@ -514,98 +514,99 @@ The app adheres to good software engineering design principles of
 \end{itemize}
 
 
-\chapter{Use Case Descriptions}
-\renewcommand{\arraystretch}{1.85}
-\begin{tabular}{|l|p{10cm}|}
-\hline
-Use Case ID: & UC01\\
-\hline
-Use Case Name: & Create profile\\
-\hline
-Date Created: & 7 Jul 2023\\
-\hline
-Last Updated: & 7 Jul 2023\\
-\hline
-Actor: & \\
-\hline
-Description: & \\
-\hline
-Preconditions: & \\
-\hline
-Postconditions: & \\
-\hline
-Priority: & \\
-\hline
-Frequency of use: & \\
-\hline
-Flow of events: & \\
-\hline
-Alternative flow: & \\
-\hline
-Exceptions: & \\
-\hline
-Includes: & \\
-\hline
-Special Requirements: & \\
-\hline
-Assumptions: & \\
-\hline
-Notes and Issues: & \\
-\hline
-\end{tabular}
-\newline
-\begin{tabular}{|l|p{10cm}|}
-\hline
-Use Case ID: & UC02\\
-\hline
-Use Case Name: & Find devices\\
-\hline
-Date Created: & 7 Jul 2023\\
-\hline
-Last Updated: & 7 Jul 2023\\
-\hline
-Actor: & \\
-\hline
-Description: & \\
-\hline
-Preconditions: & \\
-\hline
-Postconditions: & \\
-\hline
-Priority: & \\
-\hline
-Frequency of use: & \\
-\hline
-Flow of events: & \\
-\hline
-Alternative flow: & \\
-\hline
-Exceptions: & \\
-\hline
-Includes: & \\
-\hline
-Special Requirements: & \\
-\hline
-Assumptions: & \\
-\hline
-Notes and Issues: & \\
-\hline
-\end{tabular}
-\newline
+\chapter{Appendix A: Installation}
 
-\chapter{System Diagrams}
-\section{Use Case diagrams}
-\section{Dialog Map}
-\section{System Architecture}
-\section{Class diagrams}
-\section{Sequence diagrams}
+To run this app on your local machine, follow these steps:
+\begin{enumerate}
+    \item Ensure you have Flutter installed on your system. If not, you can install it from
+    the official Flutter website: \url{https://flutter.dev/docs/get-started/install}.
+    
+    \item To build: You'll need \href{https://developer.android.com/studio/}{Android Studio},
+    \href{https://developer.apple.com/xcode/}{Xcode}, \href{https://docs.expo.io/workflow/ios-simulator/}{iOS Simulator}, and \href{https://cocoapods.org/}{Cocoapods}. You will need to sign in to your Apple Developer account to run the app on your device.
+\end{enumerate}
+
+    From your command line:
+    \begin{verbatim}
+        # Go into the folder
+        $ cd max_heart_reader
+        
+        # Install dependencies
+        $ flutter clean
+        $ flutter pub get
+        
+        # Run the app
+        $ flutter run
+    \end{verbatim}
+
+    \begin{quote}
+        \textbf{Note:} If you're testing on iOS, \href{https://docs.flutter.dev/testing/build-modes}{see this guide}. The default mode is \texttt{--debug} where the app cannot run in standalone mode.
+    \end{quote}
+    
+    \subsection*{Build for iOS: Create Podfile}
+    
+    To begin, create a \texttt{Podfile} in the root directory of your iOS project. The \texttt{Podfile} specifies the dependencies for your project. Open the terminal and navigate to your project's root directory:
+    
+    
+To begin, create a `Podfile` in the root directory of your iOS project. The `Podfile` specifies the dependencies for your project.
+Open the terminal and navigate to your project's root directory:
+    \begin{verbatim}
+        cd /path/to/YourProjectIOSFolder
+
+        # If Podfile does not exist
+        touch Podfile
+
+        pod install
+
+        # Open .xcworkspace
+        open Runner.xcworkspace
+        
+        # Click on the play button in Xcode to build and run the app.
+    \end{verbatim}
 
 
-\chapter{Appendix A: Glossary}
-
-\chapter{Appendix B: Analysis Models}
-
-\chapter{To Be Determined List}
-
+\chapter{Appendix B: Troubleshooting}
+\begin{itemize}
+    \item Change the name of the app:
+    \url{https://stackoverflow.com/questions/49353199/how-can-i-change-the-app-display-name-build-with-flutter}
+    
+    \item Change the icon of the app:
+    \url{https://pub.dev/packages/flutter_launcher_icons}
+    
+    \item Change applicationId and bundle identifier to prevent overwrite:
+    \url{https://stackoverflow.com/questions/58229150/how-to-run-a-copy-of-flutter-project-without-overwriting-the-existing-app}
+    
+    \item Run background service to keep uploading data when app is turned off:
+    \url{https://pub.dev/packages/flutter_background_service}
+    
+    \item Splash screen:
+    \url{https://pub.dev/packages/flutter_native_splash/example}
+    \url{https://www.youtube.com/watch?v=dB0dOnc2k10&ab_channel=JohannesMilke}
+    
+    \item Loading screen:
+    \url{https://codewithflutter.com/create-splash-screen-in-flutter-app/}
+    
+    \item Enable and Check Location Permissions:
+    \url{https://pub.dev/packages/permission_handler}
+    
+    \item To compile on iOS:
+    \begin{itemize}
+        \item nil:NilClass for Flutter App / CocoaPod Error:
+        \url{https://stackoverflow.com/questions/67443265/error-regarding-undefined-method-map-for-nilnilclass-for-flutter-app-cocoap}
+        \item Make sure to click "Trust" on iPhone when connecting iPhone to PC
+        \item bundle ID error:
+        \url{https://stackoverflow.com/questions/51098042/how-to-get-bundle-id-in-flutter}
+        \item "Untrusted Developer" after XCode build is done:
+        \url{https://developer.apple.com/forums/thread/660288}
+        General -> VPN \& Device Management -> Developer App -> Verify
+        \item Make sure that the sign in is successful in XCode:
+        \url{https://docs.flutter.dev/deployment/ios}
+        Go to XCode -> Runner -> Signing \& Capabilities -> Team -> Select apple developer account
+        \item Dart SDK is not configured:
+        \url{https://stackoverflow.com/questions/48650831/dart-sdk-is-not-configured}
+        Click on settings gear (IDE and Project Settings) -> Preferences -> Language \& Framework -> Flutter -> choose flutter SDK
+        \item (when compiling Android app on Macbook): Execution failed for task ':app-compileFlutterBuildDebug':
+        \url{https://stackoverflow.com/questions/61930007/how-to-solve-execution-failed-for-task-appcompileflutterbuilddebug}
+    \end{itemize}
+\end{itemize}
 
 \end{document}

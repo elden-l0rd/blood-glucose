@@ -6,6 +6,7 @@ class L10n {
     const Locale('en'), //english
     const Locale('zh'), //chinese
     const Locale('ms'), //malay
+    const Locale('ta'), //tamil
     const Locale('hi'), //hindi
   ];
 
@@ -15,6 +16,8 @@ class L10n {
         return '🇨🇳';
       case 'ms':
         return '🇲🇾';
+      case 'ta':
+        return '🇮🇳';
       case 'hi':
         return '🇮🇳';
       default:
@@ -28,6 +31,8 @@ class L10n {
         return ' - Chinese';
       case 'ms':
         return ' - Malay';
+      case 'ta':
+        return ' - Tamil';
       case 'hi':
         return ' - Hindi';
       default:
