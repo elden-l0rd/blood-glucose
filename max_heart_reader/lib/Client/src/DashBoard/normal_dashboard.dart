@@ -1,3 +1,5 @@
+// Purpose: Normal Dashboard refers to the compact dashboard in the Find Devices page.
+
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 

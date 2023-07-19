@@ -1,11 +1,14 @@
 // ignore_for_file: constant_identifier_names
+
+// Purpose: Initialises background service for scanning.
+
 // Flutter/Dart
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 // Project files
 // import 'main.dart';
-import 'background_ble_upload.dart';
+import 'background_ble_scan.dart';
 import '../../../utils/globals.dart' as globals;
 // Background Service libraries
 import 'package:device_info_plus/device_info_plus.dart';
@@ -92,7 +95,8 @@ void onStart(ServiceInstance service) async {
     /// you can see this log in logcat
     debugPrint('background_service: FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
     debugPrint('background_service: BLE device scan is starting in the background!');
-    runBackgroundDeviceScan(); // background_ble_upload.dart
+
+    runBackgroundDeviceScan(); // background_ble_scan.dart
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // test using external plugin

@@ -1,3 +1,5 @@
+// Purpose: This handles all database operations.
+
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';

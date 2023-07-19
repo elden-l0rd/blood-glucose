@@ -1,3 +1,5 @@
+// Purpose: Interprets the string of bytes received from the BLE device. An example of the bytes received is as line 1 of the processData().
+
 import 'package:flutter/material.dart';
 import '../../utils/globals.dart' as globals;
 import 'find_devices.dart' as findDevicesWidget;

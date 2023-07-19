@@ -1,3 +1,5 @@
+// This is the bottom "Navbar" for the app.
+
 import 'package:flutter/material.dart';
 import '/Client/src/LandingPage/graph/review_data.dart';
 import '/Client/src/DashBoard/dashboard.dart';

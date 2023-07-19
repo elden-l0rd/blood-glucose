@@ -25,7 +25,7 @@
     urlcolor=purple,        % color of external links
     linktoc=page            % only page is linked
 }%
-\def\myversion{0.8.5.2 }
+\def\myversion{0.9.0}
 \date{}
 % \title{}
 \usepackage{hyperref}
@@ -33,9 +33,9 @@
 \begin{document}
 % Set the footer style for the current page only
 \fancypagestyle{currentpagefooter}{
-  \fancyfoot[C]{Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document.}
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
+    \fancyfoot[C]{Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document.}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
 }
 \thispagestyle{currentpagefooter}
 
@@ -54,7 +54,7 @@
         \vspace{1.5cm}
         Trilogy Technologies Pte Ltd\\
         \vspace{1.5cm}
-        13 July 2023\\
+        21 July 2023\\
     \end{bfseries}
 \end{flushright}
 \clearpage
@@ -112,51 +112,50 @@ With user-friendly features like data storage and data sharing with healthcare p
 By providing a convenient and efficient platform for tracking and sharing essential health metrics, it bridges the gap between individuals and healthcare providers, enabling more informed and personalised remote consultations.
 
 \section{Document Conventions}\begin{itemize}
+    \item Glucometer
+    \begin{itemize}
+        \item A blood glucose meter is a (medical) device used to measure the concentration of glucose in a person’s blood. It is commonly used by diabetic patients to monitor their glucose levels.
+        \item Specific to Trilogy Technologies’ glucometer, it can measure not only glucose levels but also uric acid, heartrate, SpO2, and cholesterol levels.
+        \item The Arduino code defines the healthy range to be $<140mg/dl$ or $<7.8mmol/l$.
+    \end{itemize}
+    
+    \item SpO2
+    \begin{itemize}
+        \item The measurement of oxygen saturation in a person’s blood. It generally should range from 96\% - 99\%.
+    \end{itemize}
 
-  \item Glucometer
-  \begin{itemize}
-    \item A blood glucose meter is a (medical) device used to measure the concentration of glucose in a person’s blood. It is commonly used by diabetic patients to monitor their glucose levels.
-    \item Specific to Trilogy Technologies’ glucometer, it can measure not only glucose levels but also uric acid, heartrate, SpO2, and cholesterol levels.
-    \item The Arduino code defines the healthy range to be $<140mg/dl$ or $<7.8mmol/l$.
-  \end{itemize}
-  
-  \item SpO2
-  \begin{itemize}
-    \item The measurement of oxygen saturation in a person’s blood. It generally should range from 96\% - 99\%.
-  \end{itemize}
+    \item Cholesterol
+    \begin{itemize}
+        \item The fatty substance found in our bodies which can cause health issues in excess.
+        \item The Arduino code defines the healthy range to be $<200mg/dl$ or $<6.6mmol/l$
+    \end{itemize}
 
-  \item Cholesterol
-  \begin{itemize}
-      \item The fatty substance found in our bodies which can cause health issues in excess.
-      \item The Arduino code defines the healthy range to be $<200mg/dl$ or $<6.6mmol/l$
-  \end{itemize}
+    \item Uric Acid (UA)
+    \begin{itemize}
+        \item A waste product produced by the body's metabolism of certain foods. Elevated UA levels can lead to health issues.
+        \item The Arduino code defines a healthy range for both men and women.
+        \item Range for men: $[4.0, 8.5]$ in $mg/dl$ or $[0.24, 0.51]$ in $mmol/l$
+        \item Range for women: $[2.7, 7.3]$ in $mg/dl$ or $[0.16, 0.43]$ in $mmol/l$
+    \end{itemize}
 
-  \item Uric Acid (UA)
-  \begin{itemize}
-      \item A waste product produced by the body's metabolism of certain foods. Elevated UA levels can lead to health issues.
-      \item The Arduino code defines a healthy range for both men and women.
-      \item Range for men: $[4.0, 8.5]$ in $mg/dl$ or $[0.24, 0.51]$ in $mmol/l$
-      \item Range for women: $[2.7, 7.3]$ in $mg/dl$ or $[0.16, 0.43]$ in $mmol/l$
-  \end{itemize}
+    \item MAX30100 PulseOximeter
+    \begin{itemize}
+        \item Heart rate sensor module that measures heart rate.
+    \end{itemize}
 
-  \item MAX30100 PulseOximeter
-  \begin{itemize}
-      \item Heart rate sensor module that measures heart rate.
-  \end{itemize}
+    \item Adafruit SSD1306
+    \begin{itemize}
+        \item Organic light-emitting diode (OLED) graphic display.
+    \end{itemize}
 
-  \item Adafruit SSD1306
-  \begin{itemize}
-      \item Organic light-emitting diode (OLED) graphic display.
-  \end{itemize}
-
-  \item Bluetooth Low Energy (BLE)
-  \begin{itemize}
-      \item A wireless communication technology designed for energy-efficient data exchange between devices. More commonly used in devices that transmits data over short distances.
-      \item Unlike traditional Bluetooth, BLE is more optimised for low-power, less data-intensive applications where energy efficiency is crucial, making it ideal for devices that require intermittent data exchange or have limited power.
-      \item No direct connection is required resulting in significant battery power savings. Instead, the app listens for the broadcast from the glucometer and hones onto the signal emitted from the BLE device to receive the data.
-      \item Note: BLE connection does not work on an emulator.
-  \end{itemize}
-\end{itemize}
+    \item Bluetooth Low Energy (BLE)
+    \begin{itemize}
+        \item A wireless communication technology designed for energy-efficient data exchange between devices. More commonly used in devices that transmits data over short distances.
+        \item Unlike traditional Bluetooth, BLE is more optimised for low-power, less data-intensive applications where energy efficiency is crucial, making it ideal for devices that require intermittent data exchange or have limited power.
+        \item No direct connection is required resulting in significant battery power savings. Instead, the app listens for the broadcast from the glucometer and hones onto the signal emitted from the BLE device to receive the data.
+        \item Note: BLE connection does not work on an emulator.
+    \end{itemize}
+    \end{itemize}
 This SRS document is adapted from the IEEE standard for Software Requirements Specification.
 
 
@@ -254,10 +253,10 @@ This page includes fields where the user is able to key in his/her own informati
 \end{itemize}
 
 \begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.43]{personal_info.png}
-  \caption{Personal Information page}
-  \label{fig:personal-info}
+    \centering
+    \includegraphics[scale=0.43]{personal_info.png}
+    \caption{Personal Information page}
+    \label{fig:personal-info}
 \end{figure}
 \clearpage
 
@@ -399,6 +398,7 @@ The app interacts with the following software components:
 \begin{itemize}
     \item App must be able to accept user input.
     \item App must be able to store user data.
+    \item App must allow users to change language.
 \end{itemize}
 \section{Find Devices page}
 \begin{itemize}
@@ -515,7 +515,7 @@ The app adheres to good software engineering design principles of
 
 
 \chapter{Appendix A: Installation}
-
+\section{Setup}
 To run this app on your local machine, follow these steps:
 \begin{enumerate}
     \item Ensure you have Flutter installed on your system. If not, you can install it from
@@ -562,9 +562,25 @@ Open the terminal and navigate to your project's root directory:
         
         # Click on the play button in Xcode to build and run the app.
     \end{verbatim}
+\section{Internationlization}
+The app containing the code for the different languages is located in the \textit{lib/l10n} folder. \textit{l10n} is the naming convention for localization. The number 10 is the number of letters
+between the \textit{l} and \textit{n} in the word localization.
+\newline
+\newline
+To add or edit more languages for the app, follow these \href{https://docs.flutter.dev/accessibility-and-localization/internationalization}{steps} as taken from the official Flutter documentation.
+\newline
+The steps listed more than suffice for the purposes of this app.
+The l10n.yaml file is already created, which tells the compiler where to find the \textit{.arb} files and will auto generate the required \textit{.dart} files.
+\newline
+\newline
+To generate new \textit{app_localizations_\{YourLocaleHere\}.dart} files, run in command line:
+\begin{verbatim}
+    flutter gen-l10n
+\end{verbatim}
 
 
 \chapter{Appendix B: Troubleshooting}
+This page lists the common problems encountered during the development of the app and how they can be resolved. Do note that this list is not exhaustive and there may be other solutions to the problems.
 \begin{itemize}
     \item Change the name of the app:
     \url{https://stackoverflow.com/questions/49353199/how-can-i-change-the-app-display-name-build-with-flutter}

@@ -2,6 +2,8 @@
 // All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// Purpose: This displays all data when app is connected to a compatible device.
+
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
 // Flutter/Dart
 import 'package:flutter/material.dart';
@@ -61,10 +63,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
   Future<Widget> _buildTitle(BuildContext context) async {
     if (widget.result.device.name.contains("BGL")) {
       setState(() {});
-      // [FFFE69905F20134041]
-      //    0x    FFFE      69        90              5F          20        13            40              41
-      //          1         99.06 %   144 BPM         95 %
-      //          ID        Batt      heartrate       SPO2        glucose   cholesterol   Men Uric Acid   Women Uric Acid
+      
       List processedData = processData(widget.result.device.name,
           getNiceServiceData(widget.result.advertisementData.serviceData));
 

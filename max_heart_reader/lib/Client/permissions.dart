@@ -1,3 +1,5 @@
+// Purpose: Permissions for the app
+
 import 'package:flutter/material.dart';
 import 'package:max_heart_reader/main.dart';
 import 'package:permission_handler/permission_handler.dart';

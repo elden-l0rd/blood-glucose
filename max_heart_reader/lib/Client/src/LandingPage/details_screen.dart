@@ -1,3 +1,5 @@
+// Purpose: Logic for personal information page.
+
 import 'package:flutter/material.dart';
 import '/Client/src/LandingPage/user_preferences.dart';
 import '/Client/button_widget.dart';

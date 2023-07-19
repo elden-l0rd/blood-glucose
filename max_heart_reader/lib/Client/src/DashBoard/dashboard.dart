@@ -1,3 +1,6 @@
+// Purpose: Dashboard refers to the expanded dashboard in the Dashboard page.
+// This contains all the cards (in Dashboard/dashboard_cards) for the different biodata recorded.
+
 import 'package:flutter/material.dart';
 import '/Client/src/DashBoard/dashboard_cards/cholesterol_card.dart';
 import '/Client/src/DashBoard/dashboard_cards/glucose_card.dart';

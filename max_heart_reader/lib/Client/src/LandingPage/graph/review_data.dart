@@ -1,3 +1,5 @@
+// Purpose: This refers to the graph in the Graph page.
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../Server/src/database_helper.dart';

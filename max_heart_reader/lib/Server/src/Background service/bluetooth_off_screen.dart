@@ -1,3 +1,5 @@
+// Purpose: Prompt user to turn on Bluetooth if it is off.
+
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 // BLE
