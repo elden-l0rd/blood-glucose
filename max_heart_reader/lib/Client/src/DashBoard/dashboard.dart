@@ -70,7 +70,7 @@ class _DashboardState extends State<Dashboard> {
       );
 
   Widget get grid => Container(
-        height: MediaQuery.of(context).size.height * .79,
+        height: MediaQuery.of(context).size.height * .77,
         child: Column(
           children: <Widget>[
             SizedBox(

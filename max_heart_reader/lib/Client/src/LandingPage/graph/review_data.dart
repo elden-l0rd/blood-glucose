@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../Server/src/database_helper.dart';
 import '../../../../l10n/l10n.dart';
-import 'rowData.dart'; // for Random (marketing video)
 
 const List<String> timeSelectionList = ["All", "Day", "Week", "Month", "Year"];
 
@@ -196,9 +195,7 @@ class ReviewDataPageState extends State<ReviewDataPage> {
   }
 
   Widget buildChart(List<graphData> data) {
-    // !!!!!!!  for Trilogy marketing video  !!!!!!!
-    // !!!!!!!   UNCOMMENT for actual code   !!!!!!!
-    // List<graphData> rowData = [];
+    List<graphData> rowData = [];
 
     // insert data into db
     for (graphData row in rowData) {

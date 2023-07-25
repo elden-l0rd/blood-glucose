@@ -14,6 +14,7 @@ import 'dart:async';
 import '../../l10n/l10n.dart';
 import '../device_data.dart';
 import '../../Client/src/export_data.dart';
+import 'database_helper.dart';
 import 'process_data.dart';
 // BLE
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -73,6 +74,7 @@ class _ScanResultTileState extends State<ScanResultTile> {
 
       // note: 1.0 mmol/L = 18.02 mg/dL
       double glucose = processedData[4];
+      double glucose_mgDL = glucose * 18.02;
 
       double cholesterol = processedData[5];
       double UA_men = processedData[6]; //in mmol/L
@@ -82,6 +84,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
       String spo2Text = "";
       heartRateText = heartRate.toString();
       spo2Text = spo2.toStringAsFixed(0) + " %";
+
+      String cholesterolText = cholesterol.toStringAsFixed(2);
 
       String UA_result_M = '';
       String UA_result_W = '';
@@ -95,41 +99,40 @@ class _ScanResultTileState extends State<ScanResultTile> {
       } else
         UA_result_W = 'Abnormal: ${UA_women} mmol/L';
 
-      // UNCOMMENT FOR ACTUAL APP RELEASE
       // stores data into db
-      // List<graphData> rowData = [
-      //   graphData(
-      //     timestamp: getCurrentDateTime(),
-      //     batteryText: "${battery.toStringAsFixed(0)}%",
-      //     heartRateText: '${heartRateText} bpm',
-      //     spo2Text: spo2Text,
-      //     glucose_mmolL: glucose,
-      //     glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
-      //     cholesterolText: '${cholesterolText} mg/dL',
-      //     UA_menText: UA_result_M,
-      //     UA_womenText: UA_result_W,
-      //   ),
-      // ];
+      List<graphData> rowData = [
+        graphData(
+          timestamp: getCurrentDateTime(),
+          batteryText: "${battery.toStringAsFixed(0)}%",
+          heartRateText: '${heartRateText} bpm',
+          spo2Text: spo2Text,
+          glucose_mmolL: glucose,
+          glucose_mgDL: double.parse(glucose_mgDL.toStringAsFixed(2)),
+          cholesterolText: '${cholesterolText} mg/dL',
+          UA_menText: UA_result_M,
+          UA_womenText: UA_result_W,
+        ),
+      ];
 
-      // debugPrint("battery: $battery");
-      // debugPrint("heartRate: $heartRate");
-      // debugPrint("spo2: $spo2");
-      // debugPrint("glucose: $glucose");
-      // debugPrint("glucose: $glucose_mgDL");
-      // debugPrint("cholesterol: $cholesterol");
-      // debugPrint("UA_men: $UA_result_M");
-      // debugPrint("UA_women: $UA_result_W");
+      debugPrint("battery: $battery");
+      debugPrint("heartRate: $heartRate");
+      debugPrint("spo2: $spo2");
+      debugPrint("glucose: $glucose");
+      debugPrint("glucose: $glucose_mgDL");
+      debugPrint("cholesterol: $cholesterol");
+      debugPrint("UA_men: $UA_result_M");
+      debugPrint("UA_women: $UA_result_W");
 
-      // for (graphData row in rowData) {
-      //   if (row.glucose_mmolL == 0.0) continue;
+      for (graphData row in rowData) {
+        if (row.glucose_mmolL == 0.0) continue;
 
-      //   try {
-      //     int insertedId = await DatabaseHelper.instance.insertGraphData(row);
-      //     debugPrint('Data inserted with ID: $insertedId');
-      //   } catch (e) {
-      //     debugPrint('Error inserting data: $e');
-      //   }
-      // }
+        try {
+          int insertedId = await DatabaseHelper.instance.insertGraphData(row);
+          debugPrint('Data inserted with ID: $insertedId');
+        } catch (e) {
+          debugPrint('Error inserting data: $e');
+        }
+      }
 
       DeviceData connectedDeviceData = DeviceData(
         battery: int.parse(battery.toStringAsFixed(0)),
